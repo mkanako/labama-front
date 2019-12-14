@@ -1,12 +1,12 @@
-<template>
+<template functional>
   <exception-page type="500" />
 </template>
 <script>
-import ExceptionPage from '@/components/Exception/ExceptionPage'
+import ExceptionPage from './ExceptionPage'
 
 export default {
   components: {
-    ExceptionPage
-  }
+    ExceptionPage,
+  },
 }
 </script>

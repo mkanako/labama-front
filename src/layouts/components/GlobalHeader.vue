@@ -6,7 +6,7 @@
     >
       <a-layout-header
         v-if="visible"
-        :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
+        :class="[fixedHeader && 'ant-header-fixedHeader', siderbar ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
         :style="{ padding: '0' }"
       >
         <div
@@ -61,7 +61,7 @@
 import RightMenu from './RightMenu'
 import SMenu from './Menu/menu'
 import Logo from './Logo'
-import { mixin } from '@/utils/mixin'
+import { mixinApp } from '@/store/modules/app'
 
 export default {
   name: 'GlobalHeader',
@@ -70,7 +70,7 @@ export default {
     SMenu,
     Logo
   },
-  mixins: [mixin],
+  mixins: [mixinApp],
   props: {
     mode: {
       type: String,

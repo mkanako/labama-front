@@ -1,6 +1,6 @@
-import svg403 from './403.svg'
-import svg404 from './404.svg'
-import svg500 from './500.svg'
+import svg403 from './svg/403.svg'
+import svg404 from './svg/404.svg'
+import svg500 from './svg/500.svg'
 
 const types = {
   403: {

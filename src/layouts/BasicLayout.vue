@@ -15,7 +15,6 @@
         :theme="navTheme"
         :collapsed="false"
         :collapsible="true"
-        @menuSelect="menuSelect"
       />
     </a-drawer>
 
@@ -44,8 +43,10 @@
 
       <!-- layout content -->
       <a-layout-content :style="{ height: '100%', margin: '24px 24px 0', paddingTop: fixedHeader ? '64px' : '0' }">
-        <!-- <multi-tab v-if="multiTab" /> -->
-        <transition name="page-transition">
+        <transition
+          name="fade-transform"
+          mode="out-in"
+        >
           <router-view :key="$route.fullPath" />
         </transition>
       </a-layout-content>
@@ -61,13 +62,12 @@
   </a-layout>
 </template>
 <script>
-// import RouteView from './RouteView'
-// import MultiTab from '@/components/MultiTab'
 import SideMenu from './components/Menu/SideMenu'
 import GlobalHeader from './components/GlobalHeader'
 import GlobalFooter from './components/GlobalFooter'
-import { mapState, mapActions } from 'vuex'
-import { mixin, mixinDevice } from '@/utils/mixin'
+import { mapState, mapMutations } from 'vuex'
+import { mixinApp } from '@/store/modules/app'
+import { mixinDevice } from '@/utils/device'
 
 function triggerWindowResizeEvent () {
   const event = document.createEvent('HTMLEvents')
@@ -78,10 +78,8 @@ function triggerWindowResizeEvent () {
 
 export default {
   name: 'BasicLayout',
-  mixins: [mixin, mixinDevice],
+  mixins: [mixinApp, mixinDevice],
   components: {
-    // RouteView,
-    // MultiTab,
     SideMenu,
     GlobalHeader,
     GlobalFooter,
@@ -95,25 +93,25 @@ export default {
   },
   computed: {
     ...mapState({
-      menus: state => state.menus
+      menus: state => state.app.menus
     }),
     contentPaddingLeft () {
-      if (!this.fixSiderbar || this.isMobile()) {
+      if (!this.fixedSiderbar || this.isMobile()) {
         return '0'
       }
-      if (this.sidebarOpened) {
+      if (this.siderbar) {
         return '256px'
       }
       return '80px'
     }
   },
   watch: {
-    sidebarOpened (val) {
+    siderbar (val) {
       this.collapsed = !val
     }
   },
   created () {
-    this.collapsed = !this.sidebarOpened
+    this.collapsed = !this.siderbar
   },
   mounted () {
     const userAgent = navigator.userAgent
@@ -127,25 +125,20 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setSidebar']),
+    ...mapMutations(['SET_SIDERBAR']),
     toggle () {
       this.collapsed = !this.collapsed
-      this.setSidebar(!this.collapsed)
+      this.SET_SIDERBAR(!this.collapsed)
       triggerWindowResizeEvent()
     },
     paddingCalc () {
       let left = ''
-      if (this.sidebarOpened) {
+      if (this.siderbar) {
         left = this.isDesktop() ? '256px' : '80px'
       } else {
         left = (this.isMobile() && '0') || ((this.fixSidebar && '80px') || '0')
       }
       return left
-    },
-    menuSelect () {
-      // if (!this.isDesktop()) {
-      //   this.collapsed = false
-      // }
     },
     drawerClose () {
       this.collapsed = false
@@ -156,26 +149,18 @@ export default {
 <style lang="less">
 @import '~@/styles/global.less';
 
-/*
- * The following styles are auto-applied to elements with
- * transition="page-transition" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the page transition by editing
- * these styles.
- */
-
-.page-transition-enter {
-  opacity: 0;
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
 }
 
-.page-transition-leave-active {
+.fade-transform-enter {
   opacity: 0;
+  transform: translateX(-30px);
 }
 
-.page-transition-enter .page-transition-container,
-.page-transition-leave-active .page-transition-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

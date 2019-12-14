@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-import app from './modules/app'
+import app, { appPersistState } from './modules/app'
 import account from './modules/account'
+import { name } from '../../package.json'
 
 Vue.use(Vuex)
 
@@ -11,28 +12,12 @@ export default new Vuex.Store({
     app,
     account,
   },
-  state: {
-    menus: [],
-  },
-  mutations: {
-    SET_MENUS: (state, menus) => {
-      state.menus = menus
-    },
-  },
-  actions: {
-    GenerateMenus ({ commit }, routes) {
-      const menus = routes.filter(item =>
-        !item.hide && item.path !== '*' && item.meta && item.meta.title
-      )
-      commit('SET_MENUS', menus)
-    }
-  },
   plugins: [
     createPersistedState({
-      key: 'admin_vuex',
+      key: name + '_vuex',
       paths: [
-        'app',
         'account',
+        ...appPersistState,
       ],
     }),
   ],

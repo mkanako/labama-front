@@ -5,14 +5,12 @@
     <div class="container">
       <div class="top">
         <div class="header">
-          <a href="javascript:;">
-            <img
-              src="~@/assets/logo.svg"
-              class="logo"
-              alt="logo"
-            >
-            <span class="title">{{ title }}</span>
-          </a>
+          <img
+            src="~@/assets/logo.svg"
+            class="logo"
+            alt="logo"
+          >
+          <span class="title">{{ title }}</span>
         </div>
         <div class="desc">
           &nbsp;
@@ -65,8 +63,8 @@
               type="primary"
               html-type="submit"
               class="login-button"
-              :loading="state.loginBtn"
-              :disabled="state.loginBtn"
+              :loading="state.logining"
+              :disabled="state.logining"
             >
               确定
             </a-button>
@@ -78,9 +76,10 @@
   </div>
 </template>
 <script>
-import { mixinDevice } from '@/utils/mixin'
-import { mapGetters, mapActions } from 'vuex'
+import { mixinDevice } from '@/utils/device'
+import { mapGetters } from 'vuex'
 import GlobalFooter from '@/layouts/components/GlobalFooter'
+import { login } from '@/api/common'
 
 export default {
   name: 'Login',
@@ -101,32 +100,25 @@ export default {
       'title',
     ]),
   },
-  created () {
-  },
-  mounted () {
-  },
-  beforeDestroy () {
-  },
   methods: {
-    ...mapActions(['Login']),
     handleSubmit (e) {
       e.preventDefault()
       const {
         form: { validateFields },
         state,
-        Login
+        $store,
       } = this
       state.logining = true
       validateFields(['username', 'password'], { force: true }, (err, values) => {
         if (!err) {
-          console.log('login form', values)
-          Login(values).finally(() => {
+          $store.commit('SET_NAME', values.username)
+          login(values).then(() => {
             state.logining = false
           })
         } else {
           setTimeout(() => {
             state.logining = false
-          }, 600)
+          }, 500)
         }
       })
     },
@@ -151,9 +143,6 @@ export default {
       background-size: 100%;
       padding: 110px 0 144px;
       position: relative;
-      a {
-        text-decoration: none;
-      }
       .top {
         text-align: center;
         .header {

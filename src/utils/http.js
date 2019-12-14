@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-// import { stringify } from 'qs'
-import loading from '@/components/Loading'
+import Loading from '@/components/Loading'
 import router from '@/router'
 
 let loadingInstance
@@ -9,18 +8,13 @@ let loadingInstance
 const http = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
   timeout: 10000,
-  // method: 'get',
-  // responseType: 'text',
-  // maxRedirects: 0,
-  // transformResponse: [ data => data ],
-  // transformRequest: [ data => stringify(data) ],
   showLoading: true,
 })
 
 http.interceptors.request.use(config => {
   config.showLoading = true
   if (config.showLoading) {
-    loadingInstance = loading()
+    loadingInstance = Loading()
   }
   return config
 })

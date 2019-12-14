@@ -8,7 +8,7 @@ import {
   Card,
   Checkbox,
   Col,
-  DatePicker,
+  ConfigProvider,
   Divider,
   Drawer,
   Dropdown,
@@ -36,18 +36,17 @@ import {
   Table,
   Tabs,
   Tag,
-  TimePicker,
   Tooltip,
 } from 'ant-design-vue'
 import VueClipboard from 'vue-clipboard2'
 import App from '@/App'
-import router, { GenerateRoutes } from '@/router'
+import router from '@/router'
 import store from '@/store'
 import http from '@/utils/http'
 import prompt from '@/components/Prompt'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-
+import { sysInfo } from '@/api/common'
 moment.locale('zh-cn')
 Vue.use(VueClipboard)
 VueClipboard.config.autoSetContainer = true
@@ -60,7 +59,7 @@ Vue.use(Button)
 Vue.use(Card)
 Vue.use(Checkbox)
 Vue.use(Col)
-Vue.use(DatePicker)
+Vue.use(ConfigProvider)
 Vue.use(Divider)
 Vue.use(Drawer)
 Vue.use(Dropdown)
@@ -87,7 +86,6 @@ Vue.use(Switch)
 Vue.use(Table)
 Vue.use(Tabs)
 Vue.use(Tag)
-Vue.use(TimePicker)
 Vue.use(Tooltip)
 
 Vue.config.productionTip = false
@@ -107,17 +105,9 @@ Vue.prototype.$err = (text = '错误') => message.error(text)
 new Vue({
   router,
   store,
-  created () {
+  mounted () {
     document.title = store.getters.title
-    console.log(`API_URL: ${process.env.VUE_APP_API_BASE_URL}`)
-    http.get('sysInfo').then(resp => {
-      if (resp.routeList) {
-        GenerateRoutes(resp.routeList)
-      }
-      if (resp.attachUrl) {
-        window.attachUrl = resp.attachUrl
-      }
-    })
+    sysInfo()
   },
   render: h => h(App)
 }).$mount('#app')

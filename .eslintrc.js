@@ -3,7 +3,6 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    commonjs: true,
     es6: true,
   },
   extends: [
@@ -17,10 +16,5 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'comma-dangle': 'off',
-    'new-cap': ['error', {
-        newIsCap: true,
-        capIsNew: false,
-        properties: true,
-    }],
   },
 }

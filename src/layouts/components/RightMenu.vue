@@ -1,14 +1,6 @@
 <template>
   <div class="menu-wrapper">
     <div class="content-box">
-      <!-- <a
-        href="https://pro.loacg.com/docs/getting-started"
-        target="_blank"
-      >
-        <span class="action">
-          <a-icon type="question-circle-o" />
-        </span>
-      </a> -->
       <a-dropdown>
         <span class="action ant-dropdown-link user-dropdown-menu">
           <a-icon type="user" />&nbsp;
@@ -84,7 +76,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { changePassword, logout } from '@/api/common'
 
 export default {
   name: 'RightMenu',
@@ -96,7 +88,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['Logout', 'changePassword']),
     compareToFirstPassword  (rule, value, callback) {
       if (value && value !== this.form.getFieldValue('password')) {
         callback(Error('两次密码不一致'))
@@ -112,7 +103,7 @@ export default {
       this.form.validateFields({ force: true }, (errors, values) => {
         if (!errors) {
           this.confirmLoading = true
-          this.changePassword(values).then(() => {
+          changePassword(values).then(() => {
             this.formVisible = false
             this.form.resetFields()
             this.$notification.success({
@@ -130,7 +121,7 @@ export default {
         title: '提示',
         content: '确定要退出登录吗?',
         onOk: () => {
-          this.Logout()
+          logout()
         },
       })
     }

@@ -51,9 +51,6 @@ export function GenerateRoutes (routeList) {
   })
   router.addRoutes(routes)
   store.dispatch('GenerateMenus', routes)
-  if (router.currentRoute.name === 'login') {
-    router.replace({ path: '/' })
-  }
 }
 
 export default router

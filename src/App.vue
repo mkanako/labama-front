@@ -1,13 +1,15 @@
 <template>
-  <a-locale-provider :locale="locale">
-    <div id="app">
-      <router-view />
-    </div>
-  </a-locale-provider>
+  <a-config-provider :auto-insert-space-in-button="false">
+    <a-locale-provider :locale="locale">
+      <div id="app">
+        <router-view />
+      </div>
+    </a-locale-provider>
+  </a-config-provider>
 </template>
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-import { AppDeviceEnquire } from '@/utils/mixin'
+import { AppDeviceEnquire } from '@/utils/device'
 
 export default {
   mixins: [AppDeviceEnquire],
@@ -16,8 +18,6 @@ export default {
       locale: zhCN
     }
   },
-  mounted () {
-  }
 }
 </script>
 <style>

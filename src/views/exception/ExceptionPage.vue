@@ -14,7 +14,7 @@
       <div class="actions">
         <a-button
           type="primary"
-          @click="handleToHome"
+          @click="$router.replace({ path: '/' })"
         >
           返回首页
         </a-button>
@@ -26,7 +26,7 @@
 import types from './type'
 
 export default {
-  name: 'Exception',
+  name: 'ExceptionPage',
   props: {
     type: {
       type: String,
@@ -38,11 +38,6 @@ export default {
       config: types
     }
   },
-  methods: {
-    handleToHome () {
-      this.$router.replace({ path: '/' })
-    }
-  }
 }
 </script>
 <style lang="less">
@@ -84,7 +79,6 @@ export default {
 
   .content {
     flex: auto;
-
     h1 {
       margin-bottom: 24px;
       color: #434e59;
