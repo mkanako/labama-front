@@ -41,7 +41,7 @@ export function GenerateRoutes (routeList) {
   const routes = dynamicRoutes
   routes.push({
     path: '*',
-    name: '404',
+    name: 'Page404',
     component: () => import('@/views/exception/404'),
   })
   routes.forEach(item => {

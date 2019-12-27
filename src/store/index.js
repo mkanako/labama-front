@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import app, { appPersistState } from './modules/app'
 import account from './modules/account'
-import { name } from '../../package.json'
+import { name } from '@root/package.json'
 
 Vue.use(Vuex)
 

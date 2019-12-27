@@ -7,9 +7,13 @@ const webpackConfig = {
     ]
   },
   chainWebpack: config => {
-    const svgRule = config.module.rule('svg')
-    svgRule.uses.clear()
-    svgRule
+    config.resolve.alias
+      .set('@root', __dirname)
+
+    config.module.rule('svg')
+      .uses
+      .clear()
+      .end()
       .oneOf('component')
       .resourceQuery(/component/)
       .use('babel-loader')
@@ -25,11 +29,11 @@ const webpackConfig = {
       .loader('inline-svgo-loader')
       .end()
       .end()
-      .oneOf('external')
+      .oneOf('file')
       .use('file-loader')
       .loader('file-loader')
       .options({
-        name: 'assets/[name].[hash:8].[ext]'
+        name: 'img/[name].[hash:8].[ext]'
       })
   },
   css: {
@@ -57,7 +61,7 @@ const webpackConfig = {
   },
   productionSourceMap: false,
   lintOnSave: false,
-  transpileDependencies: []
+  transpileDependencies: [],
 }
 
 if (process.env.NODE_ENV === 'development') {

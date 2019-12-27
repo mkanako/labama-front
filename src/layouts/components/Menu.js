@@ -1,30 +1,19 @@
 import { Menu, Icon } from 'ant-design-vue'
+import { mapState } from 'vuex'
+import { mixinApp } from '@/store/modules/app'
 
 const { Item, SubMenu } = Menu
 
 export default {
-  name: 'SMenu',
+  name: 'Menu',
   props: {
-    menu: {
-      type: Array,
-      required: true
-    },
-    theme: {
-      type: String,
-      required: false,
-      default: 'dark'
-    },
     mode: {
       type: String,
       required: false,
       default: 'inline'
     },
-    collapsed: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
   },
+  mixins: [mixinApp],
   data () {
     return {
       openKeys: [],
@@ -33,11 +22,14 @@ export default {
     }
   },
   computed: {
-    rootSubmenuKeys: vm => {
+    rootSubmenuKeys () {
       const keys = []
-      vm.menu.forEach(item => keys.push(item.path))
+      this.menus.forEach(item => keys.push(item.path))
       return keys
-    }
+    },
+    ...mapState({
+      menus: state => state.app.menus
+    }),
   },
   mounted () {
     this.updateMenu()
@@ -166,29 +158,33 @@ export default {
   },
 
   render () {
-    const { mode, theme, menu } = this
+    const { mode, navTheme, menus } = this
     const props = {
-      mode: mode,
-      theme: theme,
-      openKeys: this.openKeys
+      mode,
+      theme: navTheme,
+      openKeys: this.openKeys,
+      selectedKeys: this.selectedKeys,
     }
     const on = {
       select: obj => {
         this.selectedKeys = obj.selectedKeys
         this.$emit('select', obj)
       },
+      click: obj => {
+        this.$emit('click', obj)
+      },
       openChange: this.onOpenChange
     }
 
-    const menuTree = menu.map(item => {
+    const menuTree = menus.map(item => {
       if (item.hidden) {
         return null
       }
       return this.renderItem(item)
     })
-    // {...{ props, on: on }}
+
     return (
-      <Menu vModel={this.selectedKeys} {...{ props, on: on }}>
+      <Menu {...{ props, on }}>
         {menuTree}
       </Menu>
     )

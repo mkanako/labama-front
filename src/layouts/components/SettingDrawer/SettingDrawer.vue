@@ -208,7 +208,7 @@
                   slot="actions"
                   size="small"
                   :disabled="(layoutMode === 'topmenu')"
-                  :default-checked="fixedSiderbar"
+                  :default-checked="fixedSidebar"
                   @change="handleFixSiderbar"
                 />
                 <a-list-item-meta>
@@ -299,10 +299,9 @@
 import config from '@/config'
 import { updateTheme, updateColorWeak, colorList } from './settingConfig'
 import { mixinApp } from '@/store/modules/app'
-import { mixinDevice } from '@/utils/device'
 
 export default {
-  mixins: [mixinApp, mixinDevice],
+  mixins: [mixinApp],
   data () {
     return {
       visible: false,
@@ -348,7 +347,7 @@ export default {
   layout: '${this.layoutMode}', // nav menu position: sidemenu or topmenu
   contentWidth: '${this.contentWidth}', // layout of content: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: ${this.fixedHeader}, // sticky header
-  fixedSiderbar: ${this.fixedSiderbar}, // sticky siderbar
+  fixedSidebar: ${this.fixedSidebar}, // sticky siderbar
   autoHideHeader: ${this.autoHideHeader}, //  auto hide header
   colorWeak: ${this.colorWeak},
   multiTab: ${this.multiTab},

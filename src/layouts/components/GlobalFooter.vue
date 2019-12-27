@@ -1,9 +1,9 @@
 <template functional>
   <div class="footer">
-    <!-- <div class="links">
-      <a href="https://ant.design/">Ant Design</a>
-      <a href="https://vue.ant.design/">Vue Antd</a>
-    </div> -->
+    <div class="links">
+      <!-- <a href="https://ant.design/">Ant Design</a>
+      <a href="https://vue.ant.design/">Vue Antd</a> -->
+    </div>
     <div class="copyright">
       Copyright
       <a-icon type="copyright" /> {{ (new Date()).getFullYear() }}
@@ -15,7 +15,7 @@ export default {
   name: 'GlobalFooter',
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .footer {
   padding: 0 16px;
   margin: 48px 0 24px;

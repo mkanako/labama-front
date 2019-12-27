@@ -3,13 +3,13 @@
     <div class="imgBlock">
       <div
         class="imgEle"
-        :style="{backgroundImage: `url(${config[type].img})`}"
+        :style="{backgroundImage: `url(${typeOf.img})`}"
       />
     </div>
     <div class="content">
-      <h1>{{ config[type].title }}</h1>
+      <h1>{{ typeOf.title }}</h1>
       <div class="desc">
-        {{ config[type].desc }}
+        {{ typeOf.desc }}
       </div>
       <div class="actions">
         <a-button
@@ -23,19 +23,19 @@
   </div>
 </template>
 <script>
-import types from './type'
+import types from './types'
 
 export default {
   name: 'ExceptionPage',
   props: {
     type: {
-      type: String,
-      default: '404'
+      type: Number,
+      default: 404
     }
   },
-  data () {
-    return {
-      config: types
+  computed: {
+    typeOf () {
+      return types[this.type]
     }
   },
 }

@@ -1,5 +1,4 @@
 import store from '@/store'
-import { createNamespacedHelpers } from 'vuex'
 
 const NAMESPACE_ID = 'AudioInputPlayer'
 
@@ -59,9 +58,26 @@ const AudioPlayer = {
 }
 
 store.registerModule(NAMESPACE_ID, AudioPlayer)
-const mapHelpers = createNamespacedHelpers(NAMESPACE_ID)
 
-export {
-  mapHelpers,
-  AudioPlayer,
+export function playStatus (callback) {
+  return function () {
+    if (store.state[NAMESPACE_ID].id !== this._uid) {
+      return callback.call(this, 'paused')
+    }
+    return callback.call(this, store.state[NAMESPACE_ID].status)
+  }
+}
+
+export function play (data) {
+  if (typeof data === 'string' && this) {
+    data = { src: data, id: this._uid }
+  }
+  store.dispatch(`${NAMESPACE_ID}/play`, data)
+}
+
+export function pause (id) {
+  if (!id && this) {
+    id = this._uid
+  }
+  store.dispatch(`${NAMESPACE_ID}/pause`, id)
 }

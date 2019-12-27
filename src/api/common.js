@@ -27,7 +27,6 @@ export function sysInfo () {
 export function login (param) {
   return http.post('login', param)
     .then(resp => init(resp))
-    .then(() => router.replace({ path: '/' }))
 }
 
 export function changePassword (param) {

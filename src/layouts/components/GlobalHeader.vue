@@ -6,42 +6,33 @@
     >
       <a-layout-header
         v-if="visible"
-        :class="[fixedHeader && 'ant-header-fixedHeader', siderbar ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
+        :class="[fixedHeader && 'ant-header-fixedHeader', sidebar ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
         :style="{ padding: '0' }"
       >
         <div
-          v-if="mode === 'sidemenu'"
+          v-if="isSideMenu"
           class="header"
         >
           <a-icon
-            v-if="device==='mobile'"
             class="trigger"
-            :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+            :type="isMobile?'menu-fold':(collapsed ? 'menu-unfold' : 'menu-fold')"
             @click="toggle"
           />
-          <a-icon
-            v-else
-            class="trigger"
-            :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-            @click="toggle"
-          />
-          <right-menu />
+          <header-right />
         </div>
         <div
           v-else
-          :class="['top-nav-header-index', theme]"
+          :class="['top-nav-header-index', navTheme]"
         >
           <div class="header-index-wide">
             <div class="header-index-left">
               <logo
                 class="top-nav-header"
-                :show-title="device !== 'mobile'"
+                :show-title="!isMobile"
               />
-              <s-menu
-                v-if="device !== 'mobile'"
+              <Menu
+                v-if="!isMobile"
                 mode="horizontal"
-                :menu="menus"
-                :theme="theme"
               />
               <a-icon
                 v-else
@@ -50,7 +41,7 @@
                 @click="toggle"
               />
             </div>
-            <right-menu class="header-index-right" />
+            <header-right class="header-index-right" />
           </div>
         </div>
       </a-layout-header>
@@ -58,44 +49,19 @@
   </transition>
 </template>
 <script>
-import RightMenu from './RightMenu'
-import SMenu from './Menu/menu'
+import HeaderRight from './HeaderRight'
+import Menu from './Menu'
 import Logo from './Logo'
 import { mixinApp } from '@/store/modules/app'
 
 export default {
   name: 'GlobalHeader',
   components: {
-    RightMenu,
-    SMenu,
+    HeaderRight,
+    Menu,
     Logo
   },
   mixins: [mixinApp],
-  props: {
-    mode: {
-      type: String,
-      default: 'sidemenu', // sidemenu, topmenu
-    },
-    menus: {
-      type: Array,
-      required: true
-    },
-    theme: {
-      type: String,
-      required: false,
-      default: 'dark'
-    },
-    collapsed: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    device: {
-      type: String,
-      required: false,
-      default: 'desktop'
-    }
-  },
   data () {
     return {
       visible: true,
@@ -127,7 +93,7 @@ export default {
       }
     },
     toggle () {
-      this.$emit('toggle')
+      this.toggleSidebar()
     }
   },
   beforeDestroy () {

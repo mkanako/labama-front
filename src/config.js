@@ -1,22 +1,21 @@
 /**
- * 项目默认配置项
- * primaryColor - 默认主题色, 如果修改颜色不生效，请清理 localStorage
+ * primaryColor - 默认主题色
  * navTheme - sidebar theme ['dark', 'light'] 两种主题
- * colorWeak - 色盲模式
  * layoutMode - 整体布局方式 ['sidemenu', 'topmenu'] 两种布局
+ * contentWidth - 内容区布局 : ['Fluid', 'Fixed'], only works when layoutMode is topmenu
  * fixedHeader - 固定 Header : boolean
- * fixedSiderbar - 固定左侧菜单栏 ： boolean
+ * fixedSidebar - 固定左侧菜单栏 : boolean
  * autoHideHeader - 向下滚动时，隐藏 Header : boolean
- * contentWidth - 内容区布局： 流式 |  固定
+ * colorWeak - 色盲模式 : boolean
  */
 export default {
-  primaryColor: '#1890FF', // primary color of ant design
-  navTheme: 'dark', // theme for nav menu
-  layoutMode: 'sidemenu', // nav menu position: sidemenu or topmenu
-  contentWidth: 'Fixed', // layout of content: Fluid or Fixed, only works when layout is topmenu
-  fixedHeader: false, // sticky header
-  fixedSiderbar: false, // sticky siderbar
-  autoHideHeader: false, //  auto hide header
+  primaryColor: '#1890FF',
+  navTheme: 'dark',
+  layoutMode: 'sidemenu',
+  contentWidth: 'Fixed',
+  fixedHeader: false,
+  fixedSidebar: false,
+  autoHideHeader: false,
   colorWeak: false,
   multiTab: false,
 }

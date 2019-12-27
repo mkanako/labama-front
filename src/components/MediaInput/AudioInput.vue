@@ -9,7 +9,7 @@
       <template v-slot:addonBefore>
         <a-icon
           @click="handlePlay"
-          :type="palyIcon"
+          :type="playIcon"
         />
       </template>
       <template v-slot:addonAfter>
@@ -23,9 +23,7 @@
 <script>
 import { tomedia } from '@/utils'
 import Uploader from './Uploader'
-import { mapHelpers } from '@/store/modules/AudioInputPlayer'
-
-const { mapState, mapActions } = mapHelpers
+import { play, pause, playStatus } from '@/store/modules/AudioInputPlayer'
 
 export default {
   name: 'AudioInput',
@@ -42,10 +40,11 @@ export default {
     }
   },
   beforeDestroy () {
-    this.pause(this._uid)
+    this.pause()
   },
   methods: {
-    ...mapActions(['pause', 'play']),
+    play,
+    pause,
     choose () {
       Uploader(ret => {
         if (ret) {
@@ -55,7 +54,7 @@ export default {
     },
     handlePlay () {
       if (this.src) {
-        this.play({ src: this.src, id: this._uid })
+        this.play(this.src)
       }
     },
     handleChange (val) {
@@ -65,26 +64,14 @@ export default {
   },
   watch: {
     input () {
-      this.pause(this._uid)
+      this.pause()
     },
     value (val) {
       this.input = val
     },
   },
   computed: {
-    ...mapState({
-      palyIcon (state) {
-        if (state.id !== this._uid) {
-          return 'play-circle'
-        }
-        switch (state.status) {
-          case 'paused':
-            return 'play-circle'
-          case 'playing':
-            return 'pause-circle'
-        }
-      }
-    }),
+    playIcon: playStatus(status => status === 'paused' ? 'play-circle' : 'pause-circle'),
     src () {
       return tomedia(this.input)
     }

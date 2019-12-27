@@ -79,7 +79,7 @@
 import { changePassword, logout } from '@/api/common'
 
 export default {
-  name: 'RightMenu',
+  name: 'HeaderRight',
   data () {
     return {
       form: this.$form.createForm(this),
@@ -106,10 +106,7 @@ export default {
           changePassword(values).then(() => {
             this.formVisible = false
             this.form.resetFields()
-            this.$notification.success({
-              message: '密码修改成功',
-              duration: 1,
-            })
+            this.$succ('密码修改成功')
           }).finally(() => {
             this.confirmLoading = false
           })

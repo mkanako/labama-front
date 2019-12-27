@@ -47,9 +47,11 @@ import prompt from '@/components/Prompt'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import { sysInfo } from '@/api/common'
+import { AppDeviceEnquire, DEVICE_TYPE } from '@/utils/device'
+
 moment.locale('zh-cn')
-Vue.use(VueClipboard)
 VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
 
 Vue.use(Alert)
 Vue.use(Avatar)
@@ -108,6 +110,12 @@ new Vue({
   mounted () {
     document.title = store.getters.title
     sysInfo()
+    AppDeviceEnquire(type => {
+      store.commit('SET_DEVICE', type)
+      if (type === DEVICE_TYPE.MOBILE) {
+        store.commit('CLOSE_SIDEBAR')
+      }
+    })
   },
   render: h => h(App)
 }).$mount('#app')

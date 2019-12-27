@@ -22,7 +22,7 @@ const formatters = {
 }
 
 export function makeMutations (state, parentKey = null) {
-  return Object.keys(state)
+  return (Array.isArray(state) ? state : Object.keys(state))
     .reduce(function (obj, key) {
       const mutation = formatters.const('set', key)
       obj[mutation] = function (state, value) {

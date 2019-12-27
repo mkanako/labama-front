@@ -27,7 +27,7 @@ export default [
         name: 'Workplace',
         meta: { title: '工作台', },
         component: () => import('@/views/Test'),
-      }
+      },
     ]
   },
 ]
