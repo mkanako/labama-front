@@ -1,304 +1,340 @@
 <template>
-  <div
-    class="setting-drawer"
-    ref="settingDrawer"
+  <a-drawer
+    width="300"
+    placement="right"
+    @close="visible = false"
+    :closable="false"
+    :visible="visible"
+    wrap-class-name="setting-drawer"
+    :handle="handle"
   >
-    <a-drawer
-      width="300"
-      placement="right"
-      @close="onClose"
-      :closable="false"
-      :visible="visible"
-      :handle="handle"
-    >
-      <div class="setting-drawer-index-content">
-        <div :style="{ marginBottom: '24px' }">
-          <h3 class="setting-drawer-index-title">
-            整体风格设置
-          </h3>
-
-          <div class="setting-drawer-index-blockChecbox">
-            <a-tooltip>
-              <template slot="title">
-                暗色菜单风格
-              </template>
-              <div
-                class="setting-drawer-index-item"
-                @click="handleMenuTheme('dark')"
-              >
-                <img
-                  src="./dark.svg?datauri"
-                  alt="dark"
-                >
-                <div
-                  class="setting-drawer-index-selectIcon"
-                  v-if="navTheme === 'dark'"
-                >
-                  <a-icon type="check" />
-                </div>
-              </div>
-            </a-tooltip>
-
-            <a-tooltip>
-              <template slot="title">
-                亮色菜单风格
-              </template>
-              <div
-                class="setting-drawer-index-item"
-                @click="handleMenuTheme('light')"
-              >
-                <img
-                  src="./light.svg?datauri"
-                  alt="light"
-                >
-                <div
-                  class="setting-drawer-index-selectIcon"
-                  v-if="navTheme !== 'dark'"
-                >
-                  <a-icon type="check" />
-                </div>
-              </div>
-            </a-tooltip>
-          </div>
-        </div>
-
-        <div :style="{ marginBottom: '24px' }">
-          <h3 class="setting-drawer-index-title">
-            主题色
-          </h3>
-
-          <div style="height: 20px">
-            <a-tooltip
-              class="setting-drawer-theme-color-colorBlock"
-              v-for="(item, index) in colorList"
-              :key="index"
+    <div class="item">
+      <h3 class="title">
+        整体风格设置
+      </h3>
+      <div class="block-checkbox">
+        <a-tooltip>
+          <template slot="title">
+            暗色菜单风格
+          </template>
+          <div
+            class="checkbox-item"
+            @click="changeNavTheme('dark')"
+          >
+            <img
+              src="./imgs/dark.svg?datauri"
+              alt="dark"
             >
-              <template slot="title">
-                {{ item.key }}
-              </template>
-              <a-tag
-                :color="item.color"
-                @click="changeColor(item.color)"
-              >
-                <a-icon
-                  type="check"
-                  v-if="item.color === primaryColor"
-                />
-              </a-tag>
-            </a-tooltip>
+            <div
+              class="select-icon"
+              v-if="navTheme === 'dark'"
+            >
+              <a-icon type="check" />
+            </div>
           </div>
-        </div>
-        <a-divider />
-
-        <div :style="{ marginBottom: '24px' }">
-          <h3 class="setting-drawer-index-title">
-            导航模式
-          </h3>
-
-          <div class="setting-drawer-index-blockChecbox">
-            <a-tooltip>
-              <template slot="title">
-                侧边栏导航
-              </template>
-              <div
-                class="setting-drawer-index-item"
-                @click="handleLayout('sidemenu')"
-              >
-                <img
-                  src="./dark.svg?datauri"
-                  alt="sidemenu"
-                >
-                <div
-                  class="setting-drawer-index-selectIcon"
-                  v-if="layoutMode === 'sidemenu'"
-                >
-                  <a-icon type="check" />
-                </div>
-              </div>
-            </a-tooltip>
-
-            <a-tooltip>
-              <template slot="title">
-                顶部栏导航
-              </template>
-              <div
-                class="setting-drawer-index-item"
-                @click="handleLayout('topmenu')"
-              >
-                <img
-                  src="./topmenu.svg?datauri"
-                  alt="topmenu"
-                >
-                <div
-                  class="setting-drawer-index-selectIcon"
-                  v-if="layoutMode !== 'sidemenu'"
-                >
-                  <a-icon type="check" />
-                </div>
-              </div>
-            </a-tooltip>
-          </div>
-          <div :style="{ marginTop: '24px' }">
-            <a-list :split="false">
-              <a-list-item>
-                <a-tooltip slot="actions">
-                  <template slot="title">
-                    该设定仅 [顶部栏导航] 时有效
-                  </template>
-                  <a-select
-                    size="small"
-                    style="width: 80px;"
-                    :default-value="contentWidth"
-                    @change="handleContentWidthChange"
-                  >
-                    <a-select-option value="Fixed">
-                      固定
-                    </a-select-option>
-                    <a-select-option
-                      value="Fluid"
-                      v-if="layoutMode !== 'sidemenu'"
-                    >
-                      流式
-                    </a-select-option>
-                  </a-select>
-                </a-tooltip>
-                <a-list-item-meta>
-                  <div slot="title">
-                    内容区域宽度
-                  </div>
-                </a-list-item-meta>
-              </a-list-item>
-              <a-list-item>
-                <a-switch
-                  slot="actions"
-                  size="small"
-                  :default-checked="fixedHeader"
-                  @change="handleFixedHeader"
-                />
-                <a-list-item-meta>
-                  <div slot="title">
-                    固定 Header
-                  </div>
-                </a-list-item-meta>
-              </a-list-item>
-              <a-list-item>
-                <a-switch
-                  slot="actions"
-                  size="small"
-                  :disabled="!fixedHeader"
-                  :default-checked="autoHideHeader"
-                  @change="handleFixedHeaderHidden"
-                />
-                <a-list-item-meta>
-                  <a-tooltip
-                    slot="title"
-                    placement="left"
-                  >
-                    <template slot="title">
-                      固定 Header 时可配置
-                    </template>
-                    <div :style="{ opacity: !fixedHeader ? '0.5' : '1' }">
-                      下滑时隐藏 Header
-                    </div>
-                  </a-tooltip>
-                </a-list-item-meta>
-              </a-list-item>
-              <a-list-item>
-                <a-switch
-                  slot="actions"
-                  size="small"
-                  :disabled="(layoutMode === 'topmenu')"
-                  :default-checked="fixedSidebar"
-                  @change="handleFixSiderbar"
-                />
-                <a-list-item-meta>
-                  <div
-                    slot="title"
-                    :style="{ textDecoration: layoutMode === 'topmenu' ? 'line-through' : 'unset' }"
-                  >
-                    固定侧边菜单
-                  </div>
-                </a-list-item-meta>
-              </a-list-item>
-            </a-list>
-          </div>
-        </div>
-        <a-divider />
-
-        <div :style="{ marginBottom: '24px' }">
-          <h3 class="setting-drawer-index-title">
-            其他设置
-          </h3>
-          <div>
-            <a-list :split="false">
-              <a-list-item>
-                <a-switch
-                  slot="actions"
-                  size="small"
-                  :default-checked="colorWeak"
-                  @change="onColorWeak"
-                />
-                <a-list-item-meta>
-                  <div slot="title">
-                    色弱模式
-                  </div>
-                </a-list-item-meta>
-              </a-list-item>
-              <a-list-item>
-                <a-switch
-                  slot="actions"
-                  size="small"
-                  :default-checked="multiTab"
-                  @change="onMultiTab"
-                />
-                <a-list-item-meta>
-                  <div slot="title">
-                    多页签模式
-                  </div>
-                </a-list-item-meta>
-              </a-list-item>
-            </a-list>
-          </div>
-        </div>
-        <a-divider />
-        <div :style="{ marginBottom: '24px' }">
-          <a-button
-            @click="doCopy"
-            icon="copy"
-            block
+        </a-tooltip>
+        <a-tooltip>
+          <template slot="title">
+            亮色菜单风格
+          </template>
+          <div
+            class="checkbox-item"
+            @click="changeNavTheme('light')"
           >
-            拷贝设置
-          </a-button>
-          <a-alert
-            type="warning"
-            :style="{ marginTop: '24px' }"
-          >
-            <span slot="message">
-              配置栏只在开发环境用于预览，生产环境不会展现，请手动修改配置文件
-            </span>
-          </a-alert>
-        </div>
+            <img
+              src="./imgs/light.svg?datauri"
+              alt="light"
+            >
+            <div
+              class="select-icon"
+              v-if="navTheme !== 'dark'"
+            >
+              <a-icon type="check" />
+            </div>
+          </div>
+        </a-tooltip>
       </div>
-      <div
-        class="setting-drawer-index-handle"
-        @click="toggle"
+    </div>
+
+    <div class="item">
+      <h3 class="title">
+        主题色
+      </h3>
+      <div style="height: 20px">
+        <a-tooltip
+          class="theme-color-list"
+          v-for="(item, index) in colorList"
+          :key="index"
+        >
+          <template slot="title">
+            {{ item.key }}
+          </template>
+          <a-tag
+            :color="item.color"
+            @click="changePrimaryColor(item.color)"
+          >
+            <a-icon
+              type="check"
+              v-if="item.color === primaryColor"
+            />
+          </a-tag>
+        </a-tooltip>
+      </div>
+    </div>
+    <a-divider />
+
+    <div class="item">
+      <h3 class="title">
+        导航模式
+      </h3>
+      <div class="block-checkbox">
+        <a-tooltip>
+          <template slot="title">
+            侧边栏导航
+          </template>
+          <div
+            class="checkbox-item"
+            @click="changeLayoutMode('sidemenu')"
+          >
+            <img
+              src="./imgs/dark.svg?datauri"
+              alt="sidemenu"
+            >
+            <div
+              class="select-icon"
+              v-if="layoutMode === 'sidemenu'"
+            >
+              <a-icon type="check" />
+            </div>
+          </div>
+        </a-tooltip>
+        <a-tooltip>
+          <template slot="title">
+            顶部栏导航
+          </template>
+          <div
+            class="checkbox-item"
+            @click="changeLayoutMode('topmenu')"
+          >
+            <img
+              src="./imgs/topmenu.svg?datauri"
+              alt="topmenu"
+            >
+            <div
+              class="select-icon"
+              v-if="layoutMode !== 'sidemenu'"
+            >
+              <a-icon type="check" />
+            </div>
+          </div>
+        </a-tooltip>
+      </div>
+
+      <div class="item">
+        <a-list :split="false">
+          <a-list-item>
+            <a-tooltip slot="actions">
+              <template slot="title">
+                该设定仅 [顶部栏导航] 时有效
+              </template>
+              <a-select
+                size="small"
+                style="width: 80px;"
+                :default-value="contentWidth"
+                :value="contentWidth"
+                @change="changeContentWidth"
+                :disabled="layoutMode === 'sidemenu'"
+              >
+                <a-select-option value="Fixed">
+                  固定
+                </a-select-option>
+                <a-select-option value="Fluid">
+                  流式
+                </a-select-option>
+              </a-select>
+            </a-tooltip>
+            <a-list-item-meta>
+              <div slot="title">
+                内容区域宽度
+              </div>
+            </a-list-item-meta>
+          </a-list-item>
+          <a-list-item>
+            <a-switch
+              slot="actions"
+              size="small"
+              :default-checked="fixedHeader"
+              :checked="fixedHeader"
+              @change="toggleFixedHeader"
+            />
+            <a-list-item-meta>
+              <div slot="title">
+                固定 Header
+              </div>
+            </a-list-item-meta>
+          </a-list-item>
+          <a-list-item>
+            <a-switch
+              slot="actions"
+              size="small"
+              :disabled="!fixedHeader"
+              :default-checked="autoHideHeader"
+              :checked="autoHideHeader"
+              @change="toggleAutoHideHeader"
+            />
+            <a-list-item-meta>
+              <a-tooltip
+                slot="title"
+                placement="left"
+              >
+                <template slot="title">
+                  固定 Header 时可配置
+                </template>
+                <div :style="{ opacity: !fixedHeader ? '0.5' : '1' }">
+                  下滑时隐藏 Header
+                </div>
+              </a-tooltip>
+            </a-list-item-meta>
+          </a-list-item>
+          <a-list-item>
+            <a-switch
+              slot="actions"
+              size="small"
+              :disabled="(layoutMode === 'topmenu')"
+              :default-checked="fixedSidebar"
+              :checked="fixedSidebar"
+              @change="toggleFixedSidebar"
+            />
+            <a-list-item-meta>
+              <div
+                slot="title"
+                :style="{ textDecoration: layoutMode === 'topmenu' ? 'line-through' : 'unset' }"
+              >
+                固定侧边菜单
+              </div>
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
+      </div>
+    </div>
+
+    <a-divider />
+
+    <div class="item">
+      <h3 class="title">
+        其他设置
+      </h3>
+      <div>
+        <a-list :split="false">
+          <a-list-item>
+            <a-switch
+              slot="actions"
+              size="small"
+              :default-checked="colorWeak"
+              :checked="colorWeak"
+              @change="toggleColorWeak"
+            />
+            <a-list-item-meta>
+              <div slot="title">
+                色弱模式
+              </div>
+            </a-list-item-meta>
+          </a-list-item>
+          <a-list-item>
+            <a-switch
+              slot="actions"
+              size="small"
+              :default-checked="multiTab"
+              :checked="multiTab"
+              @change="toggleMultiTab"
+            />
+            <a-list-item-meta>
+              <div slot="title">
+                多页签模式
+              </div>
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
+      </div>
+    </div>
+
+    <a-divider />
+
+    <div>
+      <a-button
+        @click="doCopy"
+        icon="copy"
+        block
       >
-        <a-icon
-          type="setting"
-          v-if="!visible"
-        />
-        <a-icon
-          type="close"
-          v-else
-        />
-      </div>
-    </a-drawer>
-  </div>
+        拷贝设置
+      </a-button>
+      <a-alert
+        type="warning"
+        :style="{ marginTop: '24px' }"
+      >
+        <span slot="message">
+          配置栏只在开发环境用于预览，生产环境不会展现，请手动修改配置文件
+        </span>
+      </a-alert>
+    </div>
+
+    <div
+      class="setting-switch"
+      @click="visible = !visible"
+    >
+      <a-icon
+        type="setting"
+        v-if="!visible"
+      />
+      <a-icon
+        type="close"
+        v-else
+      />
+    </div>
+  </a-drawer>
 </template>
 <script>
 import config from '@/config'
-import { updateTheme, updateColorWeak, colorList } from './settingConfig'
 import { mixinApp } from '@/store/modules/app'
+import changeColor from './changeColor'
+
+const colorList = [
+  {
+    key: '薄暮', color: '#F5222D'
+  },
+  {
+    key: '火山', color: '#FA541C'
+  },
+  {
+    key: '日暮', color: '#FAAD14'
+  },
+  {
+    key: '明青', color: '#13C2C2'
+  },
+  {
+    key: '极光绿', color: '#52C41A'
+  },
+  {
+    key: '拂晓蓝（默认）', color: '#1890FF'
+  },
+  {
+    key: '极客蓝', color: '#2F54EB'
+  },
+  {
+    key: '酱紫', color: '#722ED1'
+  }
+]
+
+function fnLock (fn) {
+  let lock = false
+  return function (...args) {
+    if (lock) {
+      return
+    }
+    lock = true
+    return fn.apply(this, args.concat(() => (lock = false)))
+  }
+}
 
 export default {
   mixins: [mixinApp],
@@ -306,108 +342,98 @@ export default {
     return {
       visible: false,
       colorList,
-      handle: <div/>
+      handle: <div/>,
+      color: '',
     }
-  },
-  watch: {
   },
   mounted () {
     if (this.primaryColor !== config.primaryColor) {
-      updateTheme(this.primaryColor)
+      this.changePrimaryColor(this.primaryColor)
     }
     if (this.colorWeak !== config.colorWeak) {
-      updateColorWeak(this.colorWeak)
+      this.toggleColorWeak(this.colorWeak)
     }
   },
   methods: {
-    showDrawer () {
-      this.visible = true
+    changePrimaryColor: fnLock(function (primaryColor, fnUnlock) {
+      if (this.color !== primaryColor) {
+        const hideMessage = this.$message.loading('正在切换主题色', 0)
+        changeColor(primaryColor)
+          .then(() => {
+            this.primaryColor = this.color = primaryColor
+          })
+          .finally(() => {
+            hideMessage()
+            fnUnlock()
+          })
+      } else {
+        fnUnlock()
+      }
+    }),
+    changeNavTheme (navTheme) {
+      this.navTheme = navTheme
     },
-    onClose () {
-      this.visible = false
+    changeLayoutMode (layoutMode) {
+      this.layoutMode = layoutMode
+      // 因为顶部菜单不能固定左侧菜单栏，所以强制关闭
+      if (this.layoutMode === 'topmenu') {
+        this.toggleFixedSidebar(false)
+      }
     },
-    toggle () {
-      this.visible = !this.visible
+    changeContentWidth (contentWidth) {
+      this.contentWidth = contentWidth
     },
-    onColorWeak (checked) {
-      this.$store.dispatch('ToggleWeak', checked)
-      updateColorWeak(checked)
+    toggleFixedHeader (flag) {
+      this.fixedHeader = flag
     },
-    onMultiTab (checked) {
-      this.$store.dispatch('ToggleMultiTab', checked)
+    toggleAutoHideHeader (flag) {
+      this.autoHideHeader = flag
     },
-    handleMenuTheme (theme) {
-      this.$store.dispatch('ToggleTheme', theme)
+    toggleFixedSidebar (flag) {
+      this.fixedSidebar = flag
+    },
+    toggleColorWeak (flag) {
+      flag ? document.body.classList.add('colorWeak') : document.body.classList.remove('colorWeak')
+      this.colorWeak = flag
+    },
+    toggleMultiTab (flag) {
+      this.multiTab = flag
     },
     doCopy () {
-      // get current settings from mixin or this.$store.state.app, pay attention to the property name
-      const text = `
-  primaryColor: '${this.primaryColor}', // primary color of ant design
-  navTheme: '${this.navTheme}', // theme for nav menu
-  layout: '${this.layoutMode}', // nav menu position: sidemenu or topmenu
-  contentWidth: '${this.contentWidth}', // layout of content: Fluid or Fixed, only works when layout is topmenu
-  fixedHeader: ${this.fixedHeader}, // sticky header
-  fixedSidebar: ${this.fixedSidebar}, // sticky siderbar
-  autoHideHeader: ${this.autoHideHeader}, //  auto hide header
-  colorWeak: ${this.colorWeak},
-  multiTab: ${this.multiTab},
-`
-      this.$copyText(text).then(message => {
-        console.log('copy', message)
-        this.$message.success('复制完毕')
+      const text = Object.keys(config)
+        .reduce((ret, key) => {
+          let val = this[key]
+          if (typeof val === 'string') {
+            val = `'${val}'`
+          }
+          return `${ret}${key}:${val},\n`
+        }, '')
+        .trim()
+      this.$copyText(text).then(() => {
+        this.$succ('复制完毕')
       }).catch(err => {
-        console.log('copy.err', err)
-        this.$message.error('复制失败')
+        console.log(err)
+        this.$err('复制失败')
       })
     },
-    handleLayout (mode) {
-      this.$store.dispatch('ToggleLayoutMode', mode)
-      // 因为顶部菜单不能固定左侧菜单栏，所以强制关闭
-      this.handleFixSiderbar(false)
-    },
-    handleContentWidthChange (type) {
-      this.$store.dispatch('ToggleContentWidth', type)
-    },
-    changeColor (color) {
-      if (this.primaryColor !== color) {
-        this.$store.dispatch('ToggleColor', color)
-        updateTheme(color)
-      }
-    },
-    handleFixedHeader (fixed) {
-      this.$store.dispatch('ToggleFixedHeader', fixed)
-    },
-    handleFixedHeaderHidden (autoHidden) {
-      this.$store.dispatch('ToggleFixedHeaderHidden', autoHidden)
-    },
-    handleFixSiderbar (fixed) {
-      if (this.layoutMode === 'topmenu') {
-        this.$store.dispatch('ToggleFixSiderbar', false)
-        return
-      }
-      this.$store.dispatch('ToggleFixSiderbar', fixed)
-    }
   }
 }
 </script>
-<style lang="less" scoped>
-
-  .setting-drawer-index-content {
-
-    .setting-drawer-index-blockChecbox {
+<style lang="less">
+.setting-drawer{
+  .item {
+    margin-bottom: 24px;
+    .block-checkbox {
       display: flex;
-
-      .setting-drawer-index-item {
+      .checkbox-item {
         margin-right: 16px;
         position: relative;
         border-radius: 4px;
         cursor: pointer;
-
         img {
           width: 48px;
         }
-
-        .setting-drawer-index-selectIcon {
+        .select-icon {
           position: absolute;
           top: 0;
           right: 0;
@@ -421,7 +447,7 @@ export default {
         }
       }
     }
-    .setting-drawer-theme-color-colorBlock {
+    .theme-color-list {
       width: 20px;
       height: 20px;
       border-radius: 2px;
@@ -433,14 +459,12 @@ export default {
       text-align: center;
       color: #fff;
       font-weight: 700;
-
       i {
         font-size: 14px;
       }
     }
   }
-
-  .setting-drawer-index-handle {
+  .setting-switch {
     position: absolute;
     top: 240px;
     background: #1890ff;
@@ -456,10 +480,10 @@ export default {
     text-align: center;
     font-size: 16px;
     border-radius: 4px 0 0 4px;
-
     i {
       color: rgb(255, 255, 255);
       font-size: 20px;
     }
   }
+}
 </style>
