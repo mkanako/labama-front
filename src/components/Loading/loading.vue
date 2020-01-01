@@ -4,11 +4,13 @@
     class="loading-mask"
     :style="{background}"
   >
-    <a-spin :tip="tip">
+    <a-spin
+      :tip="tip"
+      size="large"
+    >
       <template v-slot:indicator>
         <a-icon
           type="loading"
-          style="font-size: 24px"
           spin
         />
       </template>
@@ -26,7 +28,7 @@ export default {
   },
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .loading-mask{
   position: fixed;
   top: 0;
@@ -38,6 +40,7 @@ export default {
   .ant-spin{
     position: absolute;
     top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

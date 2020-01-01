@@ -44,6 +44,7 @@ import router from '@/router'
 import store from '@/store'
 import http from '@/utils/http'
 import prompt from '@/components/Prompt'
+import loading from '@/components/Loading'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import { sysInfo } from '@/api/common'
@@ -101,6 +102,7 @@ Vue.prototype.$error = Modal.error
 Vue.prototype.$warning = Modal.warning
 Vue.prototype.$http = http
 Vue.prototype.$prompt = prompt
+Vue.prototype.$loading = loading
 Vue.prototype.$succ = (text = '操作成功') => message.success(text, 1)
 Vue.prototype.$err = (text = '错误') => message.error(text)
 

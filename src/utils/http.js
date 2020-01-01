@@ -1,9 +1,7 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import Loading from '@/components/Loading'
+import loading from '@/components/Loading'
 import router from '@/router'
-
-let loadingInstance
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -14,7 +12,7 @@ const http = axios.create({
 http.interceptors.request.use(config => {
   config.showLoading = true
   if (config.showLoading) {
-    loadingInstance = Loading()
+    loading()
   }
   return config
 })
@@ -22,7 +20,7 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(
   response => {
     if (response.config.showLoading) {
-      loadingInstance && loadingInstance.close()
+      loading.close()
     }
     if (response.data && typeof response.data === 'object') {
       switch (response.data.code) {
@@ -44,7 +42,7 @@ http.interceptors.response.use(
     return Promise.reject(response)
   },
   error => {
-    loadingInstance && loadingInstance.close()
+    loading.close()
     if (!axios.isCancel(error)) {
       message.error(error.message)
       console.log(error)

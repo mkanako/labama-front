@@ -1,5 +1,5 @@
 <template functional>
-  <div class="footer">
+  <a-layout-footer class="app-footer">
     <div class="links">
       <!-- <a href="https://ant.design/">Ant Design</a>
       <a href="https://vue.ant.design/">Vue Antd</a> -->
@@ -8,7 +8,7 @@
       Copyright
       <a-icon type="copyright" /> {{ (new Date()).getFullYear() }}
     </div>
-  </div>
+  </a-layout-footer>
 </template>
 <script>
 export default {
@@ -16,25 +16,20 @@ export default {
 }
 </script>
 <style lang="less">
-.footer {
-  padding: 0 16px;
-  margin: 48px 0 24px;
+.app-footer {
   text-align: center;
-  .links {
-    margin-bottom: 8px;
-    a {
-      color: rgba(0, 0, 0, 0.45);
-      &:hover {
-        color: rgba(0, 0, 0, 0.65);
-      }
-      &:not(:last-child) {
-        margin-right: 40px;
-      }
+  color: rgba(0, 0, 0, 0.45);
+  .links a{
+    color: rgba(0, 0, 0, 0.45);
+    &:hover {
+      color: rgba(0, 0, 0, 0.65);
+    }
+    &:not(:last-child) {
+      margin-right: 40px;
     }
   }
   .copyright {
-    color: rgba(0, 0, 0, 0.45);
-    font-size: 14px;
+    margin-top: 8px;
   }
 }
 </style>

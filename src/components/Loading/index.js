@@ -3,7 +3,7 @@ import loadingVue from './loading'
 
 const LoadingConstructor = Vue.extend(loadingVue)
 
-const defaults = {
+const defaultOptions = {
   tip: '',
   background: 'rgba(0, 0, 0, 0)',
 }
@@ -16,14 +16,14 @@ LoadingConstructor.prototype.close = function () {
 
 const Loading = (options = {}) => {
   if (Vue.prototype.$isServer) return
-  options = Object.assign({}, defaults, options)
+  options = Object.assign({}, defaultOptions, options)
   if (instance) {
+    Object.keys(defaultOptions).forEach(key => {
+      instance[key] = options[key]
+    })
     Vue.nextTick(() => {
       instance.visible = true
     })
-    for (let key in options) {
-      instance[key] = options[key]
-    }
     return instance
   }
   instance = new LoadingConstructor({
@@ -35,6 +35,10 @@ const Loading = (options = {}) => {
     instance.visible = true
   })
   return instance
+}
+
+Loading.close = function () {
+  instance && instance.close()
 }
 
 export default Loading

@@ -1,51 +1,51 @@
 <template>
   <transition name="showHeader">
-    <div
+    <!-- <div
       v-if="visible"
       class="header-animat"
+    > -->
+    <a-layout-header
+      v-if="visible"
+      :class="[fixedHeader && 'header-fixed', sidebar ? 'header-side-opened' : 'header-side-closed', ]"
+      :style="{ padding: '0' }"
     >
-      <a-layout-header
-        v-if="visible"
-        :class="[fixedHeader && 'ant-header-fixedHeader', sidebar ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
-        :style="{ padding: '0' }"
+      <div
+        v-if="isSideMenu"
+        class="header"
       >
-        <div
-          v-if="isSideMenu"
-          class="header"
-        >
-          <a-icon
-            class="trigger"
-            :type="isMobile?'menu-fold':(collapsed ? 'menu-unfold' : 'menu-fold')"
-            @click="toggle"
-          />
-          <header-right />
-        </div>
-        <div
-          v-else
-          :class="['top-nav-header-index', navTheme]"
-        >
-          <div class="header-index-wide">
-            <div class="header-index-left">
-              <logo
-                class="top-nav-header"
-                :show-title="!isMobile"
-              />
-              <Menu
-                v-if="!isMobile"
-                mode="horizontal"
-              />
-              <a-icon
-                v-else
-                class="trigger"
-                :type="collapsed ? 'menu-fold' : 'menu-unfold'"
-                @click="toggle"
-              />
-            </div>
-            <header-right class="header-index-right" />
+        <a-icon
+          class="sidebar-toggle"
+          :type="isMobile?'menu-fold':(collapsed ? 'menu-unfold' : 'menu-fold')"
+          @click="toggle"
+        />
+        <header-right />
+      </div>
+      <div
+        v-else
+        :class="['top-nav-header', navTheme]"
+      >
+        <div class="header-wide">
+          <div class="header-left">
+            <logo
+              class="top-nav-header"
+              :show-title="!isMobile"
+            />
+            <Menu
+              v-if="!isMobile"
+              mode="horizontal"
+            />
+            <a-icon
+              v-else
+              class="sidebar-toggle"
+              :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+              @click="toggle"
+            />
           </div>
+          <header-right class="header-right" />
         </div>
-      </a-layout-header>
-    </div>
+      </div>
+    </a-layout-header>
+    <!-- </div> -->
   </transition>
 </template>
 <script>
@@ -102,11 +102,11 @@ export default {
 }
 </script>
 <style lang="less">
-@import '~@/styles/index.less';
+@import '~@/styles/var';
 
 .header-animat{
   position: relative;
-  z-index: @ant-global-header-zindex;
+  z-index: 105;
 }
 .showHeader-enter-active {
   transition: all 0.25s ease;

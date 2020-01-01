@@ -40,7 +40,6 @@ const webpackConfig = {
     loaderOptions: {
       less: {
         modifyVars: {
-          // less vars，customize ant design theme
           // 'primary-color': '#F5222D',
           // 'link-color': '#F5222D',
           // 'border-radius-base': '4px'
@@ -52,11 +51,15 @@ const webpackConfig = {
   devServer: {
     stats: 'verbose',
     proxy: {
-      [process.env.VUE_APP_API_BASE_URL]: {
-        target: process.env.DEV_SERVER_URL,
-        changeOrigin: true,
-        pathRewrite: { [`^${process.env.VUE_APP_API_BASE_URL}`]: '' },
-      },
+      ...((path, target) =>
+        ({
+          [path]: {
+            target,
+            changeOrigin: true,
+            pathRewrite: { [`^${path}`]: '' },
+          }
+        })
+      )(process.env.VUE_APP_API_BASE_URL, process.env.DEV_SERVER_URL),
     },
   },
   productionSourceMap: false,

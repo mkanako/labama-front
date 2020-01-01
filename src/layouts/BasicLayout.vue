@@ -1,9 +1,9 @@
 <template>
-  <a-layout :class="['layout', device]">
+  <a-layout :class="['app-layout', device]">
     <a-drawer
       v-if="isMobile"
       placement="left"
-      :wrap-class-name="`drawer-sider ${navTheme}`"
+      :wrap-class-name="`drawer-sidebar ${navTheme}`"
       :closable="false"
       :visible="sidebar"
       @close="closeSidebar()"
@@ -15,11 +15,11 @@
 
     <a-layout
       :class="[layoutMode, `content-width-${contentWidth}`]"
-      :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }"
+      :style="{ paddingLeft: contentPaddingLeft }"
     >
       <global-header />
 
-      <a-layout-content :style="{ height: '100%', margin: '24px 24px 0', paddingTop: fixedHeader ? '64px' : '0' }">
+      <a-layout-content :style="{ paddingTop: fixedHeader ? '64px' : '0' }">
         <transition
           name="fade-transform"
           mode="out-in"
@@ -28,9 +28,7 @@
         </transition>
       </a-layout-content>
 
-      <a-layout-footer>
-        <global-footer />
-      </a-layout-footer>
+      <global-footer />
 
       <setting-drawer v-if="development" />
     </a-layout>
@@ -70,7 +68,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '~@/styles/global.less';
+@import '~@/styles/layout';
 
 .fade-transform-leave-active,
 .fade-transform-enter-active {

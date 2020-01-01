@@ -25,7 +25,7 @@
             allow-clear
             v-decorator="[
               'username',
-              {rules: [{ required: true, message: '请输入帐户名' }], validateTrigger: 'change'}
+              { rules: [{ required: true, message: '请输入帐户名' }], validateTrigger: 'change' }
             ]"
           >
             <a-icon
@@ -43,7 +43,7 @@
             placeholder="密码:"
             v-decorator="[
               'password',
-              {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
+              { rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur' }
             ]"
           >
             <a-icon
@@ -59,8 +59,8 @@
             type="primary"
             html-type="submit"
             block
-            :loading="state.logining"
-            :disabled="state.logining"
+            :loading="logining"
+            :disabled="logining"
           >
             确定
           </a-button>
@@ -84,20 +84,14 @@ export default {
   data () {
     return {
       form: this.$form.createForm(this),
-      state: {
-        logining: false,
-      }
+      logining: false,
     }
   },
   methods: {
     handleSubmit (e) {
       e.preventDefault()
-      const {
-        form: { validateFields },
-        state,
-      } = this
-      state.logining = true
-      validateFields(['username', 'password'], { force: true }, (err, values) => {
+      this.logining = true
+      this.form.validateFields(['username', 'password'], { force: true }, (err, values) => {
         if (!err) {
           login(values).then(() => {
             this.$store.commit('SET_NAME', values.username)
@@ -105,10 +99,14 @@ export default {
             setTimeout(() => {
               this.$router.replace({ path: '/' })
             }, 500)
+          }).catch(() => {
+            setTimeout(() => {
+              this.logining = false
+            }, 500)
           })
         } else {
           setTimeout(() => {
-            state.logining = false
+            this.logining = false
           }, 200)
         }
       })

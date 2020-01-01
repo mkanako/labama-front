@@ -1,8 +1,8 @@
 <template>
   <a-layout-sider
-    :class="['sider', isDesktop ? null : 'shadow', navTheme, fixedSidebar ? 'ant-fixed-sidemenu' : null ]"
+    :class="[ navTheme, fixedSidebar ? 'fixed-sidemenu' : null ]"
     width="256px"
-    :collapsed="isMobile?false:collapsed"
+    :collapsed="isMobile ? false : collapsed"
   >
     <logo />
     <Menu
