@@ -1,9 +1,11 @@
-const webpack = require('webpack')
+const { IgnorePlugin } = require('webpack')
+const WebpackNotifierPlugin = require('./webpack-notifier-plugin')
 
 const webpackConfig = {
   configureWebpack: {
     plugins: [
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new WebpackNotifierPlugin(),
     ]
   },
   chainWebpack: config => {
@@ -49,7 +51,6 @@ const webpackConfig = {
     }
   },
   devServer: {
-    stats: 'verbose',
     proxy: {
       ...((path, target) =>
         ({
