@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect --mode production",
-    "inspect:dev": "vue-cli-service inspect"
+    "inspect:dev": "vue-cli-service inspect",
+    "ram-cache":"result=$(node -e 'const fs=require(\"fs-extra\");const RAM_DISK=\"/Volumes/ramdisk/\";const DIR=RAM_DISK+process.env.npm_package_name;fs.existsSync(RAM_DISK)&&(fs.ensureDirSync(DIR),console.log(DIR))') && if [ ! -z $result ]; then bindfs $result node_modules/.cache; fi"
   },
   "dependencies": {
     "ant-design-vue": "^1.4.10",
