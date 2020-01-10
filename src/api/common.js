@@ -15,7 +15,7 @@ const init = once(data => {
 })
 
 export function sysInfo () {
-  http.get('sysInfo')
+  http.get('sysInfo', { showLoading: false })
     .then(resp => init(resp))
     .then(() => {
       if (router.currentRoute.name === 'login') {

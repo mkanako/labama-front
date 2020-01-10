@@ -74,7 +74,7 @@ export default {
       this.$emit('change', val)
     },
     handleClose () {
-      this.$refs['video'].pause()
+      this.$refs.video.pause()
     }
   },
   computed: {

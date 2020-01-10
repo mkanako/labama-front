@@ -18,7 +18,7 @@ export default function (option = {}) {
         resolve(data.value)
       },
       onCancel () {
-        reject('onCancel') // eslint-disable-line
+        reject(Error('onCancel'))
       }
     }))
   })

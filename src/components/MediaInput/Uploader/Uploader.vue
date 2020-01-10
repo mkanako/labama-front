@@ -252,8 +252,8 @@ export default {
     },
     handleConfirm () {
       if (Object.keys(this.selectList).length) {
-        let ret = []
-        for (let key in this.selectList) {
+        const ret = []
+        for (const key in this.selectList) {
           ret.push(this.selectList[key].path)
         }
         this.callback(this.option.multiple ? ret.reverse() : ret[0])

@@ -1,27 +1,35 @@
 <template>
-  <div class="menu-wrapper">
-    <div class="content-box">
-      <a-dropdown>
-        <span class="action ant-dropdown-link user-dropdown-menu">
-          <a-icon type="user" />&nbsp;
-          <span>{{ $store.getters.username }}</span>
-        </span>
-        <a-menu
-          slot="overlay"
-          class="user-dropdown-menu-wrapper"
+  <div>
+    <a-dropdown
+      placement="bottomRight"
+      @visibleChange="dropdownChange"
+    >
+      <span class="cursor-pointer inline-block">
+        <a-icon type="user" />
+        <span
+          v-show="$store.getters.username"
+          class="ml-8"
         >
-          <a-menu-item @click="formVisible=true">
-            <a-icon type="lock" />
-            <span>修改密码</span>
-          </a-menu-item>
-          <a-menu-divider />
-          <a-menu-item @click="handleLogout">
-            <a-icon type="logout" />
-            <span>退出登录</span>
-          </a-menu-item>
-        </a-menu>
-      </a-dropdown>
-    </div>
+          {{ $store.getters.username }}
+          <a-icon
+            class="text-10"
+            type="down"
+            :rotate="dropdownVisible?180:0"
+          />
+        </span>
+      </span>
+      <a-menu slot="overlay">
+        <a-menu-item @click="formVisible=true">
+          <a-icon type="lock" />
+          <span>修改密码</span>
+        </a-menu-item>
+        <a-menu-divider />
+        <a-menu-item @click="handleLogout">
+          <a-icon type="logout" />
+          <span>退出登录</span>
+        </a-menu-item>
+      </a-menu>
+    </a-dropdown>
     <a-modal
       title="修改密码"
       v-model="formVisible"
@@ -31,12 +39,9 @@
       width="400px"
       :body-style="{padding:'14px 24px 0'}"
     >
-      <a-form
-        :form="form"
-      >
+      <a-form :form="form">
         <a-form-item>
-          <a-input
-            type="password"
+          <a-input-password
             autocomplete="false"
             placeholder="新密码，至少6位"
             v-decorator="[
@@ -54,8 +59,7 @@
           />
         </a-form-item>
         <a-form-item>
-          <a-input
-            type="password"
+          <a-input-password
             autocomplete="false"
             placeholder="确认密码"
             v-decorator="[
@@ -79,15 +83,19 @@
 import { changePassword, logout } from '@/api/common'
 
 export default {
-  name: 'HeaderRight',
+  name: 'LayoutHeaderRight',
   data () {
     return {
       form: this.$form.createForm(this),
       formVisible: false,
       confirmLoading: false,
+      dropdownVisible: false,
     }
   },
   methods: {
+    dropdownChange (visible) {
+      this.dropdownVisible = visible
+    },
     compareToFirstPassword  (rule, value, callback) {
       if (value && value !== this.form.getFieldValue('password')) {
         callback(Error('两次密码不一致'))
@@ -104,10 +112,13 @@ export default {
         if (!errors) {
           this.confirmLoading = true
           changePassword(values).then(() => {
+            this.confirmLoading = false
             this.formVisible = false
             this.form.resetFields()
-            this.$succ('密码修改成功')
-          }).finally(() => {
+            setTimeout(() => {
+              this.$succ('密码修改成功')
+            }, 500)
+          }).catch(() => {
             this.confirmLoading = false
           })
         }
@@ -125,3 +136,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.anticon-down svg{
+  transition: all 0.2s;
+}
+</style>

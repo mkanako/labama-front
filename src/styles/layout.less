@@ -1,421 +1,71 @@
-@import './var';
+@import "./var";
+@import "./tailwind.css";
 
-body {
-  &.colorWeak {
-    filter: invert(80%);
-  }
-}
-
-.app-layout {
-
-  .sidebar-toggle {
-    font-size: 20px;
-    line-height: 64px;
-    padding: 0 24px;
-    cursor: pointer;
-    transition: color 0.3s;
-    &:hover {
-      background: rgba(0, 0, 0, 0.025);
-    }
-  }
-
-  .drawer-sidebar {
+#app {
+  height: 100%;
+  .layout-sider-wrapper {
+    transition: all 0.2s;
     .ant-layout-sider {
-      box-shadow: none;
-    }
-
-    &.dark {
-      .ant-drawer-content {
-        background-color: rgb(0, 21, 41);
-      }
-    }
-    &.light {
-      box-shadow: none;
-      .ant-drawer-content {
-        background-color: #fff;
-      }
-    }
-
-    .ant-drawer-body {
-      padding: 0;
-    }
-  }
-
-  .ant-layout-sider {
-    box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-    position: relative;
-    z-index: 106;
-    min-height: 100vh;
-
-    .ant-layout-sider-children {
-      overflow-y: hidden;
-      &:hover {
-        overflow-y: auto;
-      }
-    }
-
-    &.fixed-sidemenu {
-      position: fixed;
+      overflow: auto;
       height: 100%;
-    }
-
-    .logo {
-      position: relative;
-      height: 64px;
-      padding-left: 24px;
-      overflow: hidden;
-      line-height: 64px;
-      background: #002140;
-      transition: all .3s;
-      img,
-      svg,
-      h1 {
-        display: inline-block;
-        vertical-align: middle;
-      }
-      img,
-      svg {
-        height: 32px;
-        width: 32px;
-      }
-      h1 {
-        color: #fff;
-        font-size: 20px;
-        margin: 0 0 0 12px;
-        font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-        font-weight: 600;
-        vertical-align: middle;
-      }
-    }
-
-    &.light {
-      background-color: #fff;
-      box-shadow: 2px 0px 8px 0px rgba(29, 35, 41, 0.05);
+      position: fixed;
+      left: 0;
       .logo {
-        background: #fff;
-        box-shadow: 1px 1px 0px 0px #e8e8e8;
-        h1 {
-          color: unset;
-        }
-      }
-      .ant-menu-light {
-        border-right-color: transparent;
-      }
-    }
-  }
-
-  .ant-layout{
-    min-height: 100vh;
-    .ant-layout-content{
-      margin: 24px 24px 0;
-    }
-  }
-  .ant-layout.topmenu {
-    .header-fixed {
-      position: fixed;
-      top: 0;
-      right: 0;
-      z-index: 9;
-      width: 100%;
-      transition: width 0.2s;
-      &.header-side-opened,
-      &.header-side-closed {
-        width: 100%;
-      }
-    }
-    /* 必须为 topmenu  才能启用流式布局 */
-    &.content-width-Fluid {
-      .header-wide {
-        max-width: unset;
-        .header-left {
-          flex: 1 1 1000px;
-          .logo{
-            margin-left: 25px;
-          }
-          .ant-menu.ant-menu-horizontal{
-            max-width: calc(100vw - 190px - 238px - 25px);
-            flex: 1 1 calc(100vw - 190px - 238px - 25px);
-          }
-        }
-        .header-right{
-          margin-right:25px;
-        }
-      }
-    }
-  }
-
-  .ant-layout.sidemenu {
-    .header-fixed {
-      position: fixed;
-      top: 0;
-      right: 0;
-      z-index: 9;
-      width: 100%;
-      transition: width 0.2s;
-
-      &.header-side-opened {
-        width: calc(100% - 256px);
-      }
-
-      &.header-side-closed {
-        width: calc(100% - 80px);
-      }
-    }
-  }
-
-  &.mobile {
-    .sidemenu {
-      .header-fixed {
-        &.header-side-opened,
-        &.header-side-closed {
-          width: 100%;
-        }
-      }
-    }
-  }
-
-
-  .header {
-    height: 64px;
-    padding: 0 12px 0 0;
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-    position: relative;
-  }
-
-  .header,
-  .top-nav-header {
-    .menu-wrapper {
-      float: right;
-      height: 100%;
-
-      .action {
-        cursor: pointer;
-        padding: 0 12px;
-        display: inline-block;
-        transition: all 0.3s;
-        height: 100%;
-        color: rgba(0, 0, 0, 0.65);
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.025);
-        }
-
-        .avatar {
-          margin: 20px 8px 20px 0;
-          color: #1890ff;
-          background: hsla(0, 0%, 100%, 0.85);
-          vertical-align: middle;
-        }
-
-        .icon {
-          font-size: 16px;
-          padding: 4px;
-        }
-      }
-    }
-
-    &.dark {
-      .menu-wrapper {
-        .action {
-          color: rgba(255, 255, 255, 0.85);
-          a {
-            color: rgba(255, 255, 255, 0.85);
-          }
-
-          &:hover {
-            background: rgba(255, 255, 255, 0.16);
-          }
-        }
-      }
-    }
-  }
-
-  .top-nav-header {
-    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-    position: relative;
-    transition: background 0.3s, width 0.2s;
-
-    .header-wide {
-      max-width: 1200px;
-      margin: auto;
-      padding-left: 0;
-      display: flex;
-      height: 64px;
-
-      .ant-menu.ant-menu-horizontal {
-        max-width: 835px;
-        flex: 0 1 835px;
-        border: none;
+        display: block;
         height: 64px;
         line-height: 64px;
-      }
-
-      .header-left {
-        flex: 0 1 1000px;
-        display: flex;
-
-        .logo.top-nav-header {
-          flex: 0 0 165px;
-          width: 165px;
-          height: 64px;
-          position: relative;
-          line-height: 64px;
-          transition: all 0.3s;
-          overflow: hidden;
-
-          img,
-          svg {
-            display: inline-block;
-            vertical-align: middle;
-            height: 32px;
-            width: 32px;
-          }
-
-          h1 {
-            color: #fff;
-            display: inline-block;
-            vertical-align: top;
-            font-size: 16px;
-            margin: 0 0 0 12px;
-            font-weight: 400;
-          }
-        }
-      }
-
-      .header-right {
-        flex: 0 0 238px;
-        align-self: flex-end;
-        height: 64px;
+        padding-left: 24px;
+        color: @white;
+        font-weight: 600;
+        font-size: 20px;
         overflow: hidden;
-
-        .content-box {
-          float: right;
-          .action {
-            max-width: 140px;
-            overflow: hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap;
-          }
-        }
-      }
-    }
-
-    &.light {
-      background-color: #fff;
-
-      .header-wide {
-        .header-left {
-          .logo {
-            h1 {
-              color: #002140;
-            }
-          }
+        text-decoration: none;
+        background: #002140;
+        img {
+          width: 32px;
         }
       }
     }
   }
-
-  &.mobile,
-  &.tablet {
-    .top-nav-header {
-      .header-wide {
-        .header-left {
-          .sidebar-toggle {
-            color: rgba(255, 255, 255, 0.85);
-            padding: 0 12px;
-          }
-
-          .logo.top-nav-header {
-            flex: 0 0 56px;
-            text-align: center;
-            line-height: 58px;
-            h1 {
-              display: none;
-            }
-          }
-        }
-      }
-
-      &.light {
-        .header-wide {
-          .header-left {
-            .sidebar-toggle {
-              color: rgba(0, 0, 0, 0.65);
-            }
-          }
-        }
-        //
+  .layout-main {
+    overflow: unset;
+    min-height: 100vh;
+  }
+  .ant-layout-header {
+    background: @white;
+    box-shadow: @box-shadow-base;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .sidebar-toggle {
+      font-size: @font-size-lg;
+      &:hover {
+        color: @black;
       }
     }
   }
-
-  &.tablet {
-    // overflow: hidden; text-overflow:ellipsis; white-space: nowrap;
-    .top-nav-header {
-      .header-wide {
-        .header-left {
-          .logo > a {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-        }
-        .ant-menu.ant-menu-horizontal {
-          flex: 1 1 auto;
-          white-space: normal;
-        }
-      }
+  .ant-layout-content {
+    margin-top: 20px;
+    padding: 0 20px;
+    overflow: hidden;
+    .ant-back-top {
+      right: 50px;
     }
   }
-
-}
-
-.app-layout{
-  &.mobile,
-  &.tablet {
-    /**
-     * ant-table-wrapper
-     * 覆盖的表格手机模式样式，如果想修改在手机上表格最低宽度，可以在这里改动
-     */
-    .ant-table-wrapper {
-      .ant-table-content {
-        overflow-y: auto;
-      }
-      .ant-table-body {
-        min-width: 800px;
-      }
-    }
-    .topmenu {
-      /* 必须为 topmenu  才能启用流式布局 */
-      &.content-width-Fluid {
-        .header-wide {
-          margin-left: 0;
-        }
+  .ant-layout-footer {
+    text-align: center;
+    color: @text-color-secondary;
+    a {
+      color: @text-color-secondary;
+      margin: 0 20px;
+      &:hover {
+        color: @text-color;
       }
     }
   }
 }
-
-
-// 外置的样式控制
-.user-dropdown-menu {
-  span {
-    user-select: none;
-  }
-}
-.user-dropdown-menu-wrapper.ant-dropdown-menu {
-  padding: 4px 0;
-
-  .ant-dropdown-menu-item {
-    width: 160px;
-  }
-
-  .ant-dropdown-menu-item > .anticon:first-child,
-  .ant-dropdown-menu-item > a > .anticon:first-child,
-  .ant-dropdown-menu-submenu-title > .anticon:first-child .ant-dropdown-menu-submenu-title > a > .anticon:first-child {
-    min-width: 12px;
-    margin-right: 8px;
-  }
-}
-

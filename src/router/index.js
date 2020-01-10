@@ -4,7 +4,7 @@ import defaultRoutes from './defaultRoutes'
 import dynamicRoutes from './dynamicRoutes'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import Layout from '@/layouts/BasicLayout'
+import Layout from '@/layout'
 import store from '@/store'
 
 Vue.use(Router)

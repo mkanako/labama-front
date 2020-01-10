@@ -1,18 +1,18 @@
 <template>
-  <div :class="['login-container', device]">
-    <div class="top">
-      <div class="header">
+  <div class="login-container">
+    <div class="text-center mb-40">
+      <div class="h-40 leading-40">
         <img
           src="@/assets/logo.svg"
-          class="logo"
+          class="h-full mr-16 align-top"
         >
-        <span class="title">{{ $store.getters.title }}</span>
+        <span class="text-32 text-black font-semibold">{{ $store.getters.title }}</span>
       </div>
-      <div class="desc">
+      <div class="mt-12 text-grey-6">
         &nbsp;
       </div>
     </div>
-    <div class="main">
+    <div class="my-0 mx-auto md:w-1/3 w-5/6">
       <a-form
         :form="form"
         @submit="handleSubmit"
@@ -21,7 +21,7 @@
           <a-input
             size="large"
             type="text"
-            placeholder="账号:"
+            placeholder="帐户:"
             allow-clear
             v-decorator="[
               'username',
@@ -53,7 +53,7 @@
             />
           </a-input-password>
         </a-form-item>
-        <a-form-item style="margin-top:24px">
+        <a-form-item>
           <a-button
             size="large"
             type="primary"
@@ -67,19 +67,17 @@
         </a-form-item>
       </a-form>
     </div>
-    <global-footer />
+    <LayoutFooter />
   </div>
 </template>
 <script>
-import { mixinApp } from '@/store/modules/app'
-import GlobalFooter from '@/layouts/components/GlobalFooter'
+import LayoutFooter from '@/layout/LayoutFooter'
 import { login } from '@/api/common'
 
 export default {
   name: 'Login',
-  mixins: [mixinApp],
   components: {
-    GlobalFooter,
+    LayoutFooter,
   },
   data () {
     return {
@@ -95,8 +93,8 @@ export default {
         if (!err) {
           login(values).then(() => {
             this.$store.commit('SET_NAME', values.username)
-            this.$succ('登录成功')
             setTimeout(() => {
+              this.$succ('登录成功')
               this.$router.replace({ path: '/' })
             }, 500)
           }).catch(() => {
@@ -120,37 +118,5 @@ export default {
   background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
   background-size: 100%;
   padding-top: 110px;
-  .top {
-    text-align: center;
-    margin-bottom: 40px;
-    .header {
-      height: 44px;
-      line-height: 44px;
-      .logo {
-        height: 100%;
-        vertical-align: top;
-        margin-right: 16px;
-      }
-      .title {
-        font-size: 32px;
-        color: rgba(0, 0, 0, .85);
-        font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        font-weight: 600;
-      }
-    }
-    .desc {
-      color: rgba(0, 0, 0, 0.45);
-      margin-top: 12px;
-    }
-  }
-  .main {
-    width: 368px;
-    margin: 0 auto;
-  }
-  &.mobile {
-    .main {
-      width: 90%;
-    }
-  }
 }
 </style>

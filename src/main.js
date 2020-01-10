@@ -2,6 +2,7 @@ import Vue from 'vue'
 import {
   Alert,
   Avatar,
+  BackTop,
   Badge,
   Breadcrumb,
   Button,
@@ -12,6 +13,7 @@ import {
   Divider,
   Drawer,
   Dropdown,
+  Empty,
   Form,
   Icon,
   Input,
@@ -30,6 +32,7 @@ import {
   Radio,
   Row,
   Select,
+  Slider,
   Spin,
   Steps,
   Switch,
@@ -39,57 +42,60 @@ import {
   Tooltip,
 } from 'ant-design-vue'
 import VueClipboard from 'vue-clipboard2'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 import App from '@/App'
 import router from '@/router'
 import store from '@/store'
 import http from '@/utils/http'
 import prompt from '@/components/Prompt'
 import loading from '@/components/Loading'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
 import { sysInfo } from '@/api/common'
-import { AppDeviceEnquire, DEVICE_TYPE } from '@/utils/device'
 
 moment.locale('zh-cn')
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
 
-Vue.use(Alert)
-Vue.use(Avatar)
-Vue.use(Badge)
-Vue.use(Breadcrumb)
-Vue.use(Button)
-Vue.use(Card)
-Vue.use(Checkbox)
-Vue.use(Col)
-Vue.use(ConfigProvider)
-Vue.use(Divider)
-Vue.use(Drawer)
-Vue.use(Dropdown)
-Vue.use(Form)
-Vue.use(Icon)
-Vue.use(Input)
-Vue.use(InputNumber)
-Vue.use(Layout)
-Vue.use(List)
-Vue.use(LocaleProvider)
-Vue.use(Menu)
-Vue.use(Modal)
-Vue.use(notification)
-Vue.use(Pagination)
-Vue.use(Popconfirm)
-Vue.use(Popover)
-Vue.use(Progress)
-Vue.use(Radio)
-Vue.use(Row)
-Vue.use(Select)
-Vue.use(Spin)
-Vue.use(Steps)
-Vue.use(Switch)
-Vue.use(Table)
-Vue.use(Tabs)
-Vue.use(Tag)
-Vue.use(Tooltip)
+Vue
+  .use(Alert)
+  .use(Avatar)
+  .use(BackTop)
+  .use(Badge)
+  .use(Breadcrumb)
+  .use(Button)
+  .use(Card)
+  .use(Checkbox)
+  .use(Col)
+  .use(ConfigProvider)
+  .use(Divider)
+  .use(Drawer)
+  .use(Dropdown)
+  .use(Empty)
+  .use(Form)
+  .use(Icon)
+  .use(Input)
+  .use(InputNumber)
+  .use(Layout)
+  .use(List)
+  .use(LocaleProvider)
+  .use(Menu)
+  .use(Modal)
+  .use(notification)
+  .use(Pagination)
+  .use(Popconfirm)
+  .use(Popover)
+  .use(Progress)
+  .use(Radio)
+  .use(Row)
+  .use(Select)
+  .use(Slider)
+  .use(Spin)
+  .use(Steps)
+  .use(Switch)
+  .use(Table)
+  .use(Tabs)
+  .use(Tag)
+  .use(Tooltip)
 
 Vue.config.productionTip = false
 
@@ -112,12 +118,6 @@ new Vue({
   mounted () {
     document.title = store.getters.title
     sysInfo()
-    AppDeviceEnquire(type => {
-      store.commit('SET_DEVICE', type)
-      if (type === DEVICE_TYPE.MOBILE) {
-        store.commit('CLOSE_SIDEBAR')
-      }
-    })
   },
   render: h => h(App)
 }).$mount('#app')

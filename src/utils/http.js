@@ -6,12 +6,11 @@ import router from '@/router'
 const http = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
   timeout: 10000,
-  showLoading: true,
+  // showLoading: true,
 })
 
 http.interceptors.request.use(config => {
-  config.showLoading = true
-  if (config.showLoading) {
+  if (config.showLoading !== false) {
     loading()
   }
   return config
@@ -19,7 +18,7 @@ http.interceptors.request.use(config => {
 
 http.interceptors.response.use(
   response => {
-    if (response.config.showLoading) {
+    if (response.config.showLoading !== false) {
       loading.close()
     }
     if (response.data && typeof response.data === 'object') {

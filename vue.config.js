@@ -68,8 +68,4 @@ const webpackConfig = {
   transpileDependencies: [],
 }
 
-if (process.env.NODE_ENV === 'development') {
-  webpackConfig.configureWebpack.plugins.push(require('./ThemeColorReplacerPlugin')())
-}
-
 module.exports = webpackConfig
