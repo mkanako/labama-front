@@ -120,7 +120,10 @@ export default {
     }
     const on = {
       openChange: this.openChange,
-      select: ({ selectedKeys }) => {
+      select: ({ item, selectedKeys }) => {
+        if (this.collapsed && item.parentMenu.eventKey) {
+          this.openKeysCopy = [item.parentMenu.eventKey]
+        }
         this.selectedKeys = selectedKeys
       }
     }
