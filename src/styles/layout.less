@@ -5,11 +5,22 @@
   height: 100%;
   .layout-sider-wrapper {
     transition: all 0.2s;
+    .layout-sider-mask {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: @modal-mask-bg;
+      opacity: 0.3;
+      left: 0;
+      top: 0;
+      z-index: @layout-header-zIndex + 1;
+    }
     .ant-layout-sider {
       overflow: auto;
       height: 100%;
       position: fixed;
       left: 0;
+      z-index: @layout-header-zIndex + 1;
       .logo {
         display: block;
         height: 64px;
@@ -37,7 +48,7 @@
     width: 100%;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: @layout-header-zIndex;
     padding: 0 20px;
     display: flex;
     justify-content: space-between;

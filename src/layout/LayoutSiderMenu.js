@@ -91,12 +91,14 @@ export default {
             if (this.$route.path === menu.path) {
               this.$router.replace({
                 path: menu.path,
-                query: { t: +new Date() }
+                query: Object.assign({}, this.$route.query, { _t: +new Date() })
               }).finally(() => {
                 this.isClickTrigger = false
               })
             } else {
-              this.$router.push({ path: menu.path }).finally(() => {
+              this.$router.push({
+                path: menu.path
+              }).finally(() => {
                 this.isClickTrigger = false
               })
             }

@@ -1,16 +1,22 @@
 <template>
   <div
     class="layout-sider-wrapper"
-    :style="{width}"
-    v-show="width"
+    :style="{ width }"
+    v-show="visible"
   >
+    <div
+      v-show="isBreakPointTrigger && !collapsed"
+      class="layout-sider-mask"
+      @click="CLOSE_SIDEBAR"
+    />
     <a-layout-sider
       width="256"
       collapsible
-      :collapsed="collapsed"
+      :collapsed="isBreakPointTrigger ? false : collapsed"
       :trigger="null"
       ref="sider"
-      @hook:mounted="setWidth"
+      breakpoint="md"
+      @breakpoint="onBreakpoint"
     >
       <Logo />
       <LayoutSiderMenu />
@@ -20,7 +26,7 @@
 <script>
 import LayoutSiderMenu from './LayoutSiderMenu'
 import Logo from './Logo'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'LayoutSider',
@@ -31,11 +37,16 @@ export default {
   data () {
     return {
       width: 0,
+      isBreakPointTrigger: false,
+      visible: false,
     }
   },
   watch: {
-    collapsed () {
+    collapsed (val) {
       this.setWidth()
+      if (this.isBreakPointTrigger) {
+        this.visible = !val
+      }
     },
   },
   computed: {
@@ -44,8 +55,22 @@ export default {
     }),
   },
   methods: {
+    ...mapMutations(['CLOSE_SIDEBAR']),
+    onBreakpoint (flag) {
+      this.isBreakPointTrigger = flag
+      this.setWidth()
+      if (this.isBreakPointTrigger && this.collapsed) {
+        this.visible = false
+      } else {
+        this.visible = true
+      }
+    },
     setWidth () {
-      this.width = this.$refs.sider[this.collapsed ? 'collapsedWidth' : 'width'] + 'px'
+      if (this.isBreakPointTrigger) {
+        this.width = null
+      } else {
+        this.width = this.$refs.sider[this.collapsed ? 'collapsedWidth' : 'width'] + 'px'
+      }
     },
   },
 }
