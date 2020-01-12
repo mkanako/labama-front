@@ -1,16 +1,24 @@
 import Vue from 'vue'
-import VueUploader from './Uploader'
+import Uploader from './Uploader'
+import { ConfigProvider } from 'ant-design-vue'
 
 const instance = {}
 
-const getInstance = name => {
-  if (!instance[name]) {
-    instance[name] = new (Vue.extend(VueUploader))({
-      el: document.createElement('div')
+const getInstance = type => {
+  if (!instance[type]) {
+    instance[type] = new Vue({
+      el: document.createElement('div'),
+      render () {
+        return (
+          <ConfigProvider autoInsertSpaceInButton={false}>
+            <Uploader ref="uploader"/>
+          </ConfigProvider>
+        )
+      }
     })
-    document.body.appendChild(instance[name].$el)
+    document.body.appendChild(instance[type].$el)
   }
-  return instance[name]
+  return instance[type]
 }
 
 export default function (callback, option = {}) {
@@ -18,5 +26,5 @@ export default function (callback, option = {}) {
     multiple: false,
     type: 'image',
   }, option)
-  getInstance(opt.type).open(callback, opt)
+  getInstance(opt.type).$refs.uploader.open(callback, opt)
 }

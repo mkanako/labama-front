@@ -1,10 +1,12 @@
 <template>
-  <div class="media-input">
+  <div
+    class="media-input"
+    spellcheck="false"
+  >
     <a-input
       v-bind="$attrs"
       :value="input"
       @change="handleChange"
-      spellcheck="false"
     >
       <template v-slot:addonBefore>
         <a-icon
@@ -13,15 +15,15 @@
         />
       </template>
       <template v-slot:addonAfter>
-        <a-button @click="choose">
+        <span @click="choose">
           选择音频文件
-        </a-button>
+        </span>
       </template>
     </a-input>
   </div>
 </template>
 <script>
-import { tomedia } from '@/utils'
+import { attachUrl } from '@/utils'
 import Uploader from './Uploader'
 import { play, pause, playStatus } from '@/store/modules/AudioInputPlayer'
 
@@ -73,7 +75,7 @@ export default {
   computed: {
     playIcon: playStatus(status => status === 'paused' ? 'play-circle' : 'pause-circle'),
     src () {
-      return tomedia(this.input)
+      return attachUrl(this.input)
     }
   },
 }

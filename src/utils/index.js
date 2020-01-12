@@ -1,4 +1,4 @@
-export function tomedia (src) {
+export function attachUrl (src) {
   if (!src) {
     return ''
   }

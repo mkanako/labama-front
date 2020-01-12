@@ -126,8 +126,6 @@
 import { Upload } from 'ant-design-vue'
 import loading from '@/components/Loading'
 
-let loadingInstance
-
 export default {
   name: 'Uploader',
   components: {
@@ -182,16 +180,20 @@ export default {
       return this.option.type === 'image' ? ('url(' + item.url + ')') : 'none'
     },
     beforeUpload () {
-      loadingInstance = loading()
+      loading()
     },
     handleChange (info) {
       if (info.file.status !== 'uploading') {
-        loadingInstance && loadingInstance.close()
+        loading.close()
       }
       if (info.file.status === 'done') {
-        this.$succ('上传成功')
-        this.pagination.page = 1
-        this.getResList()
+        if (info.file.response.code === 0) {
+          this.$succ('上传成功')
+          this.pagination.page = 1
+          this.getResList()
+        } else {
+          this.$err(info.file.response.msg)
+        }
       } else if (info.file.status === 'error') {
         this.$err(`${info.file.name} file upload failed.`)
       }
@@ -213,27 +215,22 @@ export default {
     handleRemove (item) {
       this.$confirm({
         title: '提示',
-        content: '删除后台不可恢复，确认删除吗？',
+        content: '删除后不可恢复，确认删除吗？',
         okType: 'danger',
-        okButtonProps: {
-          props: { size: 'small' },
-        },
-        cancelButtonProps: {
-          props: { size: 'small' },
-        },
         centered: true,
         onOk: (close) => {
-          this.$http.delete(`attachment/${item.id}`).then(resp => {
-            this.$succ('删除成功')
-            if (this.selectList[item.id]) {
-              this.$delete(this.selectList, item.id)
-            }
-            if (this.resList.length <= 1) {
-              this.pagination.page = Math.max(1, this.pagination.page - 1)
-            }
-            this.getResList()
-            close()
-          })
+          this.$http.delete(`attachment/${item.id}`)
+            .then(resp => {
+              this.$succ('删除成功')
+              if (this.selectList[item.id]) {
+                this.$delete(this.selectList, item.id)
+              }
+              if (this.resList.length <= 1) {
+                this.pagination.page = Math.max(1, this.pagination.page - 1)
+              }
+              this.getResList()
+            })
+            .finally(() => close())
         }
       })
     },
@@ -311,6 +308,8 @@ export default {
   }
   .ant-modal-footer{
     border: none;
+    padding-bottom: 20px;
+    padding-top: 0;
   }
   .ant-modal-body{
     padding: 0 16px 16px 16px;

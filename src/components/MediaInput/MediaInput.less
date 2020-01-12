@@ -1,14 +1,17 @@
+@import "~@/styles/var";
+
 .media-input{
-  .ant-input-group-addon:first-child i{
+  .ant-input-group-addon{
+    line-height: unset;
+    color: @input-color;
+    background-color: @input-addon-bg;
+    border-color: @input-border-color;
     cursor: pointer;
-  }
-  .ant-input-group-addon:nth-of-type(2){
-    padding:0;
-    border:none;
-    button{
-      line-height: 100%;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
+    &:last-child{
+      background-color: #fff;
+      span:hover{
+        color: fade(@black, 75%);
+      }
     }
   }
 }

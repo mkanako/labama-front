@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <a-input-search
+  <div
+    class="media-input"
+    spellcheck="false"
+  >
+    <a-input
       v-bind="$attrs"
       @change="handleChange"
-      @search="choose"
       disabled
       placeholder="可选多张"
     >
-      <template v-slot:enterButton>
-        <a-button icon="picture">
+      <template v-slot:addonAfter>
+        <span @click="choose">
+          <a-icon type="picture" />
           选择图片文件
-        </a-button>
+        </span>
       </template>
-    </a-input-search>
+    </a-input>
     <div
       class="img-input-preview"
       v-show="input.length>0"
@@ -23,7 +26,7 @@
       >
         <img
           @error="imgLoadErr($event)"
-          :src="tomedia(item)"
+          :src="attachUrl(item)"
           @dblclick="handleDbclick(index)"
         >
         <a-icon
@@ -35,7 +38,7 @@
   </div>
 </template>
 <script>
-import { tomedia } from '@/utils'
+import { attachUrl } from '@/utils'
 import Uploader from './Uploader'
 import loadImageError from './image-error.svg'
 
@@ -59,7 +62,7 @@ export default {
     },
   },
   methods: {
-    tomedia,
+    attachUrl,
     choose () {
       Uploader(ret => {
         if (ret.length) {

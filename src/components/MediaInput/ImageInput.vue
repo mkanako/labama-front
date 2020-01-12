@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <a-input-search
+  <div
+    class="media-input"
+    spellcheck="false"
+  >
+    <a-input
       v-bind="$attrs"
       :value="input"
       @change="handleChange"
-      @search="choose"
-      spellcheck="false"
     >
-      <template v-slot:enterButton>
-        <a-button icon="picture">
+      <template v-slot:addonAfter>
+        <span @click="choose">
+          <a-icon type="picture" />
           选择图片文件
-        </a-button>
+        </span>
       </template>
-    </a-input-search>
+    </a-input>
     <div
       class="img-input-preview"
       v-show="value"
@@ -31,7 +33,7 @@
   </div>
 </template>
 <script>
-import { tomedia } from '@/utils'
+import { attachUrl } from '@/utils'
 import Uploader from './Uploader'
 import loadImageError from './image-error.svg'
 
@@ -77,7 +79,7 @@ export default {
   },
   computed: {
     src () {
-      return tomedia(this.input)
+      return attachUrl(this.input)
     },
   },
 }
