@@ -16,7 +16,7 @@
       </template>
     </a-input>
     <div
-      class="img-input-preview"
+      class="img-preview"
       v-show="value"
     >
       <div>

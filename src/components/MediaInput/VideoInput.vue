@@ -22,7 +22,7 @@
     </a-input>
     <a-modal
       :after-close="handleClose"
-      wrap-class-name="video-input-preview"
+      wrap-class-name="video-preview"
       v-model="dialogVisible"
       :footer="null"
     >
@@ -89,7 +89,7 @@ export default {
 <style lang="less">
 @import './MediaInput.less';
 
-.video-input-preview{
+.media-input .video-preview{
   .ant-modal-body{
     padding: 0;
     line-height: 0;
