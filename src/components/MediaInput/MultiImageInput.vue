@@ -40,7 +40,7 @@
 <script>
 import { attachUrl } from '@/utils'
 import Uploader from './Uploader'
-import loadImageError from './image-error.svg'
+import loadImageError from './icons/image-error.svg'
 
 export default {
   name: 'MultiImageInput',

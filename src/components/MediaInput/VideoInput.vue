@@ -15,6 +15,7 @@
         />
       </template>
       <template v-slot:addonAfter>
+        <a-icon :component="videoIcon" />
         <span @click="choose">
           选择视频文件
         </span>
@@ -22,9 +23,10 @@
     </a-input>
     <a-modal
       :after-close="handleClose"
-      wrap-class-name="video-preview"
+      wrap-class-name="media-input-video-preview"
       v-model="dialogVisible"
       :footer="null"
+      centered
     >
       <video
         ref="video"
@@ -37,6 +39,7 @@
 <script>
 import { attachUrl } from '@/utils'
 import Uploader from './Uploader'
+import videoIcon from './icons/video.svg?component'
 
 export default {
   name: 'VideoInput',
@@ -51,6 +54,7 @@ export default {
     return {
       input: this.value,
       dialogVisible: false,
+      videoIcon,
     }
   },
   watch: {
@@ -77,7 +81,7 @@ export default {
     },
     handleClose () {
       this.$refs.video.pause()
-    }
+    },
   },
   computed: {
     src () {
@@ -89,7 +93,7 @@ export default {
 <style lang="less">
 @import './MediaInput.less';
 
-.media-input .video-preview{
+.media-input-video-preview{
   .ant-modal-body{
     padding: 0;
     line-height: 0;
@@ -97,6 +101,7 @@ export default {
   video{
     width:100%;
     outline:none;
+    max-height: 95vh;
   }
 }
 </style>

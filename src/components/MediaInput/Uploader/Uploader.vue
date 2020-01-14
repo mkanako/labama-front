@@ -5,6 +5,7 @@
     wrap-class-name="uploader-dialog"
     :footer="option.multiple?undefined:null"
     @ok="handleConfirm"
+    centered
   >
     <template v-slot:title>
       <a-upload
@@ -84,11 +85,11 @@
         >
           <img
             v-if="option.type=='audio'"
-            src="./audio.svg"
+            src="./icons/audio.svg"
           >
           <img
             v-if="option.type=='video'"
-            src="./video.svg"
+            src="./icons/video.svg"
           >
         </div>
         <div class="title">
@@ -108,7 +109,7 @@
         v-if="!resList.length"
         style="text-align: center;padding-bottom: 20px;"
       >
-        <img src="./no-data.svg">
+        <img src="./icons/no-data.svg">
         <div>暂无{{ option.text }}</div>
       </div>
     </div>

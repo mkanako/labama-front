@@ -15,6 +15,7 @@
         />
       </template>
       <template v-slot:addonAfter>
+        <a-icon :component="audioIcon" />
         <span @click="choose">
           选择音频文件
         </span>
@@ -26,6 +27,7 @@
 import { attachUrl } from '@/utils'
 import Uploader from './Uploader'
 import { play, pause, playStatus } from '@/store/modules/AudioInputPlayer'
+import audioIcon from './icons/audio.svg?component'
 
 export default {
   name: 'AudioInput',
@@ -38,7 +40,8 @@ export default {
   },
   data () {
     return {
-      input: this.value
+      input: this.value,
+      audioIcon,
     }
   },
   beforeDestroy () {
