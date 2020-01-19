@@ -162,8 +162,6 @@ export default {
       return process.env.VUE_APP_API_BASE_URL + '/attachment'
     }
   },
-  mounted () {
-  },
   watch: {
     filter: {
       handler () {
@@ -173,7 +171,13 @@ export default {
       deep: true
     },
     dialogVisible (val) {
-      val ? this.handleOpen() : this.handleClose()
+      if (val) {
+        setTimeout(() => {
+          this.handleOpen()
+        }, 200)
+      } else {
+        this.handleClose()
+      }
     },
   },
   methods: {
