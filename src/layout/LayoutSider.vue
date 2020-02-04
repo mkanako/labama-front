@@ -10,6 +10,7 @@
       :collapsed="collapsed"
       :trigger="null"
       ref="sider"
+      @hook:mounted="setWidth"
     >
       <Logo />
       <LayoutSiderMenu />
@@ -41,11 +42,6 @@ export default {
     ...mapState({
       collapsed: state => !state.app.sidebar,
     }),
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.setWidth()
-    })
   },
   methods: {
     setWidth () {
