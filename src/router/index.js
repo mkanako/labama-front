@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import defaultRoutes from './defaultRoutes'
+import defaultRoutes, { Page404 } from './defaultRoutes'
 import dynamicRoutes from './dynamicRoutes'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -9,19 +9,17 @@ import store from '@/store'
 
 Vue.use(Router)
 
-if (process.env.NODE_ENV === 'development') {
-  dynamicRoutes.push(
-    {
-      path: '/test',
-      meta: { title: 'test', icon: 'warning', },
-      children: [
-        {
-          path: '',
-          name: 'test',
-          component: () => import('@/views/Test'),
-        },
-      ]
-    })
+function addExtraRoutes (routes) {
+  if (process.env.NODE_ENV === 'development') {
+    const { PageTest } = require('./defaultRoutes')
+    routes.push(PageTest)
+  }
+  routes.push(Page404)
+  routes.forEach(item => {
+    if (!item.component) {
+      item.component = Layout
+    }
+  })
 }
 
 const router = new Router({
@@ -38,17 +36,9 @@ const router = new Router({
 })
 
 export function GenerateRoutes (routeList) {
-  const routes = dynamicRoutes
-  routes.push({
-    path: '*',
-    name: 'Page404',
-    component: () => import('@/views/exception/404'),
-  })
-  routes.forEach(item => {
-    if (!item.component) {
-      item.component = Layout
-    }
-  })
+  const routes = dynamicRoutes.slice(0)
+
+  addExtraRoutes(routes)
   router.addRoutes(routes)
   store.dispatch('GenerateMenus', routes)
 }
