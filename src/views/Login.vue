@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
     <div class="text-center mb-40">
-      <div class="h-40 leading-40">
+      <div class="h-40 leading-none">
         <img
           src="@/assets/logo.svg"
-          class="h-full mr-16 align-top"
+          class="h-full mr-16"
         >
-        <span class="text-32 text-black font-semibold">{{ $store.getters.title }}</span>
+        <span class="text-32 text-black font-semibold  align-middle">{{ $store.getters.title }}</span>
       </div>
       <div class="mt-12 text-grey-6">
         &nbsp;
@@ -93,10 +93,10 @@ export default {
         if (!err) {
           login(values).then(() => {
             this.$store.commit('SET_NAME', values.username)
+            this.$succ('登录成功')
             setTimeout(() => {
-              this.$succ('登录成功')
               this.$router.replace({ path: '/' })
-            }, 500)
+            }, 300)
           }).catch(() => {
             setTimeout(() => {
               this.logining = false
