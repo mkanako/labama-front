@@ -26,7 +26,8 @@
 <script>
 import LayoutSiderMenu from './LayoutSiderMenu'
 import Logo from './Logo'
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
+import mixin from './mixin'
 
 export default {
   name: 'LayoutSider',
@@ -34,6 +35,7 @@ export default {
     LayoutSiderMenu,
     Logo,
   },
+  mixins: [mixin],
   data () {
     return {
       width: 0,
@@ -48,11 +50,6 @@ export default {
         this.visible = !val
       }
     },
-  },
-  computed: {
-    ...mapState({
-      collapsed: state => !state.app.sidebar,
-    }),
   },
   methods: {
     ...mapMutations(['CLOSE_SIDEBAR']),

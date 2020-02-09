@@ -1,6 +1,6 @@
 import { Menu, Icon } from 'ant-design-vue'
-import { mapState } from 'vuex'
 import { pick } from 'ramda'
+import mixin from './mixin'
 
 const { Item, SubMenu } = Menu
 const menus = []
@@ -38,13 +38,11 @@ export default {
       menus,
     }
   },
+  mixins: [mixin],
   computed: {
     rootSubmenuKeys () {
       return this.menus.map(item => item.path)
     },
-    ...mapState({
-      collapsed: state => !state.app.sidebar,
-    }),
   },
   mounted () {
     this.updateState()

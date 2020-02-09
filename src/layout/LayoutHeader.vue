@@ -9,19 +9,16 @@
   </a-layout-header>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 import LayoutHeaderRight from './LayoutHeaderRight'
+import mixin from './mixin'
 
 export default {
   name: 'LayoutHeader',
   components: {
     LayoutHeaderRight,
   },
-  computed: {
-    ...mapState({
-      collapsed: state => !state.app.sidebar,
-    }),
-  },
+  mixins: [mixin],
   methods: {
     ...mapMutations(['TOGGLE_SIDEBAR'])
   },
