@@ -4,8 +4,10 @@ const state = {
   sidebar: true,
 }
 
-const app = {
+export default {
+  name: 'app',
   state,
+  persistState: ['sidebar'],
   getters: {
     title: () => title,
   },
@@ -21,7 +23,3 @@ const app = {
     },
   }
 }
-
-export const appPersistState = ['sidebar'].map(key => `app.${key}`)
-
-export default app
