@@ -1,7 +1,31 @@
 import { Menu, Icon } from 'ant-design-vue'
 import { mapState } from 'vuex'
+import { pick } from 'ramda'
 
 const { Item, SubMenu } = Menu
+const menus = []
+
+export function GenerateMenus (routes) {
+  const pickUp = arr => arr.map(item => {
+    item = pick(['path', 'meta', 'children'], item)
+    if (item.children) {
+      if (item.children.length === 0) {
+        delete item.children
+      } else {
+        item.children = pickUp(item.children)
+      }
+    }
+    return item
+  })
+  const filter = arr => arr.filter(item => {
+    const ret = item.path !== '*' && item.meta && item.meta.title && !item.meta.hide
+    if (ret && item.children) {
+      item.children = filter(item.children)
+    }
+    return ret
+  })
+  menus.push(...pickUp(filter(routes)))
+}
 
 export default {
   name: 'LayoutSiderMenu',
@@ -11,6 +35,7 @@ export default {
       openKeysCopy: [],
       selectedKeys: [],
       isClickTrigger: false,
+      menus,
     }
   },
   computed: {
@@ -18,7 +43,6 @@ export default {
       return this.menus.map(item => item.path)
     },
     ...mapState({
-      menus: state => state.app.menus,
       collapsed: state => !state.app.sidebar,
     }),
   },

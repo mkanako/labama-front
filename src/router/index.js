@@ -5,7 +5,7 @@ import dynamicRoutes from './dynamicRoutes'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Layout from '@/layout'
-import store from '@/store'
+import { GenerateMenus } from '@/layout/LayoutSiderMenu'
 
 Vue.use(Router)
 
@@ -40,7 +40,7 @@ export function GenerateRoutes (routeList) {
 
   addExtraRoutes(routes)
   router.addRoutes(routes)
-  store.dispatch('GenerateMenus', routes)
+  GenerateMenus(routes)
 }
 
 export default router
