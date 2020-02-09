@@ -15,13 +15,13 @@ export default [
         path: 'page1',
         name: 'page1',
         meta: { title: '页面1' },
-        component: () => import('@/views/Test')
+        component: () => import('@/views/Test.dev')
       },
       {
         path: 'page2',
         name: 'page2',
         meta: { title: '页面2' },
-        component: () => import('@/views/Test')
+        component: () => import('@/views/Test.dev')
       },
       {
         path: 'https://www.baidu.com/',

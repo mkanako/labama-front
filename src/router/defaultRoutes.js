@@ -15,13 +15,13 @@ export const Page404 = {
 }
 
 export const PageTest = {
-  path: '/test',
-  meta: { title: 'test', icon: 'warning' },
+  path: '/testdev',
+  meta: { title: '开发测试', icon: 'warning' },
   children: [
     {
       path: '',
-      name: 'test',
-      component: () => import('@/views/Test'),
+      name: 'TestDev',
+      component: () => import('@/views/Test.dev'),
     },
   ]
 }

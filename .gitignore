@@ -19,5 +19,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
-src/views/Test.vue
+src/views/Test.dev.vue
 package-lock.json

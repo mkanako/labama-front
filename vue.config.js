@@ -1,5 +1,10 @@
 const { IgnorePlugin } = require('webpack')
 const WebpackNotifierPlugin = require('./webpack-notifier-plugin')
+const fs = require('fs-extra')
+
+if (process.env.NODE_ENV === 'development' && !fs.existsSync('./src/views/Test.dev.vue')) {
+  fs.copyFileSync('./public/Test.dev.vue', './src/views/Test.dev.vue')
+}
 
 const webpackConfig = {
   configureWebpack: {
@@ -11,6 +16,11 @@ const webpackConfig = {
   chainWebpack: config => {
     config.resolve.alias
       .set('@root', __dirname)
+
+    config.plugin('copy').tap(args => {
+      args[0][0].ignore.push('Test.dev.vue')
+      return args
+    })
 
     config.module.rule('svg')
       .uses
