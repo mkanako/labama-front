@@ -99,18 +99,18 @@ Vue
 
 Vue.config.productionTip = false
 
-Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification
-Vue.prototype.$info = Modal.info
-Vue.prototype.$success = Modal.success
-Vue.prototype.$error = Modal.error
-Vue.prototype.$warning = Modal.warning
 Vue.prototype.$http = http
 Vue.prototype.$prompt = prompt
 Vue.prototype.$loading = loading
 Vue.prototype.$succ = (text = '操作成功') => message.success(text, 1)
 Vue.prototype.$err = (text = '错误') => message.error(text)
+;['confirm', 'error', 'info', 'success', 'warning'].forEach(method => {
+  Vue.prototype[`$${method}`] = function (config) {
+    return Modal[method](Object.assign({}, { parentContext: this }, config))
+  }
+})
 
 new Vue({
   router,
