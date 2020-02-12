@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="media-input"
-    spellcheck="false"
-  >
+  <div class="media-input">
     <a-input
       v-bind="$attrs"
       :value="input"
       @change="handleChange"
+      spellcheck="false"
     >
       <template v-slot:addonAfter>
         <span @click="choose">

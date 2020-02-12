@@ -1,13 +1,11 @@
 <template>
-  <div
-    class="media-input"
-    spellcheck="false"
-  >
+  <div class="media-input">
     <a-input
       v-bind="$attrs"
       @change="handleChange"
       disabled
       placeholder="可选多张"
+      spellcheck="false"
     >
       <template v-slot:addonAfter>
         <span @click="choose">
