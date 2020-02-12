@@ -12,7 +12,7 @@ export default function (option = {}) {
   }
   return new Promise((resolve, reject) => {
     Modal.confirm(Object.assign(option, {
-      class: 'ant-modal-prompt',
+      class: 'modal-prompt',
       parentContext: this,
       content: h => <a-input {...{ props: data, on: { change: handleChange }, attrs: { spellcheck: false } }} />,
       onOk () {
