@@ -2,6 +2,7 @@ import axios from 'axios'
 import { message } from 'ant-design-vue'
 import loading from '@/components/Loading'
 import router from '@/router'
+import store from '@/store'
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -13,6 +14,9 @@ http.interceptors.request.use(config => {
   if (config.showLoading !== false) {
     loading()
   }
+  if (store.state.account.token) {
+    config.headers.Authorization = store.state.account.token
+  }
   return config
 })
 
@@ -20,6 +24,9 @@ http.interceptors.response.use(
   response => {
     if (response.config.showLoading !== false) {
       loading.close()
+    }
+    if (response.headers.authorization) {
+      store.commit('SET_TOKEN', response.headers.authorization)
     }
     if (response.data && typeof response.data === 'object') {
       switch (response.data.code) {

@@ -36,5 +36,4 @@ export function changePassword (param) {
 export function logout () {
   return http.get('logout')
     .then(() => router.replace({ name: 'login' }))
-    .then(() => window.location.reload())
 }

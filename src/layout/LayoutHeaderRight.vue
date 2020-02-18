@@ -129,7 +129,10 @@ export default {
         title: '提示',
         content: '确定要退出登录吗?',
         onOk: () => {
-          logout()
+          logout().then(() => {
+            this.$store.commit('SET_TOKEN', '')
+            window.location.reload()
+          })
         },
       })
     }
