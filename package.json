@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "lint:style": "stylelint \"src/**/*.{vue,less}\" --fix",
     "inspect": "output='webpack.config.js';ramdisk='/Volumes/ramdisk/';if [[ -e $ramdisk ]];then output=\"$ramdisk$output\";else output=\"$(pwd)/$output\";fi;(printf \"module.exports =\"&&vue-cli-service inspect --mode production) > $output && echo $output",
     "inspect:dev": "output='webpack.config.js';ramdisk='/Volumes/ramdisk/';if [[ -e $ramdisk ]];then output=\"$ramdisk$output\";else output=\"$(pwd)/$output\";fi;(printf \"module.exports =\"&&vue-cli-service inspect) > $output && echo $output",
     "ram-cache": "result=$(node -e 'const fs=require(\"fs-extra\");const RAM_DISK=\"/Volumes/ramdisk/\";const DIR=RAM_DISK+process.env.npm_package_name;fs.existsSync(RAM_DISK)&&(fs.ensureDirSync(DIR),console.log(DIR))') && if [ ! -z $result ]; then bindfs $result node_modules/.cache; fi",
@@ -41,6 +42,8 @@
     "inline-svgo-loader": "^3.0.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "stylelint": "^13.2.1",
+    "stylelint-config-standard": "^20.0.0",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.11"
   },

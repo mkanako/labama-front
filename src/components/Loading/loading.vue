@@ -29,7 +29,7 @@ export default {
 }
 </script>
 <style lang="less">
-.loading-mask{
+.loading-mask {
   position: fixed;
   top: 0;
   left: 0;
@@ -37,7 +37,8 @@ export default {
   width: 100%;
   text-align: center;
   z-index: 2000;
-  .ant-spin{
+
+  .ant-spin {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);

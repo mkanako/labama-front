@@ -3,8 +3,10 @@
 
 #app {
   height: 100%;
+
   .layout-sider-wrapper {
     transition: all 0.2s;
+
     .layout-sider-mask {
       position: fixed;
       width: 100%;
@@ -15,12 +17,14 @@
       top: 0;
       z-index: @layout-header-zIndex + 1;
     }
+
     .ant-layout-sider {
       overflow: auto;
       height: 100%;
       position: fixed;
       left: 0;
       z-index: @layout-header-zIndex + 1;
+
       .logo {
         display: block;
         height: 64px;
@@ -32,16 +36,19 @@
         overflow: hidden;
         text-decoration: none;
         background: #002140;
+
         img {
           width: 32px;
         }
       }
     }
   }
+
   .layout-main {
     overflow: unset;
     min-height: 100vh;
   }
+
   .ant-layout-header {
     background: @white;
     box-shadow: @box-shadow-base;
@@ -53,27 +60,34 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .sidebar-toggle {
       font-size: @font-size-lg;
+
       &:hover {
         color: @black;
       }
     }
   }
+
   .ant-layout-content {
     margin-top: 20px;
     padding: 0 20px;
     overflow: hidden;
+
     .ant-back-top {
       right: 50px;
     }
   }
+
   .ant-layout-footer {
     text-align: center;
     color: @text-color-secondary;
+
     a {
       color: @text-color-secondary;
       margin: 0 20px;
+
       &:hover {
         color: @text-color;
       }

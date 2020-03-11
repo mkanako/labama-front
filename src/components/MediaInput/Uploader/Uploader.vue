@@ -107,7 +107,7 @@
       </div>
       <div
         v-if="!resList.length"
-        style="text-align: center;padding-bottom: 20px;"
+        style="text-align: center; padding-bottom: 20px;"
       >
         <img src="./icons/no-data.svg">
         <div>暂无{{ option.text }}</div>
@@ -306,20 +306,23 @@ export default {
 }
 </script>
 <style lang="less">
-.uploader-dialog{
-  .ant-modal-header{
+.uploader-dialog {
+  .ant-modal-header {
     border: none;
     padding-bottom: 10px;
   }
-  .ant-modal-footer{
+
+  .ant-modal-footer {
     border: none;
     padding-bottom: 20px;
     padding-top: 0;
   }
-  .ant-modal-body{
+
+  .ant-modal-body {
     padding: 0 16px 16px 16px;
   }
-  .ant-pagination{
+
+  .ant-pagination {
     margin-top: 10px;
     text-align: right;
   }
@@ -330,13 +333,14 @@ export default {
   //     margin: 0 5px;
   //   }
   // }
-  .res-list{
-    .item-image{
+  .res-list {
+    .item-image {
       background-color: #eee;
       background-size: contain;
       background-position: 50% 50%;
     }
-    .item-media-icon{
+
+    .item-media-icon {
       position: absolute;
       top: 0;
       left: 0;
@@ -348,7 +352,8 @@ export default {
       background-position: center;
       background-repeat: no-repeat;
       background-size: 50%;
-      img{
+
+      img {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
@@ -356,7 +361,8 @@ export default {
         height: 50%;
       }
     }
-    .item{
+
+    .item {
       cursor: pointer;
       display: inline-block;
       position: relative;
@@ -365,25 +371,30 @@ export default {
       text-align: center;
       vertical-align: middle;
       background-repeat: no-repeat;
-      &.active{
-        .mask{
+
+      &.active {
+        .mask {
           display: block;
         }
       }
-      &:hover{
+
+      &:hover {
         outline: 2px solid #1890ff;
-        .remove-btn{
+
+        .remove-btn {
           display: block;
         }
       }
-      &:before{
+
+      &::before {
         content: "";
         display: inline-block;
         padding-bottom: 100%;
-        width: .1px;
+        width: 0.1px;
         vertical-align: middle;
       }
-      .remove-btn{
+
+      .remove-btn {
         position: absolute;
         width: 24px;
         line-height: 24px;
@@ -395,14 +406,15 @@ export default {
         display: none;
         color: #fff;
       }
-      .title{
+
+      .title {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
         font-size: 12px;
         line-height: 24px;
-        background: rgba(0,0,0,.5);
+        background: rgba(0, 0, 0, 0.5);
         color: #fff;
         padding: 0 5px;
         text-align: left;
@@ -411,23 +423,25 @@ export default {
         overflow: hidden;
         white-space: nowrap;
       }
-      .mask{
+
+      .mask {
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
         z-index: 5;
-        background-color: rgba(0,0,0,.5);
+        background-color: rgba(0, 0, 0, 0.5);
         text-align: center;
         display: none;
-        i{
+
+        i {
           color: #fff;
           font-size: 32px;
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%,-50%);
+          transform: translate(-50%, -50%);
         }
       }
     }

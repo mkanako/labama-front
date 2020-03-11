@@ -54,11 +54,13 @@ export default {
     width: 62.5%;
     padding-right: 152px;
     zoom: 1;
+
     &::before,
     &::after {
       content: ' ';
       display: table;
     }
+
     &::after {
       clear: both;
       height: 0;
@@ -79,6 +81,7 @@ export default {
 
   .content {
     flex: auto;
+
     h1 {
       margin-bottom: 24px;
       color: #434e59;
@@ -114,6 +117,7 @@ export default {
   .exception {
     display: block;
     text-align: center;
+
     .imgBlock {
       margin: 0 auto 24px;
       padding-right: 0;

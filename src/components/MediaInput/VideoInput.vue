@@ -91,14 +91,15 @@ export default {
 <style lang="less">
 @import './MediaInput.less';
 
-.media-input-video-preview{
-  .ant-modal-body{
+.media-input-video-preview {
+  .ant-modal-body {
     padding: 0;
     line-height: 0;
   }
-  video{
-    width:100%;
-    outline:none;
+
+  video {
+    width: 100%;
+    outline: none;
     max-height: 95vh;
   }
 }
