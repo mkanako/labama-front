@@ -32,11 +32,10 @@ function notifier (msg, url = null) {
     args.push('-open')
     args.push(url)
   }
-  const cp = spawn('terminal-notifier', args, {
+  spawn('terminal-notifier', args, {
     stdio: 'ignore',
     detached: true,
-  })
-  cp.unref()
+  }).unref()
 }
 
 class WebpackNotifierPlugin {
