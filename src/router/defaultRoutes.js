@@ -11,7 +11,8 @@ export default [
 export const Page404 = {
   path: '*',
   name: 'Page404',
-  component: () => import('@/views/exception/404'),
+  component: () => import('@/views/exception'),
+  props: { type: 404 },
 }
 
 export const PageTest = {

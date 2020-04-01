@@ -14,13 +14,17 @@ export default function (option = {}) {
     Modal.confirm(Object.assign(option, {
       class: 'modal-prompt',
       parentContext: this,
-      content: h => <a-input {...{ props: data, on: { change: handleChange }, attrs: { spellcheck: false } }} />,
+      content: h => <a-input {...{
+        props: data,
+        on: { change: handleChange },
+        attrs: { spellcheck: false },
+      }} />,
       onOk () {
         resolve(data.value)
       },
       onCancel () {
         reject(Error('onCancel'))
-      }
+      },
     }))
   })
 }

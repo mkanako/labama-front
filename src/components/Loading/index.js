@@ -1,44 +1,20 @@
 import Vue from 'vue'
-import loadingVue from './loading'
-
-const LoadingConstructor = Vue.extend(loadingVue)
-
-const defaultOptions = {
-  tip: '',
-  background: 'rgba(0, 0, 0, 0)',
-}
+import Loading from './Loading'
 
 let instance
 
-LoadingConstructor.prototype.close = function () {
-  this.visible = false
+export default {
+  open (...args) {
+    if (!instance) {
+      const LoadingComponent = Vue.extend(Loading)
+      instance = new LoadingComponent({
+        el: document.createElement('div'),
+      })
+      document.body.appendChild(instance.$el)
+    }
+    instance.open(...args)
+  },
+  close () {
+    instance && instance.close()
+  },
 }
-
-const Loading = (options = {}) => {
-  if (Vue.prototype.$isServer) return
-  options = Object.assign({}, defaultOptions, options)
-  if (instance) {
-    Object.keys(defaultOptions).forEach(key => {
-      instance[key] = options[key]
-    })
-    Vue.nextTick(() => {
-      instance.visible = true
-    })
-    return instance
-  }
-  instance = new LoadingConstructor({
-    el: document.createElement('div'),
-    data: options
-  })
-  document.body.appendChild(instance.$el)
-  Vue.nextTick(() => {
-    instance.visible = true
-  })
-  return instance
-}
-
-Loading.close = function () {
-  instance && instance.close()
-}
-
-export default Loading

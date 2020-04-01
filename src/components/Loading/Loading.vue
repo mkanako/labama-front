@@ -6,7 +6,7 @@
   >
     <a-spin
       :tip="tip"
-      size="large"
+      :size="size"
     >
       <template v-slot:indicator>
         <a-icon
@@ -18,14 +18,33 @@
   </div>
 </template>
 <script>
+const defaultOptions = {
+  size: 'large',
+  background: 'rgba(0, 0, 0, 0)',
+}
+
 export default {
+  name: 'Loading',
   data () {
     return {
-      tip: '',
       visible: false,
-      background: null,
+      tip: '',
+      ...defaultOptions,
     }
   },
+  methods: {
+    close () {
+      this.visible = false
+    },
+    open (tip = '', options = {}) {
+      options = Object.assign({}, defaultOptions, options)
+      Object.keys(defaultOptions).forEach(key => {
+        this[key] = options[key]
+      })
+      this.tip = tip
+      this.visible = true
+    }
+  }
 }
 </script>
 <style lang="less">

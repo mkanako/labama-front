@@ -2,9 +2,11 @@
   <div class="media-input">
     <a-input
       v-bind="$attrs"
-      :value="input"
+      :value="stateValue"
       @change="handleChange"
       spellcheck="false"
+      allow-clear
+      @blur="$emit('blur')"
     >
       <template v-slot:addonBefore>
         <a-icon
@@ -50,14 +52,14 @@ export default {
   },
   data () {
     return {
-      input: this.value,
+      stateValue: this.value,
       dialogVisible: false,
       videoIcon,
     }
   },
   watch: {
     value (val) {
-      this.input = val
+      this.stateValue = val
     },
   },
   methods: {
@@ -73,9 +75,11 @@ export default {
         this.dialogVisible = true
       }
     },
-    handleChange (val) {
-      this.input = val
-      this.$emit('change', val)
+    handleChange (e) {
+      const val = typeof e.target !== 'undefined' ? e.target.value : e
+      this.stateValue = val
+      this.$emit('input', val)
+      this.$emit('change')
     },
     handleClose () {
       this.$refs.video.pause()
@@ -83,7 +87,7 @@ export default {
   },
   computed: {
     src () {
-      return attachUrl(this.input)
+      return attachUrl(this.stateValue)
     }
   },
 }

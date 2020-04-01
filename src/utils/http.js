@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import loading from '@/components/Loading'
+import Loading from '@/components/Loading'
 import router from '@/router'
 import store from '@/store'
 
@@ -12,7 +12,7 @@ const http = axios.create({
 
 http.interceptors.request.use(config => {
   if (config.showLoading !== false) {
-    loading()
+    Loading.open()
   }
   if (store.state.account.token) {
     config.headers.Authorization = store.state.account.token
@@ -23,7 +23,7 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(
   response => {
     if (response.config.showLoading !== false) {
-      loading.close()
+      Loading.close()
     }
     if (response.headers.authorization) {
       store.commit('SET_TOKEN', response.headers.authorization)
@@ -48,7 +48,7 @@ http.interceptors.response.use(
     return Promise.reject(response)
   },
   error => {
-    loading.close()
+    Loading.close()
     if (!axios.isCancel(error)) {
       message.error(error.message)
       console.log(error)

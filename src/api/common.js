@@ -1,6 +1,7 @@
 import http from '@/utils/http'
 import router, { GenerateRoutes } from '@/router'
 import { once } from 'ramda'
+import store from '@/store'
 
 const init = once(data => {
   if (data.routeList) {
@@ -25,8 +26,15 @@ export function sysInfo () {
 }
 
 export function login (param) {
+  store.commit('SET_NAME', param.username)
   return http.post('login', param)
     .then(resp => init(resp))
+    .then(() => {
+      setTimeout(() => {
+        router.replace({ path: '/' })
+      }, 300)
+      return Promise.resolve()
+    })
 }
 
 export function changePassword (param) {
@@ -35,5 +43,12 @@ export function changePassword (param) {
 
 export function logout () {
   return http.get('logout')
-    .then(() => router.replace({ name: 'login' }))
+    .then(() => {
+      store.commit('SET_TOKEN', '')
+      setTimeout(() => {
+        router.replace({ name: 'login' })
+          .then(() => window.location.reload())
+      }, 300)
+      return Promise.resolve()
+    })
 }

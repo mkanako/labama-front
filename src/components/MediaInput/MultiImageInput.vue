@@ -2,7 +2,6 @@
   <div class="media-input">
     <a-input
       v-bind="$attrs"
-      @change="handleChange"
       disabled
       placeholder="可选多张"
       spellcheck="false"
@@ -16,10 +15,10 @@
     </a-input>
     <div
       class="img-preview"
-      v-show="input.length>0"
+      v-show="value.length>0"
     >
       <div
-        v-for="(item, index) in input"
+        v-for="(item, index) in stateValue"
         :key="index"
       >
         <img
@@ -51,12 +50,12 @@ export default {
   },
   data () {
     return {
-      input: this.value,
+      stateValue: this.value,
     }
   },
   watch: {
     value (val) {
-      this.input = val
+      this.stateValue = val
     },
   },
   methods: {
@@ -64,25 +63,26 @@ export default {
     choose () {
       Uploader(ret => {
         if (ret.length) {
-          this.input = this.input.concat(ret)
-          this.handleChange(this.input)
+          this.stateValue = this.stateValue.concat(ret)
+          this.handleChange(this.stateValue)
         }
       }, { multiple: true })
     },
     handleRemove (index) {
-      this.input.splice(index, 1)
-      this.handleChange(this.input)
+      this.stateValue.splice(index, 1)
+      this.handleChange(this.stateValue)
     },
     handleChange (val) {
-      this.$emit('change', val)
+      this.$emit('input', val)
+      this.$emit('change')
     },
     handleDbclick (index) {
       this.$prompt({
-        initVal: this.input[index]
+        initVal: this.stateValue[index]
       }).then(val => {
         if (val) {
-          this.$set(this.input, index, val)
-          this.handleChange(this.input)
+          this.$set(this.stateValue, index, val)
+          this.handleChange(this.stateValue)
         }
       })
     },

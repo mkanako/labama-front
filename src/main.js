@@ -14,22 +14,23 @@ import {
   Drawer,
   Dropdown,
   Empty,
-  Form,
+  FormModel,
   Icon,
   Input,
   InputNumber,
   Layout,
   List,
-  LocaleProvider,
   Menu,
   message,
   Modal,
   notification,
+  PageHeader,
   Pagination,
   Popconfirm,
   Popover,
   Progress,
   Radio,
+  Result,
   Row,
   Select,
   Slider,
@@ -71,21 +72,22 @@ Vue
   .use(Drawer)
   .use(Dropdown)
   .use(Empty)
-  .use(Form)
+  .use(FormModel)
   .use(Icon)
   .use(Input)
   .use(InputNumber)
   .use(Layout)
   .use(List)
-  .use(LocaleProvider)
   .use(Menu)
   .use(Modal)
   .use(notification)
+  .use(PageHeader)
   .use(Pagination)
   .use(Popconfirm)
   .use(Popover)
   .use(Progress)
   .use(Radio)
+  .use(Result)
   .use(Row)
   .use(Select)
   .use(Slider)

@@ -14,7 +14,7 @@
           <a-icon
             class="text-10"
             type="down"
-            :rotate="dropdownVisible?180:0"
+            :rotate="dropdownVisible ? 180 : 0"
           />
         </span>
       </span>
@@ -39,54 +39,73 @@
       width="400px"
       :body-style="{padding:'14px 24px 0'}"
     >
-      <a-form :form="form">
-        <a-form-item>
+      <a-form-model
+        :model="form"
+        :rules="rules"
+        ref="form"
+      >
+        <a-form-model-item prop="password">
           <a-input-password
+            v-model="form.password"
             autocomplete="false"
             placeholder="新密码，至少6位"
-            v-decorator="[
-              'password',
-              {
-                validateTrigger:'blur',
-                rules: [{
-                  required: true, message: '必填',
-                }, {
-                  message: '至少6位密码',
-                  min: 6,
-                }],
-              }
-            ]"
           />
-        </a-form-item>
-        <a-form-item>
+        </a-form-model-item>
+        <a-form-model-item prop="password_confirmation">
           <a-input-password
+            v-model="form.password_confirmation"
             autocomplete="false"
             placeholder="确认密码"
-            v-decorator="[
-              'password_confirmation',
-              {
-                validateTrigger:'blur',
-                rules: [{
-                  required: true, message: '必填',
-                }, {
-                  validator: compareToFirstPassword,
-                }],
-              }
-            ]"
           />
-        </a-form-item>
-      </a-form>
+        </a-form-model-item>
+      </a-form-model>
     </a-modal>
   </div>
 </template>
 <script>
 import { changePassword, logout } from '@/api/common'
+import { genFormProp } from '@/utils'
 
 export default {
   name: 'LayoutHeaderRight',
   data () {
+    const fields = {
+      password: {
+        value: '',
+        rule: [
+          {
+            required: true,
+            message: '必填',
+          },
+          {
+            message: '至少6位密码',
+            min: 6,
+          }
+        ]
+      },
+      password_confirmation: {
+        value: '',
+        rule: [
+          {
+            required: true,
+            message: '必填',
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value && value !== this.form.password) {
+                callback(Error('两次密码不一致'))
+              } else {
+                callback()
+              }
+            },
+          }
+        ],
+      },
+    }
+    const { models: form, rules } = genFormProp(fields)
     return {
-      form: this.$form.createForm(this),
+      form,
+      rules,
       formVisible: false,
       confirmLoading: false,
       dropdownVisible: false,
@@ -96,29 +115,21 @@ export default {
     dropdownChange (visible) {
       this.dropdownVisible = visible
     },
-    compareToFirstPassword  (rule, value, callback) {
-      if (value && value !== this.form.getFieldValue('password')) {
-        callback(Error('两次密码不一致'))
-      } else {
-        callback()
-      }
-    },
     handleCancel () {
-      this.form.resetFields()
+      this.$refs.form.resetFields()
       this.confirmLoading = false
     },
     handleOk () {
-      this.form.validateFields({ force: true }, (errors, values) => {
-        if (!errors) {
+      this.$refs.form.validate(valid => {
+        if (valid) {
           this.confirmLoading = true
-          changePassword(values).then(() => {
-            this.confirmLoading = false
+          changePassword(this.form).then(() => {
             this.formVisible = false
-            this.form.resetFields()
+            this.$refs.form.resetFields()
             setTimeout(() => {
               this.$succ('密码修改成功')
-            }, 500)
-          }).catch(() => {
+            }, 300)
+          }).finally(() => {
             this.confirmLoading = false
           })
         }
@@ -128,19 +139,14 @@ export default {
       this.$confirm({
         title: '提示',
         content: '确定要退出登录吗?',
-        onOk: () => {
-          logout().then(() => {
-            this.$store.commit('SET_TOKEN', '')
-            window.location.reload()
-          })
-        },
+        onOk: () => logout(),
       })
     }
   }
 }
 </script>
 <style scoped>
-.anticon-down svg{
+.anticon-down /deep/ svg {
   transition: all 0.2s;
 }
 </style>

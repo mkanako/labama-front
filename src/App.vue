@@ -1,20 +1,17 @@
 <template>
-  <a-config-provider :auto-insert-space-in-button="false">
-    <a-locale-provider :locale="locale">
-      <div id="app">
-        <router-view />
-      </div>
-    </a-locale-provider>
-  </a-config-provider>
+  <AppConfigProvider>
+    <div id="app">
+      <router-view />
+    </div>
+  </AppConfigProvider>
 </template>
 <script>
-import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import AppConfigProvider from './AppConfigProvider'
 
 export default {
-  data () {
-    return {
-      locale: zhCN,
-    }
+  name: 'App',
+  components: {
+    AppConfigProvider,
   },
 }
 </script>

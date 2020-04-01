@@ -13,59 +13,51 @@
       </div>
     </div>
     <div class="my-0 mx-auto md:w-1/3 w-5/6">
-      <a-form
-        :form="form"
-        @submit="handleSubmit"
+      <a-form-model
+        :model="form"
+        :rules="rules"
+        ref="form"
       >
-        <a-form-item>
+        <a-form-model-item prop="username">
           <a-input
+            v-model="form.username"
             size="large"
             type="text"
             placeholder="帐户:"
             allow-clear
-            v-decorator="[
-              'username',
-              { rules: [{ required: true, message: '请输入帐户名' }], validateTrigger: 'change' }
-            ]"
           >
             <a-icon
               slot="prefix"
               type="user"
-              :style="{ color: 'rgba(0,0,0,.25)' }"
             />
           </a-input>
-        </a-form-item>
-        <a-form-item>
+        </a-form-model-item>
+        <a-form-model-item prop="password">
           <a-input-password
+            v-model="form.password"
             size="large"
             type="password"
             autocomplete="false"
             placeholder="密码:"
-            v-decorator="[
-              'password',
-              { rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur' }
-            ]"
           >
             <a-icon
               slot="prefix"
               type="lock"
-              :style="{ color: 'rgba(0,0,0,.25)' }"
             />
           </a-input-password>
-        </a-form-item>
-        <a-form-item>
+        </a-form-model-item>
+        <a-form-model-item>
           <a-button
             size="large"
             type="primary"
-            html-type="submit"
             block
             :loading="logining"
-            :disabled="logining"
+            @click="handleSubmit"
           >
             确定
           </a-button>
-        </a-form-item>
-      </a-form>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <LayoutFooter />
   </div>
@@ -73,6 +65,7 @@
 <script>
 import LayoutFooter from '@/layout/LayoutFooter'
 import { login } from '@/api/common'
+import { genFormProp } from '@/utils'
 
 export default {
   name: 'Login',
@@ -80,32 +73,42 @@ export default {
     LayoutFooter,
   },
   data () {
+    const fields = {
+      username: {
+        value: this.$store.getters.username,
+        rule: {
+          required: true,
+          message: '请输入帐户名',
+        }
+      },
+      password: {
+        value: '',
+        rule: {
+          required: true,
+          message: '请输入密码',
+        }
+      },
+    }
+    const { models: form, rules } = genFormProp(fields)
     return {
-      form: this.$form.createForm(this),
+      form,
+      rules,
       logining: false,
     }
   },
   methods: {
     handleSubmit (e) {
       e.preventDefault()
-      this.logining = true
-      this.form.validateFields(['username', 'password'], { force: true }, (err, values) => {
-        if (!err) {
-          login(values).then(() => {
-            this.$store.commit('SET_NAME', values.username)
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.logining = true
+          login(this.form).then(() => {
             this.$succ('登录成功')
-            setTimeout(() => {
-              this.$router.replace({ path: '/' })
-            }, 300)
-          }).catch(() => {
+          }).finally(() => {
             setTimeout(() => {
               this.logining = false
             }, 500)
           })
-        } else {
-          setTimeout(() => {
-            this.logining = false
-          }, 200)
         }
       })
     },
@@ -118,5 +121,9 @@ export default {
   background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
   background-size: 100%;
   padding-top: 110px;
+
+  .ant-input-prefix .anticon {
+    color: rgba(0, 0, 0, 0.25);
+  }
 }
 </style>

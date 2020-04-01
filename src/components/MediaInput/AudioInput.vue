@@ -2,9 +2,11 @@
   <div class="media-input">
     <a-input
       v-bind="$attrs"
-      :value="input"
+      :value="stateValue"
       @change="handleChange"
       spellcheck="false"
+      allow-clear
+      @blur="$emit('blur')"
     >
       <template v-slot:addonBefore>
         <a-icon
@@ -38,7 +40,7 @@ export default {
   },
   data () {
     return {
-      input: this.value,
+      stateValue: this.value,
       audioIcon,
     }
   },
@@ -60,23 +62,25 @@ export default {
         this.play(this.src)
       }
     },
-    handleChange (val) {
-      this.input = val
-      this.$emit('change', val)
+    handleChange (e) {
+      const val = typeof e.target !== 'undefined' ? e.target.value : e
+      this.stateValue = val
+      this.$emit('input', val)
+      this.$emit('change')
     },
   },
   watch: {
-    input () {
+    stateValue () {
       this.pause()
     },
     value (val) {
-      this.input = val
+      this.stateValue = val
     },
   },
   computed: {
     playIcon: playStatus(status => status === 'paused' ? 'play-circle' : 'pause-circle'),
     src () {
-      return attachUrl(this.input)
+      return attachUrl(this.stateValue)
     }
   },
 }

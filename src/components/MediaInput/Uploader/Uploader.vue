@@ -3,7 +3,7 @@
     v-model="dialogVisible"
     width="60%"
     wrap-class-name="uploader-dialog"
-    :footer="option.multiple?undefined:null"
+    :footer="option.multiple ? undefined : null"
     @ok="handleConfirm"
     centered
   >
@@ -14,6 +14,7 @@
         :accept="option.accept"
         @change="handleChange"
         :before-upload="beforeUpload"
+        :headers="{Authorization : token}"
       >
         <a-button
           icon="cloud-upload"
@@ -125,7 +126,7 @@
 </template>
 <script>
 import { Upload } from 'ant-design-vue'
-import loading from '@/components/Loading'
+import store from '@/store'
 
 export default {
   name: 'Uploader',
@@ -160,7 +161,10 @@ export default {
     // },
     uploadUrl () {
       return process.env.VUE_APP_API_BASE_URL + '/attachment'
-    }
+    },
+    token () {
+      return store.state.account.token
+    },
   },
   watch: {
     filter: {
@@ -185,11 +189,11 @@ export default {
       return this.option.type === 'image' ? ('url(' + item.url + ')') : 'none'
     },
     beforeUpload () {
-      loading()
+      this.$loading.open()
     },
     handleChange (info) {
       if (info.file.status !== 'uploading') {
-        loading.close()
+        this.$loading.close()
       }
       if (info.file.status === 'done') {
         if (info.file.response.code === 0) {
