@@ -14,7 +14,7 @@
     "tailwind": "output='output.css';ramdisk='/Volumes/ramdisk/';if [[ -e $ramdisk ]];then output=\"$ramdisk$output\";else output=\"$(pwd)/$output\";fi;tailwind build ./src/styles/tailwind.css -o $output && echo $output"
   },
   "dependencies": {
-    "ant-design-vue": "^1.5.0",
+    "ant-design-vue": "^1.5.1",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "nprogress": "^0.2.0",
@@ -27,9 +27,9 @@
     "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.3",
-    "@vue/cli-plugin-eslint": "^4.2.3",
-    "@vue/cli-service": "^4.2.3",
+    "@vue/cli-plugin-babel": "^4.3.1",
+    "@vue/cli-plugin-eslint": "^4.3.1",
+    "@vue/cli-service": "^4.3.1",
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
     "babel-plugin-import": "^1.13.0",
@@ -42,7 +42,7 @@
     "inline-svgo-loader": "^3.0.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
-    "stylelint": "^13.2.1",
+    "stylelint": "^13.3.0",
     "stylelint-config-standard": "^20.0.0",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.11"
