@@ -10,7 +10,7 @@ export function attachUrl (src) {
   return (window.attachUrl || '') + src
 }
 
-export function genFormProp (fields) {
+export function genFormProps (fields) {
   function ruleNormalized (r) {
     if (!r) {
       return

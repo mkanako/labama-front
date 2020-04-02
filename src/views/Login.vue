@@ -65,7 +65,7 @@
 <script>
 import LayoutFooter from '@/layout/LayoutFooter'
 import { login } from '@/api/common'
-import { genFormProp } from '@/utils'
+import { genFormProps } from '@/utils'
 
 export default {
   name: 'Login',
@@ -89,7 +89,7 @@ export default {
         }
       },
     }
-    const { models: form, rules } = genFormProp(fields)
+    const { models: form, rules } = genFormProps(fields)
     return {
       form,
       rules,

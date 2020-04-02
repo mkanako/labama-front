@@ -195,6 +195,12 @@ export default {
       if (info.file.status !== 'uploading') {
         this.$loading.close()
       }
+      if(info.file.xhr){
+        const token = info.file.xhr.getResponseHeader('Authorization')
+        if (token) {
+          store.commit('SET_TOKEN', token)
+        }
+      }
       if (info.file.status === 'done') {
         if (info.file.response.code === 0) {
           this.$succ('上传成功')

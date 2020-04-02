@@ -64,7 +64,7 @@
 </template>
 <script>
 import { changePassword, logout } from '@/api/common'
-import { genFormProp } from '@/utils'
+import { genFormProps } from '@/utils'
 
 export default {
   name: 'LayoutHeaderRight',
@@ -102,7 +102,7 @@ export default {
         ],
       },
     }
-    const { models: form, rules } = genFormProp(fields)
+    const { models: form, rules } = genFormProps(fields)
     return {
       form,
       rules,
