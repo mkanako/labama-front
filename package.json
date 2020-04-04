@@ -14,12 +14,14 @@
     "tailwind": "output='output.css';ramdisk='/Volumes/ramdisk/';if [[ -e $ramdisk ]];then output=\"$ramdisk$output\";else output=\"$(pwd)/$output\";fi;tailwind build ./src/styles/tailwind.css -o $output && echo $output"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^3.2.0",
     "ant-design-vue": "^1.5.1",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "nprogress": "^0.2.0",
     "ramda": "^0.27.0",
     "tailwindcss": "^1.2.0",
+    "tinymce": "^5.2.1",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.1.6",
@@ -39,6 +41,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
+    "extract-loader": "^5.0.1",
     "inline-svgo-loader": "^3.0.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",

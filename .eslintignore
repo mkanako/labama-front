@@ -1,2 +1,3 @@
 dist
 src/views/Test.dev.vue
+src/components/Tinymce/zh_CN.js
