@@ -4,7 +4,7 @@ import './style.less'
 
 export default function (option = {}) {
   const data = Vue.observable({
-    value: option.initVal || ''
+    value: option.initVal || '',
   })
   const handleChange = e => {
     const { value } = e.target

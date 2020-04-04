@@ -79,14 +79,14 @@ export default {
         rule: {
           required: true,
           message: '请输入帐户名',
-        }
+        },
       },
       password: {
         value: '',
         rule: {
           required: true,
           message: '请输入密码',
-        }
+        },
       },
     }
     const { models: form, rules } = genFormProps(fields)
@@ -112,7 +112,7 @@ export default {
         }
       })
     },
-  }
+  },
 }
 </script>
 <style lang="less">

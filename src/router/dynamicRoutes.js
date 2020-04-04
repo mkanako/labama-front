@@ -3,7 +3,7 @@ export default [
   {
     path: '/',
     name: 'index',
-    redirect: '/home'
+    redirect: '/home',
   },
   {
     path: '/home',
@@ -15,19 +15,19 @@ export default [
         path: 'page1',
         name: 'page1',
         meta: { title: '页面1' },
-        component: () => import('@/views/Test.dev')
+        component: () => import('@/views/Test.dev'),
       },
       {
         path: 'page2',
         name: 'page2',
         meta: { title: '页面2' },
-        component: () => import('@/views/Test.dev')
+        component: () => import('@/views/Test.dev'),
       },
       {
         path: 'https://www.baidu.com/',
         name: 'link',
-        meta: { title: '外链' }
+        meta: { title: '外链' },
       },
-    ]
+    ],
   },
 ]

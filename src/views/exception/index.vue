@@ -24,13 +24,13 @@ export default {
   props: {
     type: {
       type: Number,
-      default: 404
-    }
+      default: 404,
+    },
   },
   computed: {
     typeOf () {
       return types[this.type]
-    }
+    },
   },
 }
 </script>

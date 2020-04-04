@@ -21,5 +21,5 @@ export default {
     TOGGLE_SIDEBAR (state) {
       state.sidebar = !state.sidebar
     },
-  }
+  },
 }

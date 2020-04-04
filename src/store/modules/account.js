@@ -9,7 +9,7 @@ export default {
   name: 'account',
   state,
   getters: {
-    username: state => state.name
+    username: state => state.name,
   },
   mutations: {
     ...makeMutations(state),

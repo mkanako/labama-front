@@ -16,6 +16,10 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'comma-dangle': 'off',
+    'comma-dangle': ['error', 'always-multiline'],
+    'quote-props': [
+      'error',
+      'consistent-as-needed',
+    ],
   },
 }

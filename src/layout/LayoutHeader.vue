@@ -20,7 +20,7 @@ export default {
   },
   mixins: [mixin],
   methods: {
-    ...mapMutations(['TOGGLE_SIDEBAR'])
+    ...mapMutations(['TOGGLE_SIDEBAR']),
   },
 }
 </script>

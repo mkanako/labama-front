@@ -8,7 +8,7 @@ const getInstance = type => {
   if (!instances[type]) {
     instances[type] = new Vue({
       el: document.createElement('div'),
-      render: h => <AppConfigProvider><Uploader ref="uploader"/></AppConfigProvider>
+      render: h => <AppConfigProvider><Uploader ref="uploader"/></AppConfigProvider>,
     })
     document.body.appendChild(instances[type].$el)
   }

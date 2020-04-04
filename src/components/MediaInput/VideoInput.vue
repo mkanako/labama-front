@@ -88,7 +88,7 @@ export default {
   computed: {
     src () {
       return attachUrl(this.stateValue)
-    }
+    },
   },
 }
 </script>

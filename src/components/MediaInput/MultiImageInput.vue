@@ -45,8 +45,8 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data () {
     return {
@@ -78,7 +78,7 @@ export default {
     },
     handleDbclick (index) {
       this.$prompt({
-        initVal: this.stateValue[index]
+        initVal: this.stateValue[index],
       }).then(val => {
         if (val) {
           this.$set(this.stateValue, index, val)

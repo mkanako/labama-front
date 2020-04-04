@@ -121,5 +121,5 @@ new Vue({
     document.title = store.getters.title
     sysInfo()
   },
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

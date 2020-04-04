@@ -11,7 +11,7 @@ const webpackConfig = {
     plugins: [
       new IgnorePlugin(/^\.\/locale$/, /moment$/),
       new WebpackNotifierPlugin(),
-    ]
+    ],
   },
   chainWebpack: config => {
     config.resolve.alias
@@ -45,7 +45,7 @@ const webpackConfig = {
       .use('file-loader')
       .loader('file-loader')
       .options({
-        name: 'img/[name].[hash:8].[ext]'
+        name: 'img/[name].[hash:8].[ext]',
       })
   },
   css: {
@@ -56,9 +56,9 @@ const webpackConfig = {
           // 'link-color': '#F5222D',
           // 'border-radius-base': '4px'
         },
-        javascriptEnabled: true
-      }
-    }
+        javascriptEnabled: true,
+      },
+    },
   },
   devServer: {
     proxy: {
@@ -68,7 +68,7 @@ const webpackConfig = {
             target,
             changeOrigin: true,
             pathRewrite: { [`^${path}`]: '' },
-          }
+          },
         })
       )(process.env.VUE_APP_API_BASE_URL, process.env.DEV_SERVER_URL),
     },

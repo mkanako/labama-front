@@ -148,7 +148,7 @@ export default {
         total: 0,
         page: 1,
         pageSize: 10,
-      }
+      },
     }
   },
   computed: {
@@ -172,7 +172,7 @@ export default {
         this.curPage = 1
         this.getResList()
       },
-      deep: true
+      deep: true,
     },
     dialogVisible (val) {
       if (val) {
@@ -195,7 +195,7 @@ export default {
       if (info.file.status !== 'uploading') {
         this.$loading.close()
       }
-      if(info.file.xhr){
+      if (info.file.xhr) {
         const token = info.file.xhr.getResponseHeader('Authorization')
         if (token) {
           store.commit('SET_TOKEN', token)
@@ -246,7 +246,7 @@ export default {
               this.getResList()
             })
             .finally(() => close())
-        }
+        },
       })
     },
     handleSelect (item) {
@@ -277,7 +277,7 @@ export default {
         params: {
           page: this.pagination.page,
           type: this.option.type,
-        }
+        },
       }).then(resp => {
         if (resp.data) {
           this.resList = resp.data
@@ -311,8 +311,8 @@ export default {
       this.option = option
       this.callback = callback
       this.dialogVisible = true
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="less">

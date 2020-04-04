@@ -3,7 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 function getAntdColors (colors = []) {
   const { red, volcano, orange, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta, grey } = require('@ant-design/colors')
-  const antdColorsList = { red, volcano, orange, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta, grey, }
+  const antdColorsList = { red, volcano, orange, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta, grey }
   const list = {}
   colors.forEach(color => {
     if (antdColorsList[color]) {
@@ -45,7 +45,7 @@ module.exports = {
       Object
         .keys(defaultTheme.spacing)
         .filter(item => !isNaN(item))
-        .map(item => [item, item + (item > 0 ? 'px' : '')])
+        .map(item => [item, item + (item > 0 ? 'px' : '')]),
     ),
     extend: {
       fontSize: theme => theme('spacing'),
@@ -56,8 +56,8 @@ module.exports = {
     ...R.fromPairs(
       enablePlugins
         .filter(item => !['width'].includes(item))
-        .map(item => [item, []])
-    )
+        .map(item => [item, []]),
+    ),
   },
-  plugins: []
+  plugins: [],
 }

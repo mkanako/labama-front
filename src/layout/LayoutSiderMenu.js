@@ -60,7 +60,7 @@ export default {
       if (!this.isClickTrigger) {
         this.updateState()
       }
-    }
+    },
   },
   methods: {
     updateState () {
@@ -88,7 +88,7 @@ export default {
     renderIcon (icon) {
       if (icon) {
         const props = {
-          [typeof icon === 'object' ? 'component' : 'type']: icon
+          [typeof icon === 'object' ? 'component' : 'type']: icon,
         }
         return <Icon {...{ props }}/>
       } else {
@@ -113,18 +113,18 @@ export default {
             if (this.$route.path === menu.path) {
               this.$router.replace({
                 path: menu.path,
-                query: Object.assign({}, this.$route.query, { _t: +new Date() })
+                query: Object.assign({}, this.$route.query, { _t: +new Date() }),
               }).finally(() => {
                 this.isClickTrigger = false
               })
             } else {
               this.$router.push({
-                path: menu.path
+                path: menu.path,
               }).finally(() => {
                 this.isClickTrigger = false
               })
             }
-          }
+          },
         }
       }
       return <Item key={menu.path}>
@@ -149,7 +149,7 @@ export default {
           this.openKeysCopy = [item.parentMenu.eventKey]
         }
         this.selectedKeys = selectedKeys
-      }
+      },
     }
     return <Menu {...{ props, on }}>
       {this.menus.map(item => {
@@ -166,5 +166,5 @@ export default {
         }
       })}
     </Menu>
-  }
+  },
 }

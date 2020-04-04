@@ -18,7 +18,7 @@ const formatters = {
     return this
       .snake(...args)
       .toUpperCase()
-  }
+  },
 }
 
 export function makeMutations (state, parentKey = null) {
@@ -49,7 +49,7 @@ export function mapFields (state, parentKey = null) {
         },
         set (value) {
           return this.$store.commit(formatters.const('set', key), value)
-        }
+        },
       }
       return obj
     }, {})

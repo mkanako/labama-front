@@ -43,8 +43,8 @@ export default {
       })
       this.tip = tip
       this.visible = true
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="less">

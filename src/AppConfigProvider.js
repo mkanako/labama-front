@@ -8,5 +8,5 @@ const config = {
 export default {
   name: 'AppConfigProvider',
   functional: true,
-  render: (h, context) => <a-config-provider props={config}>{context.children}</a-config-provider>
+  render: (h, context) => <a-config-provider props={config}>{context.children}</a-config-provider>,
 }

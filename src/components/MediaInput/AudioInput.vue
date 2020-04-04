@@ -81,7 +81,7 @@ export default {
     playIcon: playStatus(status => status === 'paused' ? 'play-circle' : 'pause-circle'),
     src () {
       return attachUrl(this.stateValue)
-    }
+    },
   },
 }
 </script>

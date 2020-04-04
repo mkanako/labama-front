@@ -80,8 +80,8 @@ export default {
           {
             message: '至少6位密码',
             min: 6,
-          }
-        ]
+          },
+        ],
       },
       password_confirmation: {
         value: '',
@@ -98,7 +98,7 @@ export default {
                 callback()
               }
             },
-          }
+          },
         ],
       },
     }
@@ -141,8 +141,8 @@ export default {
         content: '确定要退出登录吗?',
         onOk: () => logout(),
       })
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

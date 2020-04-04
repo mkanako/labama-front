@@ -24,5 +24,5 @@ export const PageTest = {
       name: 'TestDev',
       component: () => import('@/views/Test.dev'),
     },
-  ]
+  ],
 }
