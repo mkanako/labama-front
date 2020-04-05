@@ -33,6 +33,18 @@ export function genFormProps (fields) {
       })
     } else {
       ruleNormalized(item.rule)
+      if (item.rule.required === true && item.rule.type === 'map') {
+        delete item.rule.type
+        item.rule = [item.rule, {
+          validator (rule, value, callback) {
+            if (value.lat && value.lng && value.name && value.address) {
+              callback()
+            } else {
+              callback(new Error('请选择地图位置'))
+            }
+          },
+        }]
+      }
     }
     return item.rule
   }, fields)
