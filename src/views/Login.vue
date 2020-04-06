@@ -25,6 +25,7 @@
             type="text"
             placeholder="帐户:"
             allow-clear
+            name="username"
           >
             <a-icon
               slot="prefix"
@@ -65,7 +66,7 @@
 <script>
 import LayoutFooter from '@/layout/LayoutFooter'
 import { login } from '@/api/common'
-import { genFormProps } from '@/utils'
+import generateFormProps from '@/utils/generateFormProps'
 
 export default {
   name: 'Login',
@@ -82,14 +83,13 @@ export default {
         },
       },
       password: {
-        value: '',
         rule: {
           required: true,
           message: '请输入密码',
         },
       },
     }
-    const { models: form, rules } = genFormProps(fields)
+    const { models: form, rules } = generateFormProps(fields)
     return {
       form,
       rules,

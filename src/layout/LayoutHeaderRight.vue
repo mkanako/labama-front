@@ -64,32 +64,21 @@
 </template>
 <script>
 import { changePassword, logout } from '@/api/common'
-import { genFormProps } from '@/utils'
+import generateFormProps from '@/utils/generateFormProps'
 
 export default {
   name: 'LayoutHeaderRight',
   data () {
     const fields = {
       password: {
-        value: '',
         rule: [
-          {
-            required: true,
-            message: '必填',
-          },
-          {
-            message: '至少6位密码',
-            min: 6,
-          },
+          { required: true },
+          { min: 6, message: '至少6位密码' },
         ],
       },
       password_confirmation: {
-        value: '',
         rule: [
-          {
-            required: true,
-            message: '必填',
-          },
+          { required: true },
           {
             validator: (rule, value, callback) => {
               if (value && value !== this.form.password) {
@@ -102,7 +91,7 @@ export default {
         ],
       },
     }
-    const { models: form, rules } = genFormProps(fields)
+    const { models: form, rules } = generateFormProps(fields)
     return {
       form,
       rules,
