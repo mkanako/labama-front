@@ -13,6 +13,21 @@ function ruleComplete (rule) {
           return obj
         }, {})
       }
+      if (item.type === 'region') {
+        delete item.type
+        if (!item.validator) {
+          item.validator = (rule, value) => {
+            if (value.province || value.city || value.area) {
+              return true
+            } else {
+              return false
+            }
+          }
+        }
+        if (!item.message) {
+          item.message = '请选择地区'
+        }
+      }
       if (!item.message) {
         if (item.type === 'array') {
           item.message = '必选'
