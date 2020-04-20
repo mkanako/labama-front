@@ -29,8 +29,7 @@ function getPort (data) {
 function notifier (msg, url = null) {
   const args = ['-title', 'Webpack', '-subtitle', msg]
   if (url) {
-    args.push('-open')
-    args.push(url)
+    args.push(...['-open', url])
   }
   spawn('terminal-notifier', args, {
     stdio: 'ignore',

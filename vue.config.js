@@ -1,10 +1,5 @@
 const { IgnorePlugin } = require('webpack')
-const WebpackNotifierPlugin = require('./webpack-notifier-plugin')
-const fs = require('fs-extra')
-
-if (process.env.NODE_ENV === 'development' && !fs.existsSync('./src/views/Test.dev.vue')) {
-  fs.copyFileSync('./public/Test.dev.vue', './src/views/Test.dev.vue')
-}
+const WebpackNotifierPlugin = require('./webpack/webpack-notifier-plugin')
 
 const webpackConfig = {
   configureWebpack: {
