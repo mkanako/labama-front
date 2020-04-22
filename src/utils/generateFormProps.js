@@ -28,6 +28,10 @@ function ruleComplete (rule) {
           item.message = '请选择地区'
         }
       }
+      if (item.type === 'color') {
+        delete item.type
+        item.message = '请选择颜色'
+      }
       if (!item.message) {
         if (item.type === 'array') {
           item.message = '必选'
