@@ -14,7 +14,7 @@
     </div>
     <div class="my-0 mx-auto md:w-1/3 w-5/6">
       <a-form-model
-        :model="form"
+        :model="models"
         :rules="rules"
         ref="form"
       >
@@ -89,9 +89,9 @@ export default {
         },
       },
     }
-    const { models: form, rules } = generateFormProps(fields)
+    const { models, rules } = generateFormProps(fields)
     return {
-      form,
+      models,
       rules,
       logining: false,
     }
@@ -102,7 +102,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.logining = true
-          login(this.form).then(() => {
+          login(this.models).then(() => {
             this.$succ('登录成功')
           }).finally(() => {
             setTimeout(() => {

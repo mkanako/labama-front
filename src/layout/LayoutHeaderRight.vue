@@ -40,7 +40,7 @@
       :body-style="{padding:'14px 24px 0'}"
     >
       <a-form-model
-        :model="form"
+        :model="models"
         :rules="rules"
         ref="form"
       >
@@ -81,7 +81,7 @@ export default {
           { required: true },
           {
             validator: (rule, value, callback) => {
-              if (value && value !== this.form.password) {
+              if (value && value !== this.models.password) {
                 callback(Error('两次密码不一致'))
               } else {
                 callback()
@@ -91,9 +91,9 @@ export default {
         ],
       },
     }
-    const { models: form, rules } = generateFormProps(fields)
+    const { models, rules } = generateFormProps(fields)
     return {
-      form,
+      models,
       rules,
       formVisible: false,
       confirmLoading: false,
@@ -112,7 +112,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.confirmLoading = true
-          changePassword(this.form).then(() => {
+          changePassword(this.models).then(() => {
             this.formVisible = false
             this.$refs.form.resetFields()
             setTimeout(() => {
