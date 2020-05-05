@@ -14,4 +14,8 @@ else
   output="$(pwd)/$output"
 fi
 
-(printf "/* eslint-disable */\nmodule.exports =" && vue-cli-service inspect --mode $mode) | sed -e "s/native code/\/*native code*\//g" >$output && echo $output
+set -o pipefail
+set -eu
+
+content=$(vue-cli-service inspect --mode $mode)
+printf "/* eslint-disable */\nmodule.exports =$content" | sed -e "s/\(native code\)/\/*\1*\//g" >$output && echo $output
