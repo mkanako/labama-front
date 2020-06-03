@@ -46,14 +46,14 @@
       >
         <a-form-model-item prop="password">
           <a-input-password
-            v-model="form.password"
+            v-model="models.password"
             autocomplete="false"
             placeholder="新密码，至少6位"
           />
         </a-form-model-item>
         <a-form-model-item prop="password_confirmation">
           <a-input-password
-            v-model="form.password_confirmation"
+            v-model="models.password_confirmation"
             autocomplete="false"
             placeholder="确认密码"
           />

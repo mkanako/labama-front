@@ -20,7 +20,7 @@
       >
         <a-form-model-item prop="username">
           <a-input
-            v-model="form.username"
+            v-model="models.username"
             size="large"
             type="text"
             placeholder="帐户:"
@@ -35,7 +35,7 @@
         </a-form-model-item>
         <a-form-model-item prop="password">
           <a-input-password
-            v-model="form.password"
+            v-model="models.password"
             size="large"
             type="password"
             autocomplete="false"
