@@ -1,11 +1,15 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+
 ramdisk='/Volumes/ramdisk/'
-src="node_modules/.cache"
+src='node_modules/.cache'
+
 if [[ -e $ramdisk ]]; then
   if [[ $(df -kP) =~ "$(pwd)/$src" ]]; then
     echo "'$(pwd)/$src' is mounted."
-    read -p "Do you want to umount it? (y/n)" answer
+    read -p 'Do you want to umount it? (y/n)' answer
     if [[ $answer == 'y' ]]; then
       umount $src && echo 'ok'
     fi

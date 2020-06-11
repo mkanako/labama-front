@@ -1,10 +1,15 @@
 #!/bin/bash
 
-output='output.css'
+set -o errexit
+set -o pipefail
+
+file='tailwind.css'
 ramdisk='/Volumes/ramdisk/'
+
 if [[ -e $ramdisk ]]; then
-  output="$ramdisk$output"
+  file="$ramdisk$file"
 else
-  output="$(pwd)/$output"
+  file="$(pwd)/$file"
 fi
-tailwind build ./src/styles/tailwind.css -o $output && echo $output
+
+tailwind build ./src/styles/tailwind.css -o $file && echo $file

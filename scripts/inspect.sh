@@ -1,21 +1,22 @@
 #!/bin/bash
 
-mode='production'
-if [[ $1 == 'dev' ]]; then
+set -o errexit
+set -o pipefail
+
+if [[ ${1:0:3} == 'dev' ]]; then
   mode='development'
+else
+  mode='production'
 fi
 
-output='webpack.config.js'
+file='webpack.config.js'
 ramdisk='/Volumes/ramdisk/'
 
 if [[ -e $ramdisk ]]; then
-  output="$ramdisk$output"
+  file="$ramdisk$file"
 else
-  output="$(pwd)/$output"
+  file="$(pwd)/$file"
 fi
 
-set -o pipefail
-set -eu
-
-content=$(vue-cli-service inspect --mode $mode)
-printf "/* eslint-disable */\nmodule.exports =$content" | sed -e "s/\(native code\)/\/*\1*\//g" >$output && echo $output
+output=$(vue-cli-service inspect --mode $mode)
+printf "/* eslint-disable */\nmodule.exports =$output" | sed -e "s/\(native code\)/\/*\1*\//g" >$file && echo $file
