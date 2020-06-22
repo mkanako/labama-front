@@ -45,7 +45,7 @@
     "inline-svgo-loader": "^4.0.0",
     "less": "^3.11.3",
     "less-loader": "^5.0.0",
-    "stylelint": "^13.6.0",
+    "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0",
     "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.11"
