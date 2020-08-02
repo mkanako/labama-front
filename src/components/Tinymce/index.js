@@ -2,6 +2,7 @@ import { pick, omit } from 'ramda'
 import 'tinymce/skins/ui/oxide/skin.css'
 import 'tinymce'
 import 'tinymce/themes/silver'
+import 'tinymce/icons/default'
 import './zh_CN' // https://www.tiny.cloud/get-tiny/language-packages/
 import plugins from './plugins'
 import Editor from '@tinymce/tinymce-vue'
