@@ -2,7 +2,7 @@
   <div>
     <a-dropdown
       placement="bottomRight"
-      @visibleChange="dropdownChange"
+      v-model="dropdownVisible"
     >
       <span class="cursor-pointer inline-block">
         <a-icon type="user" />
@@ -18,13 +18,22 @@
           />
         </span>
       </span>
-      <a-menu slot="overlay">
-        <a-menu-item @click="formVisible=true">
+      <a-menu
+        slot="overlay"
+        @click="dropdownVisible=false"
+      >
+        <a-menu-item
+          key="1"
+          @click="formVisible=true"
+        >
           <a-icon type="lock" />
           <span>修改密码</span>
         </a-menu-item>
         <a-menu-divider />
-        <a-menu-item @click="handleLogout">
+        <a-menu-item
+          key="2"
+          @click="handleLogout"
+        >
           <a-icon type="logout" />
           <span>退出登录</span>
         </a-menu-item>
@@ -101,9 +110,6 @@ export default {
     }
   },
   methods: {
-    dropdownChange (visible) {
-      this.dropdownVisible = visible
-    },
     handleCancel () {
       this.$refs.form.resetFields()
       this.confirmLoading = false
