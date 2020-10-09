@@ -9,8 +9,8 @@ const init = once(data => {
   } else {
     return Promise.reject(Error('routeList not found'))
   }
-  if (data.attachUrl) {
-    window.attachUrl = data.attachUrl
+  if (data.attachmentUrl) {
+    window.attachmentUrl = data.attachmentUrl
   }
   return Promise.resolve()
 })

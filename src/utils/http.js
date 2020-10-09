@@ -7,11 +7,11 @@ import store from '@/store'
 const http = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL,
   timeout: 10000,
-  // showLoading: true,
+  showLoading: true,
 })
 
 http.interceptors.request.use(config => {
-  if (config.showLoading !== false) {
+  if (config.showLoading === true) {
     Loading.open()
   }
   if (store.state.account.token) {
@@ -22,7 +22,7 @@ http.interceptors.request.use(config => {
 
 http.interceptors.response.use(
   response => {
-    if (response.config.showLoading !== false) {
+    if (response.config.showLoading === true) {
       Loading.close()
     }
     if (response.headers.authorization) {

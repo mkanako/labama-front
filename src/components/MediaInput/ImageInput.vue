@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { attachUrl } from '@/utils'
+import { attachmentUrl } from '@/utils'
 import Uploader from './Uploader'
 import loadImageError from './icons/image-error.svg'
 
@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     src () {
-      return attachUrl(this.stateValue)
+      return attachmentUrl(this.stateValue)
     },
   },
 }

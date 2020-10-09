@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { attachUrl } from '@/utils'
+import { attachmentUrl } from '@/utils'
 import Uploader from './Uploader'
 import { play, pause, playStatus } from '@/store/modules/AudioInputPlayer'
 import audioIcon from './icons/audio.svg?component'
@@ -80,7 +80,7 @@ export default {
   computed: {
     playIcon: playStatus(status => status === 'paused' ? 'play-circle' : 'pause-circle'),
     src () {
-      return attachUrl(this.stateValue)
+      return attachmentUrl(this.stateValue)
     },
   },
 }

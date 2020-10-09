@@ -23,7 +23,7 @@
       >
         <img
           @error="imgLoadErr($event)"
-          :src="attachUrl(item)"
+          :src="attachmentUrl(item)"
           @dblclick="handleDbclick(index)"
         >
         <a-icon
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import { attachUrl } from '@/utils'
+import { attachmentUrl } from '@/utils'
 import Uploader from './Uploader'
 import loadImageError from './icons/image-error.svg'
 
@@ -59,7 +59,7 @@ export default {
     },
   },
   methods: {
-    attachUrl,
+    attachmentUrl,
     choose () {
       Uploader(ret => {
         if (ret.length) {

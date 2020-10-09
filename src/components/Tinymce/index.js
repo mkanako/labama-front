@@ -8,7 +8,7 @@ import plugins from './plugins'
 import Editor from '@tinymce/tinymce-vue'
 import { editorProps } from '@tinymce/tinymce-vue/lib/es2015/main/ts/components/EditorPropTypes'
 import Uploader from '@/components/MediaInput/Uploader'
-import { attachUrl } from '@/utils'
+import { attachmentUrl } from '@/utils'
 import contentUrl from '!file-loader?{"name":"css/tinymce_content.[hash:8].css"}!extract-loader!css-loader?{"importLoaders":2,"sourceMap":false}!postcss-loader?{"sourceMap":false}!less-loader?{"sourceMap":false}!./content.less' // eslint-disable-line import/no-webpack-loader-syntax
 
 const toolbar = [
@@ -62,7 +62,7 @@ const init = {
         Uploader(ret => {
           if (ret) {
             editor.focus()
-            editor.selection.setContent(`<img src="${attachUrl(ret)}" />`)
+            editor.selection.setContent(`<img src="${attachmentUrl(ret)}" />`)
             editor.save()
           }
         })

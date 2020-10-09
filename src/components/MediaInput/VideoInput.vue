@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-import { attachUrl } from '@/utils'
+import { attachmentUrl } from '@/utils'
 import Uploader from './Uploader'
 import videoIcon from './icons/video.svg?component'
 
@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     src () {
-      return attachUrl(this.stateValue)
+      return attachmentUrl(this.stateValue)
     },
   },
 }
