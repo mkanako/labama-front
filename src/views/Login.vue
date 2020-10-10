@@ -49,6 +49,7 @@
         </a-form-model-item>
         <a-form-model-item>
           <a-button
+            html-type="submit"
             size="large"
             type="primary"
             block
