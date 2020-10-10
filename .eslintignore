@@ -1,4 +1,4 @@
 dist
-src/views/Test.dev.vue
+src/views/DevTest.vue
 src/components/Tinymce/zh_CN.js
 !.eslintrc.js

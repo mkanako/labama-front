@@ -8,7 +8,7 @@ module.exports = {
     }],
   },
   ignoreFiles: [
-    './src/views/Test.dev.vue',
+    './src/views/DevTest.vue',
     './public/index.html',
     './dist/**',
   ],

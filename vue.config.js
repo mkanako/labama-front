@@ -1,7 +1,7 @@
 const { IgnorePlugin } = require('webpack')
 const WebpackNotifierPlugin = require('./webpack/webpack-notifier-plugin')
 
-const webpackConfig = {
+module.exports = {
   configureWebpack: {
     plugins: [
       new IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -13,7 +13,7 @@ const webpackConfig = {
       .set('@root', __dirname)
 
     config.plugin('copy').tap(args => {
-      args[0][0].ignore.push('Test.dev.vue')
+      args[0][0].ignore.push('DevTest.vue')
       return args
     })
 
@@ -74,5 +74,3 @@ const webpackConfig = {
   lintOnSave: false,
   transpileDependencies: [],
 }
-
-module.exports = webpackConfig

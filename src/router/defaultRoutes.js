@@ -11,18 +11,41 @@ export default [
 export const Page404 = {
   path: '*',
   name: 'Page404',
-  component: () => import('@/views/exception'),
+  component: () => import('@/views/Exception'),
   props: { type: 404 },
 }
 
 export const PageTest = {
-  path: '/testdev',
-  meta: { title: '开发测试', icon: 'warning' },
+  path: '/devtest',
+  meta: { title: '开发测试', icon: 'bug' },
   children: [
     {
-      path: '',
-      name: 'TestDev',
-      component: () => import('@/views/Test.dev'),
+      path: 'page1',
+      name: 'DevTestPage1',
+      meta: { title: '页面1' },
+      component: () => import('@/views/DevTest'),
+    },
+    {
+      path: 'page2',
+      name: 'DevTestPage2',
+      meta: { title: '页面2' },
+      component: {
+        name: 'DevTestPage2',
+        render: h => h('div', (new Date()).toString()),
+      },
+    },
+    {
+      path: 'page3',
+      name: 'DevTestPage3',
+      meta: { title: '页面3' },
+      component: {
+        name: 'DevTestPage3',
+        render: h => h('div', (new Date()).toString()),
+      },
+    },
+    {
+      path: 'https://www.baidu.com/',
+      meta: { title: '外链' },
     },
   ],
 }
