@@ -1,22 +1,9 @@
 import { Menu, Icon } from 'ant-design-vue'
-import { pick } from 'ramda'
-import mixin from './mixin'
 
 const { Item, SubMenu } = Menu
 const menus = []
 
 export function GenerateMenus (routes) {
-  const pickUp = arr => arr.map(item => {
-    item = pick(['path', 'meta', 'children'], item)
-    if (item.children) {
-      if (item.children.length === 0) {
-        delete item.children
-      } else {
-        item.children = pickUp(item.children)
-      }
-    }
-    return item
-  })
   const filter = arr => arr.filter(item => {
     const ret = item.path !== '*' && item.meta && item.meta.title && !item.meta.hide
     if (ret && item.children) {
@@ -24,66 +11,62 @@ export function GenerateMenus (routes) {
     }
     return ret
   })
-  menus.push(...pickUp(filter(routes)))
+  menus.push(...filter(routes))
 }
 
 export default {
   name: 'LayoutSiderMenu',
   data () {
     return {
-      openKeys: [],
-      openKeysCopy: [],
       selectedKeys: [],
+      openKeys: [],
       isClickTrigger: false,
       menus,
     }
   },
-  mixins: [mixin],
-  computed: {
-    rootSubmenuKeys () {
-      return this.menus.map(item => item.path)
-    },
-  },
   mounted () {
-    this.updateState()
+    this.updateMenu()
   },
   watch: {
-    collapsed (val) {
-      if (val) {
-        this.openKeysCopy = this.openKeys
-        this.openKeys = []
-      } else {
-        this.openKeys = this.openKeysCopy
-      }
-    },
     $route () {
       if (!this.isClickTrigger) {
-        this.updateState()
+        this.updateMenu()
       }
     },
   },
   methods: {
-    updateState () {
+    updateMenu () {
       const [parentRoute, childRoute] = this.$route.matched
       if (parentRoute && childRoute) {
-        this.openKeysCopy = [parentRoute.path]
-        if (!this.collapsed) {
-          this.openKeys = this.openKeysCopy
-        }
-        if (childRoute.meta.hide) {
-          this.selectedKeys = this.openKeysCopy
-        } else {
+        this.openKeys.push(parentRoute.path)
+        if (!childRoute.meta.hide) {
           this.selectedKeys = [childRoute.path.replace(/\/$/, '')]
         }
       }
     },
-    openChange (openKeys) {
-      const latestOpenKey = openKeys.find(key => !this.openKeys.includes(key))
-      if (!this.rootSubmenuKeys.includes(latestOpenKey)) {
-        this.openKeys = openKeys
-      } else {
-        this.openKeys = latestOpenKey ? [latestOpenKey] : []
+    openChange (keys) {
+      this.openKeys = keys
+    },
+    menuClick ({ key: path }) {
+      this.selectedKeys = [path]
+      if (path.startsWith('__url__')) {
+        return
       }
+      this.isClickTrigger = true
+      let promise
+      if (this.$route.path === path) {
+        promise = this.$router.replace({
+          path,
+          query: Object.assign({}, this.$route.query, { _t: +new Date() }),
+        })
+      } else {
+        promise = this.$router.push({ path })
+      }
+      promise.then(route => {
+        // console.log(route)
+      }).finally(() => {
+        this.isClickTrigger = false
+      })
     },
     renderIcon (icon) {
       if (icon) {
@@ -96,38 +79,20 @@ export default {
       }
     },
     renderMenuItem (menu, parent = null) {
-      const isUrl = /^https?:\/\//.test(menu.path) || (menu.meta.type && menu.meta.type === 'url')
       const params = {}
-      if (isUrl) {
+      let path = menu.path
+      if (menu.isUrl) {
         params.attrs = {
-          href: menu.path,
+          href: path,
           target: '_blank',
         }
+        path = '__url__' + path
       } else {
         if (parent && !menu.path.startsWith('/')) {
-          menu.path = parent.path + '/' + menu.path
-        }
-        params.on = {
-          click: () => {
-            this.isClickTrigger = true
-            if (this.$route.path === menu.path) {
-              this.$router.replace({
-                path: menu.path,
-                query: Object.assign({}, this.$route.query, { _t: +new Date() }),
-              }).finally(() => {
-                this.isClickTrigger = false
-              })
-            } else {
-              this.$router.push({
-                path: menu.path,
-              }).finally(() => {
-                this.isClickTrigger = false
-              })
-            }
-          },
+          path = parent.path + '/' + menu.path
         }
       }
-      return <Item key={menu.path}>
+      return <Item key={path}>
         <a {...params}>
           {this.renderIcon(menu.meta.icon)}
           <span>{menu.meta.title}</span>
@@ -144,16 +109,11 @@ export default {
     }
     const on = {
       openChange: this.openChange,
-      select: ({ item, selectedKeys }) => {
-        if (this.collapsed && item.parentMenu.eventKey) {
-          this.openKeysCopy = [item.parentMenu.eventKey]
-        }
-        this.selectedKeys = selectedKeys
-      },
+      click: this.menuClick,
     }
     return <Menu {...{ props, on }}>
       {this.menus.map(item => {
-        if (item.children) {
+        if (item.children && item.children.length > 0) {
           return <SubMenu key={item.path}>
             <span slot="title">
               {this.renderIcon(item.meta.icon)}
