@@ -11,7 +11,6 @@ export default [
     children: [
       {
         path: '',
-        name: 'HomePage',
         component: {
           name: 'HomePage',
           render: h => h('div', 'HomePage'),

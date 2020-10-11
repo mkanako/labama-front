@@ -21,13 +21,11 @@ export const PageTest = {
   children: [
     {
       path: 'page1',
-      name: 'DevTestPage1',
       meta: { title: '页面1' },
       component: () => import('@/views/DevTest'),
     },
     {
       path: 'page2',
-      name: 'DevTestPage2',
       meta: { title: '页面2' },
       component: {
         name: 'DevTestPage2',
@@ -36,7 +34,6 @@ export const PageTest = {
     },
     {
       path: 'page3',
-      name: 'DevTestPage3',
       meta: { title: '页面3' },
       component: {
         name: 'DevTestPage3',
