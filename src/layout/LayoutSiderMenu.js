@@ -1,9 +1,7 @@
 import { Menu, Icon } from 'ant-design-vue'
-import mixin from './mixin'
 
 const { Item, SubMenu } = Menu
 const menus = []
-let openKeysCopy
 
 export function GenerateMenus (routes) {
   const filter = arr => arr.filter(item => {
@@ -23,24 +21,14 @@ export default {
   data () {
     return {
       selectedKeys: [],
-      openKeys: [],
       isClickTrigger: false,
       menus,
     }
   },
-  mixins: [mixin],
   mounted () {
     this.updateMenu()
   },
   watch: {
-    collapsed (val) {
-      if (val) {
-        openKeysCopy = this.openKeys
-        this.openKeys = []
-      } else {
-        this.openKeys = openKeysCopy
-      }
-    },
     $route () {
       if (!this.isClickTrigger) {
         this.updateMenu()
@@ -51,14 +39,10 @@ export default {
     updateMenu () {
       const [parentRoute, childRoute] = this.$route.matched
       if (parentRoute && childRoute) {
-        this.openKeys.push(parentRoute.path)
         if (!childRoute.meta.hide) {
           this.selectedKeys = [childRoute.path.replace(/\/$/, '')]
         }
       }
-    },
-    openChange (keys) {
-      this.openKeys = keys
     },
     menuClick ({ key: path }) {
       this.selectedKeys = [path]
@@ -117,12 +101,9 @@ export default {
     const props = {
       mode: 'inline',
       theme: 'dark',
-      openKeys: this.openKeys,
       selectedKeys: this.selectedKeys,
-      inlineCollapsed: this.collapsed,
     }
     const on = {
-      openChange: this.openChange,
       click: this.menuClick,
     }
     return <Menu {...{ props, on }}>
