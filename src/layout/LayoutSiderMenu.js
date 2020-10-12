@@ -1,17 +1,21 @@
 import { Menu, Icon } from 'ant-design-vue'
+import mixin from './mixin'
 
 const { Item, SubMenu } = Menu
 const menus = []
+let openKeysCopy
 
 export function GenerateMenus (routes) {
   const filter = arr => arr.filter(item => {
-    const ret = item.path !== '*' && item.meta && item.meta.title && !item.meta.hide
+    const ret = !!(item.path !== '*' && item.meta && item.meta.title && !item.meta.hide)
     if (ret && item.children) {
       item.children = filter(item.children)
     }
     return ret
   })
-  menus.push(...filter(routes))
+  setTimeout(() => {
+    menus.push(...filter(routes))
+  })
 }
 
 export default {
@@ -24,10 +28,19 @@ export default {
       menus,
     }
   },
+  mixins: [mixin],
   mounted () {
     this.updateMenu()
   },
   watch: {
+    collapsed (val) {
+      if (val) {
+        openKeysCopy = this.openKeys
+        this.openKeys = []
+      } else {
+        this.openKeys = openKeysCopy
+      }
+    },
     $route () {
       if (!this.isClickTrigger) {
         this.updateMenu()
@@ -55,16 +68,16 @@ export default {
       this.isClickTrigger = true
       let promise
       if (this.$route.path === path) {
-        promise = this.$router.replace({
-          path,
-          query: Object.assign({}, this.$route.query, { _t: +new Date() }),
-        })
+        promise = this.$router.reload()
       } else {
-        promise = this.$router.push({ path })
+        const tab = this.$store.getters.findTab(path)
+        if (tab) {
+          promise = this.$router.push({ path, query: tab.query })
+        } else {
+          promise = this.$router.push({ path })
+        }
       }
-      promise.then(route => {
-        // console.log(route)
-      }).finally(() => {
+      promise.finally(() => {
         this.isClickTrigger = false
       })
     },
@@ -106,6 +119,7 @@ export default {
       theme: 'dark',
       openKeys: this.openKeys,
       selectedKeys: this.selectedKeys,
+      inlineCollapsed: this.collapsed,
     }
     const on = {
       openChange: this.openChange,

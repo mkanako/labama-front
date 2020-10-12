@@ -1,17 +1,31 @@
 <template>
   <a-layout-content>
     <a-back-top :visibility-height="1000" />
+    <LayoutTabsBar />
     <transition
       name="fade-transform"
       mode="out-in"
     >
-      <router-view :key="$route.fullPath" />
+      <a-card>
+        <keep-alive :include="cachedViews">
+          <router-view :key="$route.fullPath" />
+        </keep-alive>
+      </a-card>
     </transition>
   </a-layout-content>
 </template>
 <script>
+import LayoutTabsBar from './LayoutTabsBar'
+import { mapState } from 'vuex'
+
 export default {
   name: 'LayoutContent',
+  components: {
+    LayoutTabsBar,
+  },
+  computed: mapState({
+    cachedViews: state => state.app.cachedViews,
+  }),
 }
 </script>
 <style lang="less">

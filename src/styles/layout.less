@@ -25,6 +25,10 @@
       left: 0;
       z-index: @layout-header-zIndex + 1;
 
+      .ant-menu {
+        user-select: none;
+      }
+
       .logo {
         display: block;
         height: 64px;
@@ -45,7 +49,6 @@
   }
 
   .layout-main {
-    overflow: unset;
     min-height: 100vh;
     flex: 1;
   }
@@ -78,6 +81,10 @@
 
     .ant-back-top {
       right: 50px;
+    }
+
+    & > .ant-card-bordered {
+      border-top: none;
     }
   }
 

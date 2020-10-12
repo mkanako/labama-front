@@ -9,6 +9,22 @@ import { GenerateMenus } from '@/layout/LayoutSiderMenu'
 
 Vue.use(Router)
 
+Router.prototype.reload = function () {
+  let currentView
+  for (const key in this.app.$route.matched[1].instances) {
+    currentView = this.app.$route.matched[1].instances[key]
+    break
+  }
+  return this.app.$router.replace({
+    path: this.app.$route.path,
+    query: Object.assign({}, this.app.$route.query, { _t: +new Date() }),
+  }).then(() => {
+    if (currentView) {
+      currentView.$destroy()
+    }
+  })
+}
+
 const router = new Router({
   base: process.env.BASE_URL,
   scrollBehavior: () => ({ x: 0, y: 0 }),
