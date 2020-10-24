@@ -10,18 +10,13 @@ import { GenerateMenus } from '@/layout/LayoutSiderMenu'
 Vue.use(Router)
 
 Router.prototype.reload = function () {
-  let currentView
-  for (const key in this.app.$route.matched[1].instances) {
-    currentView = this.app.$route.matched[1].instances[key]
-    break
+  const instances = this.app.$route.matched[this.app.$route.matched.length - 1].instances
+  for (const key in instances) {
+    instances[key].$destroy()
   }
   return this.app.$router.replace({
     path: this.app.$route.path,
     query: Object.assign({}, this.app.$route.query, { _t: +new Date() }),
-  }).then(() => {
-    if (currentView) {
-      currentView.$destroy()
-    }
   })
 }
 
@@ -29,27 +24,28 @@ const router = new Router({
   base: process.env.BASE_URL,
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes: defaultRoutes,
-  beforeEach: (to, from, next) => {
-    NProgress.start()
-    next()
-  },
-  afterEach: () => {
-    NProgress.done()
-  },
 })
 
-function allRoutes () {
-  const isUrl = obj => {
-    if (obj.meta && obj.meta.type && obj.meta.type === 'url') {
-      return true
-    }
-    return /^https?:\/\//.test(obj.path)
+function isUrl (obj) {
+  if (obj && obj.type && obj.type === 'url') {
+    return true
   }
-  function checkIsUrl (item) {
-    item.isUrl = isUrl(item)
+  return false
+}
+
+function normalizeRoutes () {
+  function ensureIsUrl (item) {
+    if (!isUrl(item.meta)) {
+      if (/^https?:\/\//.test(item.path)) {
+        if (!item.meta) {
+          item.meta = {}
+        }
+        item.meta.type = 'url'
+      }
+    }
     if (item.children) {
       item.children.forEach(children => {
-        checkIsUrl(children)
+        ensureIsUrl(children)
       })
     }
   }
@@ -60,8 +56,8 @@ function allRoutes () {
   }
   dynamicRoutes.push(Page404)
   dynamicRoutes.forEach(item => {
-    checkIsUrl(item)
-    if (!item.isUrl && !item.component) {
+    ensureIsUrl(item)
+    if (!isUrl(item.meta) && !item.component) {
       item.component = Layout
     }
   })
@@ -69,19 +65,27 @@ function allRoutes () {
 }
 
 export function GenerateRoutes (allowedRouteList) {
-  const routes = allRoutes()
+  normalizeRoutes()
   if (!allowedRouteList.includes('*')) {
   }
-  router.addRoutes(routes.filter(item => !item.isUrl).map(item => {
+  const routes = dynamicRoutes.filter(item => !isUrl(item.meta)).map(item => {
     if (item.children) {
-      const children = item.children.filter(item => !item.isUrl)
+      const children = item.children.filter(item => !isUrl(item.meta))
       if (children.length !== item.children.length) {
         return Object.assign({}, item, { children })
       }
     }
     return item
-  }))
-  GenerateMenus(routes)
+  })
+  router.addRoutes(routes)
+  router.beforeEach((to, from, next) => {
+    NProgress.start()
+    next()
+  })
+  router.afterEach(() => {
+    NProgress.done()
+  })
+  GenerateMenus(dynamicRoutes)
 }
 
 export default router

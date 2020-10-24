@@ -2,6 +2,7 @@ import { Menu, Icon } from 'ant-design-vue'
 
 const { Item, SubMenu } = Menu
 const menus = []
+const menuKeys = new Set()
 
 export function GenerateMenus (routes) {
   const filter = arr => arr.filter(item => {
@@ -11,8 +12,27 @@ export function GenerateMenus (routes) {
     }
     return ret
   })
+  const specialUrl = item => {
+    if (item.meta && item.meta.type && item.meta.type === 'url') {
+      item.path = '__url__' + item.path
+    }
+  }
+  routes = filter(routes)
+  routes.forEach(parent => {
+    specialUrl(parent)
+    menuKeys.add(parent.path)
+    if (parent.children) {
+      parent.children.forEach(child => {
+        specialUrl(child)
+        if (!child.path.startsWith('/')) {
+          child.path = parent.path + '/' + child.path
+        }
+        menuKeys.add(child.path)
+      })
+    }
+  })
   setTimeout(() => {
-    menus.push(...filter(routes))
+    menus.push(...routes)
   })
 }
 
@@ -21,27 +41,24 @@ export default {
   data () {
     return {
       selectedKeys: [],
-      isClickTrigger: false,
+      isClicked: false,
       menus,
     }
   },
   mounted () {
-    this.updateMenu()
+    this.changeSelected()
   },
   watch: {
     $route () {
-      if (!this.isClickTrigger) {
-        this.updateMenu()
+      if (!this.isClicked) {
+        this.changeSelected()
       }
     },
   },
   methods: {
-    updateMenu () {
-      const [parentRoute, childRoute] = this.$route.matched
-      if (parentRoute && childRoute) {
-        if (!childRoute.meta.hide) {
-          this.selectedKeys = [childRoute.path.replace(/\/$/, '')]
-        }
+    changeSelected () {
+      if (menuKeys.has(this.$route.path)) {
+        this.selectedKeys = [this.$route.path]
       }
     },
     menuClick ({ key: path }) {
@@ -49,20 +66,9 @@ export default {
       if (path.startsWith('__url__')) {
         return
       }
-      this.isClickTrigger = true
-      let promise
-      if (this.$route.path === path) {
-        promise = this.$router.reload()
-      } else {
-        const tab = this.$store.getters.findTab(path)
-        if (tab) {
-          promise = this.$router.push({ path, query: tab.query })
-        } else {
-          promise = this.$router.push({ path })
-        }
-      }
-      promise.finally(() => {
-        this.isClickTrigger = false
+      this.isClicked = true
+      this.$store.dispatch('openView', { path }).finally(() => {
+        this.isClicked = false
       })
     },
     renderIcon (icon) {
@@ -75,24 +81,18 @@ export default {
         return null
       }
     },
-    renderMenuItem (menu, parent = null) {
-      const params = {}
-      let path = menu.path
-      if (menu.isUrl) {
-        params.attrs = {
-          href: path,
+    renderMenuItem (item) {
+      const attrs = {}
+      if (item.path.startsWith('__url__')) {
+        Object.assign(attrs, {
+          href: item.path,
           target: '_blank',
-        }
-        path = '__url__' + path
-      } else {
-        if (parent && !menu.path.startsWith('/')) {
-          path = parent.path + '/' + menu.path
-        }
+        })
       }
-      return <Item key={path}>
-        <a {...params}>
-          {this.renderIcon(menu.meta.icon)}
-          <span>{menu.meta.title}</span>
+      return <Item key={item.path}>
+        <a {...{ attrs }}>
+          {this.renderIcon(item.meta.icon)}
+          <span>{item.meta.title}</span>
         </a>
       </Item>
     },
@@ -114,7 +114,7 @@ export default {
               {this.renderIcon(item.meta.icon)}
               <span>{item.meta.title}</span>
             </span>
-            {item.children.map(child => this.renderMenuItem(child, item))}
+            {item.children.map(child => this.renderMenuItem(child))}
           </SubMenu>
         } else {
           return this.renderMenuItem(item)
