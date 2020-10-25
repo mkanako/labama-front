@@ -1,5 +1,6 @@
 {
-  "name": "labama-front",
+  "name": "bmsf-frontend-vue2",
+  "description": "background management system foundation",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
