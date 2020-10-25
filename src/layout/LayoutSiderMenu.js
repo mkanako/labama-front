@@ -15,7 +15,9 @@ export function GenerateMenus (routes) {
   const specialUrl = item => {
     if (item.meta && item.meta.type && item.meta.type === 'url') {
       item.path = '__url__' + item.path
+      return true
     }
+    return false
   }
   routes = filter(routes)
   routes.forEach(parent => {
@@ -23,8 +25,7 @@ export function GenerateMenus (routes) {
     menuKeys.add(parent.path)
     if (parent.children) {
       parent.children.forEach(child => {
-        specialUrl(child)
-        if (!child.path.startsWith('/')) {
+        if (!specialUrl(child) && !child.path.startsWith('/')) {
           child.path = parent.path + '/' + child.path
         }
         menuKeys.add(child.path)
@@ -85,7 +86,7 @@ export default {
       const attrs = {}
       if (item.path.startsWith('__url__')) {
         Object.assign(attrs, {
-          href: item.path,
+          href: item.path.replace(/^__url__/, ''),
           target: '_blank',
         })
       }
