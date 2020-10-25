@@ -11,5 +11,6 @@ module.exports = {
     './src/views/DevTest.vue',
     './public/index.html',
     './dist/**',
+    './node_modules/**',
   ],
 }
