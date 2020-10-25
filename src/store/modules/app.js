@@ -112,13 +112,12 @@ export default {
     reloadView ({ dispatch }) {
       return dispatch('openView', { path: router.currentRoute.path })
     },
-    openView ({ dispatch, getters, commit }, { path, title = null }) {
+    openView ({ dispatch, getters }, { path, title = null }) {
       const tab = getters.findTab(path)
       if (tab) {
         if (router.currentRoute.path === path) {
           return router.reload().then(route => {
             tab.query = route.query
-            commit('ADD_TAB', tab)
           })
         } else {
           return dispatch('activeTab', tab)
