@@ -14,15 +14,16 @@
       :tab="tab.title"
       :closable="tabList.length > 1"
     />
-    <a-button
-      slot="tabBarExtraContent"
-      shape="circle"
-      icon="reload"
-      size="small"
-      type="link"
-      :style="{ color: 'unset' }"
-      @click="reload"
-    />
+    <template v-slot:tabBarExtraContent>
+      <a-button
+        shape="circle"
+        icon="reload"
+        size="small"
+        type="link"
+        :style="{ color: 'unset' }"
+        @click="reload"
+      />
+    </template>
   </a-tabs>
 </template>
 <script>

@@ -18,26 +18,25 @@
           />
         </span>
       </span>
-      <a-menu
-        slot="overlay"
-        @click="dropdownVisible=false"
-      >
-        <a-menu-item
-          key="1"
-          @click="formVisible=true"
-        >
-          <a-icon type="lock" />
-          <span>修改密码</span>
-        </a-menu-item>
-        <a-menu-divider />
-        <a-menu-item
-          key="2"
-          @click="handleLogout"
-        >
-          <a-icon type="logout" />
-          <span>退出登录</span>
-        </a-menu-item>
-      </a-menu>
+      <template v-slot:overlay>
+        <a-menu @click="dropdownVisible=false">
+          <a-menu-item
+            key="1"
+            @click="formVisible=true"
+          >
+            <a-icon type="lock" />
+            <span>修改密码</span>
+          </a-menu-item>
+          <a-menu-divider />
+          <a-menu-item
+            key="2"
+            @click="handleLogout"
+          >
+            <a-icon type="logout" />
+            <span>退出登录</span>
+          </a-menu-item>
+        </a-menu>
+      </template>
     </a-dropdown>
     <a-modal
       title="修改密码"

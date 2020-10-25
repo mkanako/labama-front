@@ -110,11 +110,15 @@ export default {
     return <Menu {...{ props, on }}>
       {this.menus.map(item => {
         if (item.children && item.children.length > 0) {
-          return <SubMenu key={item.path}>
-            <span slot="title">
-              {this.renderIcon(item.meta.icon)}
-              <span>{item.meta.title}</span>
-            </span>
+          return <SubMenu
+            key={item.path}
+            scopedSlots={{
+              title: () => (<span>
+                {this.renderIcon(item.meta.icon)}
+                <span>{item.meta.title}</span>
+              </span>),
+            }}
+          >
             {item.children.map(child => this.renderMenuItem(child))}
           </SubMenu>
         } else {

@@ -27,10 +27,9 @@
             allow-clear
             name="username"
           >
-            <a-icon
-              slot="prefix"
-              type="user"
-            />
+            <template v-slot:prefix>
+              <a-icon type="user" />
+            </template>
           </a-input>
         </a-form-model-item>
         <a-form-model-item prop="password">
@@ -41,10 +40,9 @@
             autocomplete="false"
             placeholder="密码:"
           >
-            <a-icon
-              slot="prefix"
-              type="lock"
-            />
+            <template v-slot:prefix>
+              <a-icon type="lock" />
+            </template>
           </a-input-password>
         </a-form-model-item>
         <a-form-model-item>
