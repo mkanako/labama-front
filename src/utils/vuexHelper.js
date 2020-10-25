@@ -1,20 +1,18 @@
-import { path } from 'ramda'
-
 const formatters = {
-  camel: function (...args) {
+  camel (...args) {
     return args.shift() + args
       .map(text => text.replace(/\w/, c => c.toUpperCase()))
       .join('')
   },
 
-  snake: function (...args) {
+  snake (...args) {
     return this
       .camel(...args)
       .replace(/([a-z])([A-Z])/g, (match, a, b) => a + '_' + b)
       .toLowerCase()
   },
 
-  const: function (...args) {
+  const (...args) {
     return this
       .snake(...args)
       .toUpperCase()
@@ -23,34 +21,34 @@ const formatters = {
 
 export function makeMutations (state, parentKey = null) {
   return (Array.isArray(state) ? state : Object.keys(state))
-    .reduce(function (obj, key) {
-      const mutation = formatters.const('set', key)
-      obj[mutation] = function (state, value) {
+    .reduce((mutations, key) => {
+      const mutationName = formatters.const('set', key)
+      mutations[mutationName] = function (state, value) {
         if (parentKey) {
           state[parentKey][key] = value
         } else {
           state[key] = value
         }
       }
-      return obj
+      return mutations
     }, {})
 }
 
-export function mapFields (state, parentKey = null) {
+export function syncFields (state, parentKey = null) {
   return Object.keys(state)
-    .reduce(function (obj, key) {
-      obj[key] = {
+    .reduce((handlers, key) => {
+      handlers[key] = {
         get () {
           if (parentKey) {
-            return path(parentKey.split('.').concat(key), this.$store.state)
+            return this.$store.state[parentKey][key]
           } else {
             return this.$store.state[key]
           }
         },
         set (value) {
-          return this.$store.commit(formatters.const('set', key), value)
+          this.$store.commit(formatters.const('set', key), value)
         },
       }
-      return obj
+      return handlers
     }, {})
 }
