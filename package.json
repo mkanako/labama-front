@@ -3,7 +3,7 @@
   "description": "background management system foundation",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "npm run ram-cache mount && vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:style": "stylelint \"src/**/*.{vue,less}\" --fix",
