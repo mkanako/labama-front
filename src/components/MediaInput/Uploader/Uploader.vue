@@ -160,7 +160,7 @@ export default {
     //   return years
     // },
     uploadUrl () {
-      return process.env.VUE_APP_API_BASE_URL + '/attachment'
+      return process.env.VUE_APP_BASE_API + '/attachment'
     },
     token () {
       return store.state.account.token

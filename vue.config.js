@@ -59,15 +59,11 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      ...((path, target) =>
-        ({
-          [path]: {
-            target,
-            changeOrigin: true,
-            pathRewrite: { [`^${path}`]: '' },
-          },
-        })
-      )(process.env.VUE_APP_API_BASE_URL, process.env.DEV_SERVER_URL),
+      [process.env.VUE_APP_BASE_API]: {
+        target: process.env.DEV_SERVER,
+        changeOrigin: true,
+        pathRewrite: { [`^${process.env.VUE_APP_BASE_API}`]: '' },
+      },
     },
   },
   productionSourceMap: false,
