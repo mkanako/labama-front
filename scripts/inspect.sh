@@ -19,4 +19,4 @@ else
 fi
 
 output=$(vue-cli-service inspect --mode $mode)
-printf "/* eslint-disable */\nmodule.exports =$output" | sed -e "s/\(native code\)/\/*\1*\//g" >$file && echo $file
+printf "/* eslint-disable */\nmodule.exports =$output" | sed -e "s/\(native code\)/\/* \1 *\//g" >$file && echo $file
