@@ -65,6 +65,7 @@ module.exports = {
         pathRewrite: { [`^${process.env.VUE_APP_BASE_API}`]: '' },
       },
     },
+    before: process.env.NODE_ENV === 'development' ? require('./mock/mock-server') : null,
   },
   productionSourceMap: false,
   lintOnSave: false,
