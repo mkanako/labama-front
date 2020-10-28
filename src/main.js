@@ -52,10 +52,14 @@ import http from '@/utils/http'
 import prompt from '@/components/Prompt'
 import loading from '@/components/Loading'
 import { sysInfo } from '@/api/common'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 moment.locale('zh-cn')
+
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
+
+Vue.component('fa-icon', FontAwesomeIcon)
 
 Vue
   .use(Alert)

@@ -74,13 +74,20 @@ export default {
     },
     renderIcon (icon) {
       if (icon) {
-        const props = {
-          [typeof icon === 'object' ? 'component' : 'type']: icon,
+        switch (typeof icon) {
+          case 'object':
+            if (icon.prefix && icon.prefix === 'fas') {
+              return <fa-icon class="anticon" icon={icon} />
+            }
+            if (icon.component) {
+              return <Icon component={icon}/>
+            }
+            return icon
+          case 'string':
+            return <Icon type={icon}/>
         }
-        return <Icon {...{ props }}/>
-      } else {
-        return null
       }
+      return null
     },
     renderMenuItem (item) {
       const attrs = {}
