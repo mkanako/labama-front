@@ -79,3 +79,11 @@ export default {
   },
 }
 </script>
+<style lang="less" scoped>
+  .ant-tabs.ant-tabs-card /deep/ .ant-tabs-card-bar .ant-tabs-tab {
+    .ant-tabs-close-x {
+      margin-left: 10px;
+      margin-right: -10px;
+    }
+  }
+</style>
