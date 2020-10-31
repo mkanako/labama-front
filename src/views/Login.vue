@@ -1,18 +1,18 @@
 <template>
-  <div class="login-container">
-    <div class="text-center mb-40">
-      <div class="h-40 leading-none">
-        <img
-          src="@/assets/logo.svg"
-          class="h-full mr-16"
-        >
-        <span class="text-32 text-black font-semibold  align-middle">{{ $store.getters.title }}</span>
+  <div class="login-wrapper">
+    <div class="login-container">
+      <div class="text-center mb-40">
+        <div class="h-40 leading-none">
+          <img
+            src="@/assets/logo.svg"
+            class="h-full mr-16"
+          >
+          <span class="text-32 text-black font-semibold align-middle">{{ $store.getters.title }}</span>
+        </div>
+        <div class="text-grey-6">
+          &nbsp;
+        </div>
       </div>
-      <div class="mt-12 text-grey-6">
-        &nbsp;
-      </div>
-    </div>
-    <div class="my-0 mx-auto md:w-1/3 w-5/6">
       <a-form-model
         :model="models"
         :rules="rules"
@@ -59,7 +59,7 @@
         </a-form-model-item>
       </a-form-model>
     </div>
-    <LayoutFooter />
+    <LayoutFooter class="bg-transparent" />
   </div>
 </template>
 <script>
@@ -115,14 +115,29 @@ export default {
 }
 </script>
 <style lang="less">
-.login-container {
-  height: 100%;
-  background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
+.login-wrapper {
+  background: url(~@/assets/background.svg) no-repeat;
+  background-position: center;
   background-size: 100%;
-  padding-top: 110px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
 
-  .ant-input-prefix .anticon {
-    color: rgba(0, 0, 0, 0.25);
+  .login-container {
+    align-self: center;
+    justify-self: center;
+    min-width: 300px;
+    max-width: 500px;
+
+    @apply w-5/6;
+
+    @media (min-width: theme('screens.sm')) {
+      @apply w-1/2;
+    }
+
+    @media (min-width: theme('screens.lg')) {
+      @apply w-1/3;
+    }
   }
 }
 </style>

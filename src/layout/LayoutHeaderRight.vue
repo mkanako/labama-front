@@ -8,11 +8,11 @@
         <a-icon type="user" />
         <span
           v-show="$store.getters.username"
-          class="ml-8"
+          class="ml-4"
         >
           {{ $store.getters.username }}
           <a-icon
-            class="text-10"
+            class="text-12 ml-4"
             type="down"
             :rotate="dropdownVisible ? 180 : 0"
           />

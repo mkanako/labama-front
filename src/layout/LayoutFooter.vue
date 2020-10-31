@@ -1,5 +1,5 @@
 <template functional>
-  <a-layout-footer>
+  <a-layout-footer :class="data.staticClass">
     <div>
       <a
         target="_blank"
