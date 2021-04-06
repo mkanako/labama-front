@@ -5,13 +5,16 @@ const state = {
   sidebar: true,
   cachedViews: [],
   tabList: [],
-  tabActived: '',
+  tabActived: {
+    path: '',
+    title: '',
+  },
 }
 
 export default {
   name: 'app',
   state,
-  persistState: ['sidebar'],
+  persistState: ['sidebar', 'tabActived'],
   getters: {
     title: () => title,
     findTab: state => path => state.tabList.find(item => item.path === path),
@@ -39,6 +42,13 @@ export default {
         }
       }
     },
+    SET_TAB_TITLE (state, title) {
+      const index = state.tabList.findIndex(item => item.path === router.currentRoute.path)
+      if (index >= 0) {
+        Object.assign(state.tabList[index], { title })
+        state.tabActived.title = title
+      }
+    },
     ADD_TAB (state, tab) {
       const index = state.tabList.findIndex(item => item.path === tab.path)
       if (index >= 0) {
@@ -50,8 +60,17 @@ export default {
     REMOVE_TAB (state, index) {
       state.tabList.splice(index, 1)
     },
-    SET_TAB_ACTIVED (state, path) {
-      state.tabActived = path
+    SET_TAB_ACTIVED (state, args) {
+      if (Array.isArray(args)) {
+        state.tabActived.path = args[0]
+        state.tabActived.title = args[1]
+      } else {
+        state.tabActived.path = args
+        const tab = state.tabList.find(item => item.path === args)
+        if (tab) {
+          state.tabActived.title = tab.title
+        }
+      }
     },
   },
   actions: {
@@ -59,7 +78,7 @@ export default {
       const tab = typeof args === 'object' ? args : getters.findTab(args)
       if (tab) {
         return router.push({ path: tab.path, query: tab.query }).then(() => {
-          commit('SET_TAB_ACTIVED', tab.path)
+          commit('SET_TAB_ACTIVED', [tab.path, tab.title])
         })
       }
     },
@@ -104,7 +123,7 @@ export default {
               title,
               viewName,
             })
-            commit('SET_TAB_ACTIVED', route.path)
+            commit('SET_TAB_ACTIVED', [route.path, title])
           }
         }
       }

@@ -1,6 +1,6 @@
 <template>
   <a-tabs
-    :active-key="tabActived"
+    :active-key="tabActived.path"
     tab-position="top"
     type="editable-card"
     @edit="onEdit"
@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted () {
-    this.$store.dispatch('createTab', { route: this.$route })
+    this.$store.dispatch('createTab', { route: this.$route, title: this.tabActived.path === this.$route.path ? this.tabActived.title : null })
   },
   computed: {
     ...mapState({
@@ -61,7 +61,7 @@ export default {
         return
       }
       this.$store.dispatch('closeTab', targetKey).then(index => {
-        if (index !== false && targetKey === this.tabActived) {
+        if (index !== false && targetKey === this.tabActived.path) {
           const prevIndex = index - 1
           let path
           if (prevIndex >= 0) {
