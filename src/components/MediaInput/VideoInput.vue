@@ -49,6 +49,10 @@ export default {
       type: String,
       default: '',
     },
+    maxSize: {
+      type: Number,
+      default: 10,
+    },
   },
   data () {
     return {
@@ -68,7 +72,10 @@ export default {
         if (ret) {
           this.handleChange(ret)
         }
-      }, { type: 'video' })
+      }, {
+        type: 'video',
+        maxSize: this.maxSize,
+      })
     },
     handlePlay () {
       if (this.src) {

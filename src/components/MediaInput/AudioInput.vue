@@ -37,6 +37,10 @@ export default {
       type: String,
       default: '',
     },
+    maxSize: {
+      type: Number,
+      default: 4,
+    },
   },
   data () {
     return {
@@ -55,7 +59,10 @@ export default {
         if (ret) {
           this.handleChange(ret)
         }
-      }, { type: 'audio' })
+      }, {
+        type: 'audio',
+        maxSize: this.maxSize,
+      })
     },
     handlePlay () {
       if (this.src) {

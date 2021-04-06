@@ -47,6 +47,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    maxSize: {
+      type: Number,
+      default: 2,
+    },
   },
   data () {
     return {
@@ -66,7 +70,10 @@ export default {
           this.stateValue = this.stateValue.concat(ret)
           this.handleChange(this.stateValue)
         }
-      }, { multiple: true })
+      }, {
+        multiple: true,
+        maxSize: this.maxSize,
+      })
     },
     handleRemove (index) {
       this.stateValue.splice(index, 1)

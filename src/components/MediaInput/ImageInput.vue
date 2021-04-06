@@ -44,6 +44,10 @@ export default {
       type: String,
       default: '',
     },
+    maxSize: {
+      type: Number,
+      default: 2,
+    },
   },
   inheritAttrs: false,
   data () {
@@ -62,7 +66,7 @@ export default {
         if (ret) {
           this.handleChange(ret)
         }
-      })
+      }, { maxSize: this.maxSize })
     },
     handleRemove () {
       this.handleChange('')

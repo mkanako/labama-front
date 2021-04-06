@@ -188,7 +188,11 @@ export default {
     getItemBg (item) {
       return this.option.type === 'image' ? ('url(' + item.url + ')') : 'none'
     },
-    beforeUpload () {
+    beforeUpload (file) {
+      if (this.option.maxSize && file.size > 1048576 * this.option.maxSize) {
+        this.$err(`大小不能超过${this.option.maxSize}M`)
+        return false
+      }
       this.$loading.open()
     },
     handleChange (info) {
