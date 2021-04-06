@@ -77,7 +77,9 @@ export function GenerateRoutes (allowedRouteList) {
     }
     return item
   })
-  router.addRoutes(routes)
+  routes.forEach(route => {
+    router.addRoute(route)
+  })
   router.beforeEach((to, from, next) => {
     NProgress.start()
     next()
