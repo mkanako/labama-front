@@ -53,6 +53,7 @@ import prompt from '@/components/Prompt'
 import loading from '@/components/Loading'
 import { sysInfo } from '@/api/common'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import '@/styles/global.less'
 
 moment.locale('zh-cn')
 
