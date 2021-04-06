@@ -40,6 +40,7 @@ const init = {
   link_title: false,
   image_description: false,
   image_advtab: true,
+  convert_urls: false,
   style_formats: [
     {
       title: '图片铺满',
