@@ -2,6 +2,7 @@ const { IgnorePlugin } = require('webpack')
 const WebpackNotifierPlugin = require('./webpack/webpack-notifier-plugin')
 
 module.exports = {
+  publicPath: './',
   configureWebpack: {
     plugins: [
       new IgnorePlugin(/^\.\/locale$/, /moment$/),
