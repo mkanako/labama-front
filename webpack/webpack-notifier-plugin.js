@@ -44,6 +44,9 @@ class WebpackNotifierPlugin {
   }
 
   apply (compiler) {
+    if (process.platform !== 'darwin') {
+      return
+    }
     compiler.hooks.done.tap('WebpackNotifierPlugin', stats => {
       if (!this.isFirstCompile) {
         return
