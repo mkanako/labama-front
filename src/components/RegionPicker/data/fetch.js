@@ -5,13 +5,13 @@ const request = require('request').defaults({
 })
 
 request({
-  url: 'https://raw.githubusercontent.com/youzan/vant/dev/src/area/demo/area.js',
+  url: 'https://raw.githubusercontent.com/youzan/vant/dev/src/area/demo/area.ts',
 }, function (error, response, body) {
   if (error) {
     console.error('error:', error)
   }
   if (body) {
-    const data = eval(`(${body.replace('export default', '').replace(';', '')})`) // eslint-disable-line no-eval
+    const data = eval(`(${body.replace('export const areaList =', '').replace(';', '')})`) // eslint-disable-line no-eval
     if (data.province_list) {
       delete data.province_list['900000']
       output('provinces-data.js', data.province_list)
