@@ -16,10 +16,16 @@
     <div
       class="img-preview"
       v-show="value.length>0"
+      ref="img-list"
+      @dragstart="dragstart"
+      @dragenter="dragenter"
+      @dragend="dragend"
+      @dragover="dragover"
     >
       <div
         v-for="(item, index) in stateValue"
         :key="index"
+        :style="{ opacity: index === fromIndex ? 0.2 :1 }"
       >
         <img
           @error="imgLoadErr($event)"
@@ -55,6 +61,8 @@ export default {
   data () {
     return {
       stateValue: this.value,
+      fromIndex: -1,
+      toIndex: -1,
     }
   },
   watch: {
@@ -63,6 +71,22 @@ export default {
     },
   },
   methods: {
+    dragover (e) {
+      e.preventDefault()
+    },
+    dragstart (e) {
+      this.fromIndex = Array.from(this.$refs['img-list'].children).indexOf(e.target.parentElement)
+    },
+    dragenter (e) {
+      this.toIndex = Array.from(this.$refs['img-list'].children).indexOf(e.target.parentElement)
+    },
+    dragend (e) {
+      if (this.toIndex >= 0 && this.fromIndex >= 0 && this.toIndex !== this.fromIndex) {
+        [this.stateValue[this.fromIndex], this.stateValue[this.toIndex]] = [this.stateValue[this.toIndex], this.stateValue[this.fromIndex]]
+        this.handleChange(this.stateValue)
+      }
+      this.fromIndex = this.toIndex = -1
+    },
     attachmentUrl,
     choose () {
       Uploader(ret => {
